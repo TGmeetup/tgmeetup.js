@@ -5,6 +5,8 @@
   "private": true,
   "dependencies": {
     "lodash": "^4.17.10",
+    "mkdirp": "^0.5.1",
+    "node-fetch": "^2.1.2",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
     "react-flexbox-grid": "^2.1.0",
@@ -14,13 +16,15 @@
     "react-scripts": "1.1.4",
     "recompose": "^0.27.0",
     "redux": "^4.0.0",
+    "rss": "^1.2.2",
     "styled-components": "^3.2.6"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && node scripts/createRSS.js",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy:root": "gh-pages -d build/ -b master -r git@github.com:TGmeetup/TGmeetup.github.io.git"
   },
   "devDependencies": {
     "eslint": "^4.19.1",
