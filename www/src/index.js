@@ -15,14 +15,14 @@ const store = createStore(
 );
 /* eslint-enable */
 
-fetch('https://api.github.com/repos/TGmeetup/TGevents/issues?labels=Event&state=open')
+fetch('https://api.github.com/repos/TGmeetup/tgmeetup.js/issues?labels=Event&state=open')
   .then(res => res.json())
   .then(issues => issues.map(issue => {
     const reDetailText = /<details>((?:.|[\r\n])*?)<\/detail>/gm;
     const { body } = issue;
 
     const eventStr = reDetailText.exec(body)[1];
-    const event = JSON.parse(eventStr);
+    const event = JSON.parse(unescape(eventStr));
 
     return {
       ...event,
