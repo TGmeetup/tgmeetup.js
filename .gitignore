@@ -62,6 +62,7 @@ typings/
 
 # build
 build/
+lib/
 
 # create event
 createEvent/
