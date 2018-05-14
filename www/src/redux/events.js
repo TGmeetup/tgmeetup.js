@@ -8,8 +8,7 @@ export default (state = {}, action) => {
     case ADD_EVENT:
       return {
         ...state,
-        [action.payload.issue.id]: {
-          id: action.payload.issue.id,
+        [action.payload.id]: {
           selected: false,
           ...action.payload
         }

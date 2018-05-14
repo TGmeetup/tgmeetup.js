@@ -58,10 +58,10 @@ const EventInfo = ({ event, className }) => (
         <h2>Comments</h2>
         <p>
           <a
-            href={event.issue.url}
+            href={event.url}
             target="_blank"
           >
-            {event.issue.url}
+            {event.url}
           </a>
         </p>
       </Col>

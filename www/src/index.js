@@ -26,7 +26,7 @@ fetch('https://api.github.com/repos/TGmeetup/tgmeetup.js/issues?labels=Event&sta
 
     return {
       ...event,
-      issue,
+      ...issue,
     };
   }))
   .then(events => {
