@@ -12,15 +12,6 @@ describe('action', () => {
 
     expect(_.addEvent({})).toEqual(expectAction);
   })
-
-  it('should create toogle event action', () => {
-    const expectAction = {
-      type: _.TOGGLE_EVENT,
-      payload: {}
-    }
-
-    expect(_.toggleEvent({})).toEqual(expectAction);
-  })
 })
 
 
@@ -58,37 +49,5 @@ describe('reducer', () => {
         selected: false,
       }
     })
-  })
-
-  it('should handle toggleEvent', () => {
-    expect(
-      reducer(
-        initState,
-        _.toggleEvent({
-          id: 888,
-          selected: true,
-        })
-      )
-    ).toEqual({
-      ...initState,
-      '888': {
-        id: 888,
-        selected: false
-      }
-    })
-  })
-
-  it('should handle toggleEvent with id not in state', () => {
-    expect(
-      reducer(
-        initState,
-        _.toggleEvent({
-          id: 666,
-          selected: true,
-        })
-      )
-    ).toEqual(
-      initState
-    );
   })
 })

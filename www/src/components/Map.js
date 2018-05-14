@@ -5,17 +5,17 @@ import {
   withGoogleMap,
   GoogleMap,
   Marker,
-  InfoWindow,
 } from 'react-google-maps';
+import InfoBox from "react-google-maps/lib/components/addons/InfoBox";
 import { connect } from 'react-redux';
 import { compose, withProps } from 'recompose';
 import { Grid, Row, Col } from 'react-flexbox-grid';
-import { toggleEvent } from '../redux/events';
+import { extractEventsByLatlng, toggleMark } from '../redux/latlngs';
 import { withGroupRefPrefix }from '../ultis';
 
 const GOOGLE_MAPS_API_KEY = 'AIzaSyDUl-ub3O_XrUZ71artT6KIksNxSJmKn1U';
 
-const EventInfo = ({ event, className }) => (
+const Event = ({ event, className }) => (
   <Grid className={className}>
     <Row>
       <Col xs={12}>
@@ -69,9 +69,17 @@ const EventInfo = ({ event, className }) => (
   </Grid>
 );
 
+const List = ({ events }) => (
+  <div>
+  { events.map(event => (
+    <p key={event.id}>{event.name}</p>
+  ))}
+  </div>
+)
+
 class MapView extends Component {
   render() {
-    const { events } = this.props;
+    const { eventGroups } = this.props;
     const { toggle } = this.props;
 
     return (
@@ -83,17 +91,20 @@ class MapView extends Component {
           this.map = mapRef;
         }}
       >
-        { events.map(event => (
+        { map(eventGroups, ({ events, selected }, latlngStr) => (
           <Marker
-            key={event.id}
-            position={event.geocode}
-            onClick={() => toggle(event)}
+            key={latlngStr}
+            position={events[0].geocode}
+            onClick={() => toggle(latlngStr)}
           >
-            { event.selected &&
-              <InfoWindow onCloseClick={() => toggle(event)}>
-                <EventInfo event={event} />
-              </InfoWindow>
+          { selected && (
+            <InfoBox>
+            { events.length === 1
+              ? <Event event={events[0]} />
+              : <List events={events} />
             }
+            </InfoBox>
+          )}
           </Marker>
         ))}
       </GoogleMap>
@@ -102,12 +113,12 @@ class MapView extends Component {
 }
 
 const mapStateToProps = state =>  ({
-  events: map(state.events),
+  eventGroups: extractEventsByLatlng(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  toggle: (event) => {
-    dispatch(toggleEvent(event));
+  toggle: (latlngStr) => {
+    dispatch(toggleMark(latlngStr));
   }
 })
 
