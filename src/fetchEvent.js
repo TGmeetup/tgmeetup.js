@@ -5,7 +5,11 @@ const logFetch = createDebug('my:fetch');
 export const issuesUrl = 'https://api.github.com/repos/TGmeetup/tgmeetup.js/issues?labels=Event&state=open';
 
 export default fetch(issuesUrl)
-.then(res => res.json())
+.then(res => {
+  if (res.status !== 200)
+    throw res.json()
+  return res.json()
+})
 .then(issues => {
   const events = issues.map(issue => {
     const reDetailText = /<details>((?:.|[\r\n])*?)<\/detail>/gm;
