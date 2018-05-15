@@ -1,7 +1,10 @@
 <img alt="tgmeetup" src="https://raw.githubusercontent.com/TGmeetup/tgmeetup.js/master/www/src/logo.png" width="200">
 
 # TGmeetup.js
+
 此專案是收集 Tech Group Events/Meetups 的專案
+
+你可以透過 Cli, Github Issues, Web, RSS, Calendar 顯示目前在台灣的 Meetup 資訊
 
 ## 如何使用?
 
