@@ -1,8 +1,8 @@
 {
   "name": "tgmeetup",
   "description": "Listing Tech groups events",
-  "version": "0.0.1",
-  "main": "index.js",
+  "version": "0.0.2",
+  "main": "lib/cli.js",
   "repository": "git@github.com:TGmeetup/tgmeetup.js.git",
   "author": "Lego Chiang <qas612820704@gmail.com>",
   "license": "MIT",
