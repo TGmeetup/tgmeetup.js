@@ -4,25 +4,8 @@
 此專案是收集 Tech Group Events/Meetups 的專案
 
 ## 如何使用?
-### 1. Github Issues
 
-以 [Github Issues](https://github.com/TGmeetup/tgmeetup.js/issues?q=is%3Aissue+is%3Aopen+label%3AEvent) 呈現
-
-
-### 2. Web
-
-https://tgmeetup.github.io/
-即時地圖化界面
-
-### 3. Calendar
-
-[點擊新增至你的 Google Calendar](https://calendar.google.com/calendar?cid=dGdtZWV0dXA3QGdtYWlsLmNvbQ) (每日更新)
-
-### 4. RSS
-
-https://tgmeetup.github.io/rss.xml (每日更新)
-
-### 5. tgmeetup cli (製作中)
+### 1. via TGmeetup cli (製作中)
 
 #### 安裝
 
@@ -36,6 +19,24 @@ $ yarn global add tgmeetup
 ```sh
 $ tgmeetup
 ```
+
+### 2. via Github Issues
+
+以 [Github Issues](https://github.com/TGmeetup/tgmeetup.js/issues?q=is%3Aissue+is%3Aopen+label%3AEvent) 呈現
+
+
+### 3. via Web
+
+https://tgmeetup.github.io/
+即時地圖化界面
+
+### 4. via Calendar
+
+[點擊新增至你的 Google Calendar](https://calendar.google.com/calendar?cid=dGdtZWV0dXA3QGdtYWlsLmNvbQ) (每日更新)
+
+### 5. via RSS
+
+https://tgmeetup.github.io/rss.xml (每日更新)
 
 ## 圖片
 
