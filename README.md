@@ -44,6 +44,6 @@ https://tgmeetup.github.io/rss.xml (每日更新)
 ## 貢獻
 
 ### 社群
-你的社群不再裡面? 到 [TGmeetup/TGmeeup](https://github.com/TGmeetup/TGmeetup) 發一個 pr 吧!
+你的社群不在裡面? 到 [TGmeetup/TGmeeup](https://github.com/TGmeetup/TGmeetup) 發一個 pr 吧!
 
 [Commit 範例](https://github.com/TGmeetup/TGmeetup/commit/8d2d5acc31bf18028871e2711dce9853049847e6)
