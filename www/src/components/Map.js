@@ -10,8 +10,7 @@ import {
 import InfoBox from "react-google-maps/lib/components/addons/InfoBox";
 import { connect } from 'react-redux';
 import { compose, withProps } from 'recompose';
-import GoFileText from 'react-icons/lib/go/file-text';
-import GoCalendar from 'react-icons/lib/go/calendar';
+import GoLink from 'react-icons/lib/io/link';
 import GoClock from 'react-icons/lib/go/clock';
 import GoLocation from 'react-icons/lib/go/location';
 import {
@@ -26,10 +25,17 @@ const Event = ({ event }) => (
   <EventWrapper>
     <EventTitle
       color={event.color}
-    >{event.name}</EventTitle>
+    >
+      <a
+        href={event.link}
+        target="_blank"
+      >
+        {event.name}
+      </a>
+    </EventTitle>
     <EventContent>
       <EventItem>
-        <GoFileText />
+        <GoLink />
         {' '}
         <a
           href={event.link}
@@ -39,14 +45,9 @@ const Event = ({ event }) => (
         </a>
       </EventItem>
       <EventItem>
-        <GoCalendar />
+      <GoClock />
         {' '}
-        {event.datetime.split('T')[0]}
-      </EventItem>
-      <EventItem>
-        <GoClock />
-        {' '}
-        {new Date(event.datetime).toLocaleTimeString()}
+        {event.moment.calendar()}
       </EventItem>
       <EventItem>
         <GoLocation />

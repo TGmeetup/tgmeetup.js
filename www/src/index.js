@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
+import 'moment/locale/zh-tw';
 import reducers from './reducers';
 import { addEvent } from './redux/events';
 import './index.css';
