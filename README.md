@@ -32,6 +32,8 @@ https://tgmeetup.github.io/rss.xml (每日更新)
 
 ## 圖片
 
+![Cli](https://raw.githubusercontent.com/TGmeetup/tgmeetup.js/master/.github/img/cli.png)
+
 ![Web](https://raw.githubusercontent.com/TGmeetup/tgmeetup.js/master/.github/img/web.png)
 
 ![Calendar](https://raw.githubusercontent.com/TGmeetup/tgmeetup.js/master/.github/img/calendar.png)
