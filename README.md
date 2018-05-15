@@ -5,18 +5,10 @@
 
 ## 如何使用?
 
-### 1. via TGmeetup cli (製作中)
-
-#### 安裝
+### 1. via TGmeetup cli
 
 ```sh
 $ npm install -g tgmeetup
-# or
-$ yarn global add tgmeetup
-```
-#### 使用
-
-```sh
 $ tgmeetup
 ```
 
