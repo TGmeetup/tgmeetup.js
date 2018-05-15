@@ -18,7 +18,7 @@ import {
   EventWrapper, EventTitle, EventContent, EventItem,
   ListWrapper,
 } from './Map.styled';
-import { extractEventsByLatlng, toggleMark } from '../redux/latlngs';
+import { extractEventsByLatlng, toggleOneMark, clearMark } from '../redux/latlngs';
 
 const GOOGLE_MAPS_API_KEY = 'AIzaSyDUl-ub3O_XrUZ71artT6KIksNxSJmKn1U';
 
@@ -78,13 +78,13 @@ const List = styled(PlainList)`
 class MapView extends Component {
   render() {
     const { eventGroups } = this.props;
-    const { toggle } = this.props;
+    const { toggleOne, clear } = this.props;
 
     return (
       <GoogleMap
         defaultZoom={8}
         defaultCenter={{ lat: 23.903687, lng: 121.07937 }}
-        onClick={() => {}}
+        onClick={() => clear()}
         ref={mapRef => {
           this.map = mapRef;
         }}
@@ -93,7 +93,7 @@ class MapView extends Component {
           <Marker
             key={latlngStr}
             position={events[0].geocode}
-            onClick={() => toggle(latlngStr)}
+            onClick={() => toggleOne(latlngStr)}
           >
           { selected && (
             <InfoBox
@@ -117,8 +117,11 @@ const mapStateToProps = state =>  ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  toggle: (latlngStr) => {
-    dispatch(toggleMark(latlngStr));
+  toggleOne: (latlngStr) => {
+    dispatch(toggleOneMark(latlngStr));
+  },
+  clear: () => {
+    dispatch(clearMark());
   }
 })
 
