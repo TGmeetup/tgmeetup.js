@@ -1,7 +1,7 @@
 {
   "name": "tgmeetup",
   "description": "Listing Tech groups events",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "main": "lib/cli.js",
   "repository": "git@github.com:TGmeetup/tgmeetup.js.git",
   "author": "Lego Chiang <qas612820704@gmail.com>",
@@ -19,7 +19,9 @@
     "deploy:google-calendar": "DEBUG=my:fetch,my:process babel-node src/createEventByListing",
     "deploy:www": "sh scripts/deploy-www.sh",
     "test": "echo 0",
-    "build": "webpack --config webpack.production.config.js"
+    "build": "npm run clean && webpack --config webpack.production.config.js -p",
+    "prepublish": "npm run build && echo '#!/usr/bin/env node' | cat - lib/cli.js > temp && mv temp lib/cli.js",
+    "clean": "rimraf lib"
   },
   "dependencies": {
     "@babel/polyfill": "^7.0.0-beta.46",
