@@ -11,7 +11,7 @@
 ### 1. via TGmeetup cli
 
 ```sh
-$ npm install -g tgmeetup
+$ npm install -g tgmeetup@0.1.0
 $ tgmeetup
 ```
 
