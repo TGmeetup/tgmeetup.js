@@ -3,7 +3,7 @@ import GoMarkGitHub from 'react-icons/lib/go/mark-github';
 import styled from 'styled-components';
 import logo from '../logo.png';
 
-export const headerHeight = '100px';
+export const headerHeight = '8vh';
 
 const Header = styled.header`
   position: relative;
