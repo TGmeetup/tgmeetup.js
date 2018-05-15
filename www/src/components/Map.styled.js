@@ -10,20 +10,28 @@ export const EventWrapper = styled.div`
   ${infoBox}
 `;
 
-export const EventTitle = styled.h2`
+export const EventTitle = styled.div`
   margin: 0;
   padding-top: 2em;
   padding-left: 1em;
   padding-right: 1em;
-  padding-bottom: 0.3em;
+  padding-bottom: 1em;
   color: white;
   background: ${props => props.color};
+  h2 {
+    margin-bottom: 0;
+  }
+
   a {
     color: inherit;
     text-decoration: none;
     &:hover {
       text-decoration: underline;
     }
+  }
+
+  svg {
+    float: right;
   }
 `
 
@@ -37,7 +45,6 @@ export const EventItem = styled.p`
   margin: 0;
   padding-top: 0.5em;
   padding-bottom: 0.5em;
-  padding-left: 1em;
   padding-right: 1em;
   white-space: nowrap;
   overflow: hidden;
@@ -50,16 +57,15 @@ export const EventItem = styled.p`
   }
 
   svg {
-    ${''/* overwrite svg element style */}
-    vertical-align: baseline !important;
+    padding-left: 0.7em;
+    padding-right: 0.7em;
   }
+
   a {
-    display: inline-block;
     text-overflow: ellipsis;
     overflow: hidden;
   }
 `
-
 
 export const ListWrapper = styled.div`
   ${infoBox}

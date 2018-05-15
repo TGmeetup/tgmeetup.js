@@ -1,11 +1,11 @@
-import { map, mapValues } from 'lodash';
+import { keys, map, mapValues } from 'lodash';
 import { ADD_EVENT } from './events';
 
 export const ACTIVE_ONE_MARK = 'ACTIVE_ONE_MARK';
 export const TOGGLE_ONE_MARK = 'TOGGLE_ONE_MARK';
 export const TOGGLE_MARK = 'TOGGLE_MARK';
 export const CLEAR_MARK = 'CLEAR_MARK';
-
+export const TOGGLE_EVENT = 'TOGGLE_EVENT';
 
 export default (state = {}, action) => {
   switch (action.type) {
@@ -19,6 +19,7 @@ export default (state = {}, action) => {
             [action.payload.id]: true,
           },
           selected: false,
+          selectEvent: null,
         },
       };
     case ACTIVE_ONE_MARK:
@@ -47,7 +48,17 @@ export default (state = {}, action) => {
       return mapValues(state, group => ({
         ...group,
         selected: false,
-      }))
+      }));
+    case TOGGLE_EVENT:
+      return mapValues(state, (group, latlngStr) => ({
+        ...group,
+        selectEvent: (
+          action.payload.latlngStr === latlngStr &&
+          action.payload.event.id !== group.selectEvent
+        )
+          ? action.payload.event.id
+          : null,
+      }));
     default:
       return state;
   }
@@ -56,7 +67,13 @@ export default (state = {}, action) => {
 export const extractEventsByLatlng = ({ latlngs, events }) =>
   mapValues(latlngs, group => ({
     ...group,
-    events: map(group.events, (_, id) => events[id]),
+    events: map(group.events, (_, id) => events[id])
+      .sort((e1, e2) => e1.moment - e2.moment),
+    selectEvent: group.selectEvent
+      ? events[group.selectEvent]
+      : keys(group.events).length <= 1
+        ? events[keys(group.events)[0]]
+        : null,
   }));
 
 export const activeOneMark = (latlngStr) => ({
@@ -76,4 +93,12 @@ export const toggleOneMark = (latlngStr) => ({
 
 export const clearMark = () => ({
   type: CLEAR_MARK,
+})
+
+export const toggleEvent = ({ latlngStr, event }) => ({
+  type: TOGGLE_EVENT,
+  payload: {
+    latlngStr,
+    event,
+  }
 })

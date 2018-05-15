@@ -1,6 +1,5 @@
 import { map } from 'lodash'
 import React, { Component } from 'react';
-import styled from 'styled-components';
 import {
   withScriptjs,
   withGoogleMap,
@@ -10,28 +9,38 @@ import {
 import InfoBox from "react-google-maps/lib/components/addons/InfoBox";
 import { connect } from 'react-redux';
 import { compose, withProps } from 'recompose';
-import GoLink from 'react-icons/lib/io/link';
+import GoLink from 'react-icons/lib/go/link';
 import GoClock from 'react-icons/lib/go/clock';
+import GoCommit from 'react-icons/lib/go/git-commit';
 import GoLocation from 'react-icons/lib/go/location';
+import GoX from 'react-icons/lib/go/x';
+import GoLeft from 'react-icons/lib/go/chevron-left';
 import {
   EventWrapper, EventTitle, EventContent, EventItem,
-  ListWrapper,
+  ListWrapper
 } from './Map.styled';
-import { extractEventsByLatlng, toggleOneMark, clearMark } from '../redux/latlngs';
+import {
+  extractEventsByLatlng,
+  toggleOneMark,
+  toggleEvent
+} from '../redux/latlngs';
 
 const GOOGLE_MAPS_API_KEY = 'AIzaSyDUl-ub3O_XrUZ71artT6KIksNxSJmKn1U';
 
-const Event = ({ event }) => (
+const Event = ({ event, onCloseClick, ControlIcon }) => (
   <EventWrapper>
     <EventTitle
       color={event.color}
     >
-      <a
-        href={event.link}
-        target="_blank"
-      >
-        {event.name}
-      </a>
+      <ControlIcon onClick={() => onCloseClick(event)} />
+      <h2>
+        <a
+          href={event.link}
+          target="_blank"
+        >
+          {event.name}
+        </a>
+      </h2>
     </EventTitle>
     <EventContent>
       <EventItem>
@@ -63,34 +72,51 @@ const Event = ({ event }) => (
   </EventWrapper>
 );
 
-const PlainList = ({ events, className }) => (
+const List = ({events, className, toggle, onCloseClick }) => (
   <ListWrapper>
-  { events.map(event => (
-    <p key={event.id}>{event.name}</p>
-  ))}
+    <EventTitle
+      color={events[0].color}
+    >
+      <GoX onClick={() => onCloseClick()} />
+      <h2>
+        Events on
+        {' '}
+        { events[0].location.length > 1
+          ? events[0].location
+          : events[0].local_city
+        }
+      </h2>
+    </EventTitle>
+    <EventContent>
+    { events.map(event => (
+      <EventItem
+        key={event.id}
+        onClick={() => toggle(event)}
+      >
+        <GoCommit />
+        {event.moment.calendar()}
+        {' '}
+        <b>{event.name}</b>
+      </EventItem>
+    ))}
+    </EventContent>
   </ListWrapper>
 )
-
-const List = styled(PlainList)`
-  background: red;
-  width: 400px;
-`
 
 class MapView extends Component {
   render() {
     const { eventGroups } = this.props;
-    const { toggleOne, clear } = this.props;
+    const { toggleOne, toggle } = this.props;
 
     return (
       <GoogleMap
         defaultZoom={8}
         defaultCenter={{ lat: 23.903687, lng: 121.07937 }}
-        onClick={() => clear()}
         ref={mapRef => {
           this.map = mapRef;
         }}
       >
-        { map(eventGroups, ({ events, selected }, latlngStr) => (
+        { map(eventGroups, ({ events, selected, selectEvent }, latlngStr) => (
           <Marker
             key={latlngStr}
             position={events[0].geocode}
@@ -98,11 +124,24 @@ class MapView extends Component {
           >
           { selected && (
             <InfoBox
-              options={{ closeBoxURL: ``}}
+              options={{
+                closeBoxURL: ``,
+                enableEventPropagation: true
+              }}
             >
-            { events.length === 1
-              ? <Event event={events[0]} />
-              : <List events={events} />
+            { selectEvent
+              ? <Event
+                  event={selectEvent}
+                  onCloseClick={events.length > 1
+                    ? (event) => toggle({latlngStr, event})
+                    : (event) => toggleOne(latlngStr)}
+                  ControlIcon={events.length > 1 ? GoLeft : GoX}
+                />
+              : <List
+                  events={events}
+                  toggle={(event) => toggle({latlngStr, event})}
+                  onCloseClick={() => toggleOne(latlngStr)}
+                />
             }
             </InfoBox>
           )}
@@ -121,9 +160,9 @@ const mapDispatchToProps = (dispatch) => ({
   toggleOne: (latlngStr) => {
     dispatch(toggleOneMark(latlngStr));
   },
-  clear: () => {
-    dispatch(clearMark());
-  }
+  toggle: ({ latlngStr, event }) => {
+    dispatch(toggleEvent({ latlngStr, event }));
+  },
 })
 
 export default compose(
