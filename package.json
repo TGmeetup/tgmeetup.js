@@ -16,6 +16,9 @@
     "lib/"
   ],
   "scripts": {
+    "deploy:google-calendar": "DEBUG=my:fetch,my:process babel-node src/createEventByListing",
+    "deploy:www": "sh scripts/deploy-www.sh",
+    "test": "echo 0",
     "build": "webpack --config webpack.production.config.js"
   },
   "dependencies": {

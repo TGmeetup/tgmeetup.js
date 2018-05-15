@@ -1,0 +1,23 @@
+language: node_js
+node_js:
+  - "stable"
+
+cache:
+  yarn: true
+  directories:
+    - node_modules
+
+before_install:
+  - openssl aes-256-cbc -K $encrypted_76e9bcd3d39a_key -iv $encrypted_76e9bcd3d39a_iv -in secrets.tar.enc -out secrets.tar -d
+  - tar xvf secrets.tar
+
+install:
+  - yarn install
+
+script:
+  - yarn deploy:google-calendar
+  - yarn deploy:www
+
+branches:
+  only:
+    - master

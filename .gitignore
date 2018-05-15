@@ -70,3 +70,4 @@ createEvent/
 # google api
 client_secret.json
 credentials.json
+secrets.tar
