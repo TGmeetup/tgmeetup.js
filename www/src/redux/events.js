@@ -1,3 +1,5 @@
+import randomColor from 'randomcolor';
+
 export const ADD_EVENT = 'ADD_EVNET';
 
 export default (state = {}, action) => {
@@ -5,7 +7,10 @@ export default (state = {}, action) => {
     case ADD_EVENT:
       return {
         ...state,
-        [action.payload.id]: action.payload,
+        [action.payload.id]: {
+          ...action.payload,
+          color: randomColor({ luminosity: 'dark' }),
+        },
       };
     default:
       return state;
