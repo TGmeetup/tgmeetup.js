@@ -4,7 +4,12 @@ const RSS = require('rss');
 const mkdirp = require('mkdirp');
 
 fetch('https://api.github.com/repos/TGmeetup/tgmeetup.js/issues?labels=Event&state=open')
-.then(res => res.json())
+.then(res => {
+  if (res.status !== 200) {
+    return res.json().then(({ message }) => { throw message });
+  }
+  return res.json()
+})
 .then(issues => {
   const events = issues
     .map(issue => extractEvent(issue))
