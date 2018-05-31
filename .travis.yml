@@ -19,10 +19,10 @@ deploy:
     script: yarn deploy:google-calendar
     skip_cleanup: true
     on:
-      branch: fix/travis-deploy
+      branch: master
 
   - provider: script
     script: yarn deploy:www
     skip_cleanup: true
     on:
-      branch: fix/travis-deploy
+      branch: master
