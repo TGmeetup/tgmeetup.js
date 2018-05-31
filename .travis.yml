@@ -14,10 +14,15 @@ before_install:
 install:
   - yarn install
 
-script:
-  - yarn deploy:google-calendar
-  - yarn deploy:www
+deploy:
+  - provider: script
+    script: yarn deploy:google-calendar
+    skip_cleanup: true
+    on:
+      branch: fix/travis-deploy
 
-branches:
-  only:
-    - master
+  - provider: script
+    script: yarn deploy:www
+    skip_cleanup: true
+    on:
+      branch: fix/travis-deploy
