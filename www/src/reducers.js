@@ -1,8 +1,19 @@
-import { combineReducers } from 'redux';
 import events from './redux/events';
-import latlngs from './redux/latlngs';
+import markers from './redux/markers';
 
-export default combineReducers({
-  events,
-  latlngs,
-});
+import { ADD_EVENT } from './redux/events';
+
+export default (state = {}, action) => {
+  switch (action.type) {
+    case ADD_EVENT:
+      return {
+        events: events(state.events, action),
+        markers: markers(state.markers, action, state.events)
+      }
+    default:
+      return {
+        events: events(state.events, action),
+        markers: markers(state.markers, action)
+      }
+  }
+}

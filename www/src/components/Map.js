@@ -1,4 +1,3 @@
-import { map } from 'lodash'
 import React, { Component } from 'react';
 import {
   withScriptjs,
@@ -14,25 +13,27 @@ import GoClock from 'react-icons/lib/go/clock';
 import GoCommit from 'react-icons/lib/go/git-commit';
 import GoLocation from 'react-icons/lib/go/location';
 import GoX from 'react-icons/lib/go/x';
-import GoLeft from 'react-icons/lib/go/chevron-left';
+import styled from 'styled-components';
 import {
   EventWrapper, EventTitle, EventContent, EventItem,
   ListWrapper
 } from './Map.styled';
+import { toggleEvent } from '../redux/events'
+
 import {
-  extractEventsByLatlng,
-  toggleOneMark,
-  toggleEvent
-} from '../redux/latlngs';
+  extractMarkers,
+  toggleOnlyOneMarker,
+  toggleMarker
+} from '../redux/markers';
 
 const GOOGLE_MAPS_API_KEY = 'AIzaSyDUl-ub3O_XrUZ71artT6KIksNxSJmKn1U';
 
-const Event = ({ event, onCloseClick, ControlIcon }) => (
+const Event = ({ event, onCloseClick }) => (
   <EventWrapper>
     <EventTitle
       color={event.color}
     >
-      <ControlIcon onClick={() => onCloseClick(event)} />
+      <GoX onClick={onCloseClick} />
       <h2>
         <a
           href={event.link}
@@ -72,11 +73,22 @@ const Event = ({ event, onCloseClick, ControlIcon }) => (
   </EventWrapper>
 );
 
-const List = ({events, className, toggle, onCloseClick }) => (
-  <ListWrapper>
-    <EventTitle
-      color={events[0].color}
-    >
+const ShiftedContainer = styled.div`
+  position: absolute;
+  left: ${props => `${props.offset}px`};
+  top: ${props => `${props.offset}px`};
+`
+
+const List = ({
+  zoom,
+  color,
+  events,
+  onEventClick,
+  onEventCloseClick,
+  onCloseClick
+}) => (
+  <ListWrapper zoom={zoom}>
+    <EventTitle color={color}>
       <GoX onClick={() => onCloseClick()} />
       <h2>
         Events on
@@ -91,7 +103,7 @@ const List = ({events, className, toggle, onCloseClick }) => (
     { events.map(event => (
       <EventItem
         key={event.id}
-        onClick={() => toggle(event)}
+        onClick={() => onEventClick(event)}
       >
         <GoCommit />
         {event.moment.calendar()}
@@ -100,68 +112,98 @@ const List = ({events, className, toggle, onCloseClick }) => (
       </EventItem>
     ))}
     </EventContent>
+    { events.filter(e => e.isSelected).map((event, i) => (
+      <ShiftedContainer
+        key={event.id}
+        offset={(i + 1) * 20}
+      >
+        <Event
+          event={event}
+          onCloseClick={() => onEventClick(event)}
+        />
+      </ShiftedContainer>
+    ))}
   </ListWrapper>
 )
 
 class MapView extends Component {
+  state = {
+    zoom: 8,
+  }
+
+  constructor(props) {
+    super(props);
+
+    this.handleZoomChanged = this.handleZoomChanged.bind(this)
+  }
+
+  handleZoomChanged(zoom) {
+    this.setState({ zoom: zoom || this.map.getZoom() })
+  }
+
   render() {
-    const { eventGroups } = this.props;
-    const { toggleOne, toggle } = this.props;
+    const { markers, hasOnlyOneActiveMarker } = this.props;
+    const { toggleOnlyOneMarker, toggleEvent } = this.props;
 
     return (
       <GoogleMap
         defaultZoom={8}
         defaultCenter={{ lat: 23.903687, lng: 121.07937 }}
+        zoom={ this.state.zoom }
+        onZoomChanged={this.handleZoomChanged}
         ref={mapRef => {
           this.map = mapRef;
         }}
       >
-        { map(eventGroups, ({ events, selected, selectEvent }, latlngStr) => (
-          <Marker
-            key={latlngStr}
-            position={events[0].geocode}
-            onClick={() => toggleOne(latlngStr)}
+      { markers.map(({ events, isSelected, latlng, latlngStr, color }) => (
+        <Marker
+          key={latlngStr}
+          position={latlng}
+          onClick={() => toggleOnlyOneMarker(latlngStr)}
+        >
+        { isSelected && (
+          <InfoBox
+            options={{
+              pane: 'mapPane',
+              closeBoxURL: ``,
+              enableEventPropagation: true,
+              boxStyle: { overflow: 'initial' }
+            }}
           >
-          { selected && (
-            <InfoBox
-              options={{
-                closeBoxURL: ``,
-                enableEventPropagation: true
-              }}
-            >
-            { selectEvent
-              ? <Event
-                  event={selectEvent}
-                  onCloseClick={events.length > 1
-                    ? (event) => toggle({latlngStr, event})
-                    : (event) => toggleOne(latlngStr)}
-                  ControlIcon={events.length > 1 ? GoLeft : GoX}
-                />
-              : <List
-                  events={events}
-                  toggle={(event) => toggle({latlngStr, event})}
-                  onCloseClick={() => toggleOne(latlngStr)}
-                />
-            }
-            </InfoBox>
-          )}
-          </Marker>
-        ))}
+            <List
+              color={color}
+              events={events}
+              onEventClick={(event) => toggleEvent(event)}
+              onCloseClick={() => toggleOnlyOneMarker(latlngStr)}
+              toggle={(event) => toggleMarker({latlngStr, event})}
+            />
+          </InfoBox>
+        )}
+        </Marker>
+      ))}
       </GoogleMap>
     )
   }
 }
 
-const mapStateToProps = state =>  ({
-  eventGroups: extractEventsByLatlng(state),
-});
+const mapStateToProps = state =>  {
+  const markers = extractMarkers(state)
+  const activeMarkers = markers.filter(m => m.isSelected)
+  const hasOnlyOneActiveMarker = activeMarkers.length === 1
+    ? activeMarkers[0] : null;
+
+  return {
+    markers,
+    hasOnlyOneActiveMarker
+  }
+};
 
 const mapDispatchToProps = (dispatch) => ({
-  toggleOne: (latlngStr) => {
-    dispatch(toggleOneMark(latlngStr));
+  toggleOnlyOneMarker: (latlngStr) => {
+    dispatch(toggleOnlyOneMarker(latlngStr));
   },
-  toggle: ({ latlngStr, event }) => {
-    dispatch(toggleEvent({ latlngStr, event }));
+  toggleEvent: (event) => {
+    dispatch(toggleEvent(event));
   },
 })
 

@@ -8,6 +8,7 @@ const infoBox = css`
 
 export const EventWrapper = styled.div`
   ${infoBox}
+  box-shadow: 0 0 5px #888888;
 `;
 
 export const EventTitle = styled.div`
