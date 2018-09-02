@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import styled, { injectGlobal } from 'styled-components';
 import Header, { headerHeight } from './components/Header';
-import Map from './components/Map';
+import MapView from './components/Map';
 import Calendar from './components/Calendar';
 
 /* eslint-disable no-unused-expressions */
@@ -27,7 +28,10 @@ class App extends Component {
       <div className="App">
         <Header />
         <Container>
-          <Map />
+          <Switch>
+            <Redirect exact from='/' to='/map/' />
+            <Route path='/map/' component={MapView} />
+          </Switch>
         </Container>
       </div>
     );

@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { HashRouter } from 'react-router-dom';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import 'moment/locale/zh-tw';
@@ -42,9 +43,11 @@ fetch('https://api.github.com/repos/TGmeetup/tgmeetup.js/issues?labels=Event&sta
   });
 
 ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
+  <HashRouter>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </HashRouter>,
   document.getElementById('root')
 );
 
