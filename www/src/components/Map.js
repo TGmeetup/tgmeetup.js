@@ -8,16 +8,14 @@ import {
 import InfoBox from "react-google-maps/lib/components/addons/InfoBox";
 import { connect } from 'react-redux';
 import { compose, withProps } from 'recompose';
-import GoLink from 'react-icons/lib/go/link';
-import GoClock from 'react-icons/lib/go/clock';
 import GoCommit from 'react-icons/lib/go/git-commit';
-import GoLocation from 'react-icons/lib/go/location';
 import GoX from 'react-icons/lib/go/x';
 import styled from 'styled-components';
 import {
-  EventWrapper, EventTitle, EventContent, EventItem,
+  EventTitle, EventContent, EventItem, EventWrapper,
   ListWrapper
-} from './Map.styled';
+} from './StyledComponents';
+import Event from './Event'
 import { toggleEvent } from '../redux/events'
 
 import {
@@ -28,50 +26,6 @@ import {
 
 const GOOGLE_MAPS_API_KEY = 'AIzaSyDUl-ub3O_XrUZ71artT6KIksNxSJmKn1U';
 
-const Event = ({ event, onCloseClick }) => (
-  <EventWrapper>
-    <EventTitle
-      color={event.color}
-    >
-      <GoX onClick={onCloseClick} />
-      <h2>
-        <a
-          href={event.link}
-          target="_blank"
-        >
-          {event.name}
-        </a>
-      </h2>
-    </EventTitle>
-    <EventContent>
-      <EventItem>
-        <GoLink />
-        {' '}
-        <a
-          href={event.link}
-          target="_blank"
-        >
-          {event.link}
-        </a>
-      </EventItem>
-      <EventItem>
-      <GoClock />
-        {' '}
-        {event.moment.calendar()}
-      </EventItem>
-      <EventItem>
-        <GoLocation />
-        {' '}
-        { event.location.length <= 1 && (
-          event.local_city
-        )}
-        { event.location.length > 1 && (
-          `${event.location}, ${event.local_city}`
-        )}
-      </EventItem>
-    </EventContent>
-  </EventWrapper>
-);
 
 const ShiftedContainer = styled.div`
   position: absolute;
@@ -117,10 +71,12 @@ const List = ({
         key={event.id}
         offset={(i + 1) * 20}
       >
-        <Event
-          event={event}
-          onCloseClick={() => onEventClick(event)}
-        />
+        <EventWrapper>
+          <Event
+            event={event}
+            onCloseClick={() => onEventClick(event)}
+          />
+        </EventWrapper>
       </ShiftedContainer>
     ))}
   </ListWrapper>

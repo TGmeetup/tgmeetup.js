@@ -11,6 +11,7 @@ export const EventWrapper = styled.div`
   box-shadow: 0 0 5px #888888;
 `;
 
+
 export const EventTitle = styled.div`
   margin: 0;
   padding-top: 2em;
@@ -36,10 +37,14 @@ export const EventTitle = styled.div`
   }
 `
 
+const infiniteHeight = '1000px';
+
 export const EventContent = styled.div`
   margin: 0;
   padding-top: 1em;
   padding-bottom: 1em;
+  transition: all .5s;
+  max-height: ${infiniteHeight};
 `
 
 export const EventItem = styled.p`

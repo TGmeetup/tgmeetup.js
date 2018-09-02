@@ -8,6 +8,11 @@ import { addEvent } from './redux/events';
 import './index.css';
 import App from './App';
 
+import BigCalendar from 'react-big-calendar'
+import moment from 'moment'
+
+BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment))
+
 /* eslint-disable no-underscore-dangle */
 const store = createStore(
   reducers,
