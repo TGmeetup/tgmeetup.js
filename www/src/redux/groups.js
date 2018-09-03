@@ -1,4 +1,4 @@
-import { map } from 'lodash';
+import { map, filter } from 'lodash';
 import { ADD_EVENT } from './events';
 import randomColor from 'randomcolor';
 
@@ -17,15 +17,18 @@ export default (state = {}, action, events) => {
         [action.payload.ref]: {
           ...group,
           ...action.payload.group,
+          events: filter(
+            events,
+            event => event.groupRef === action.payload.ref
+          ).map(e => e.id),
         },
       };
     }
 
     case ADD_EVENT: {
-      const group = state[action.payload.groupRef] || {
-        events: [],
-        color: randomColor({ luminosity: 'dark' })
-      };
+      const group = state[action.payload.groupRef];
+
+      if (!group) return state;
 
       return {
         ...state,

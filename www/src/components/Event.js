@@ -1,9 +1,11 @@
 import React from 'react';
-import GoLink from 'react-icons/lib/go/link';
-import GoClock from 'react-icons/lib/go/clock';
-import GoLocation from 'react-icons/lib/go/location';
-import GoX from 'react-icons/lib/go/x';
 import Card from './Card';
+import {
+  GoLink,
+  GoClock,
+  GoLocation,
+  GoX
+} from 'react-icons/go'
 
 export default ({
   event,

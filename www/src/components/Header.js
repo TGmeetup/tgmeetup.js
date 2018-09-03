@@ -1,8 +1,6 @@
 import React from 'react';
-import GoMarkGitHub from 'react-icons/lib/go/mark-github';
-import GoCalendar from 'react-icons/lib/go/calendar';
-import GpRss from 'react-icons/lib/go/rss';
 import styled from 'styled-components';
+import { GoCalendar, GoRss, GoMarkGithub } from 'react-icons/go';
 import logo from '../logo.png';
 
 export const headerHeight = '8vh';
@@ -40,14 +38,14 @@ export default () => (
         target="_blank"
         rel="noopener noreferrer"
       >
-        <GoMarkGitHub />
+        <GoMarkGithub />
       </a>
       <a
         href="rss.xml"
         target="_blank"
         rel="noopener noreferrer"
       >
-        <GpRss />
+        <GoRss />
       </a>
       <a
         href="https://calendar.google.com/calendar?cid=dGdtZWV0dXA3QGdtYWlsLmNvbQ"

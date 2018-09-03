@@ -8,11 +8,11 @@ import {
 import InfoBox from "react-google-maps/lib/components/addons/InfoBox";
 import { connect } from 'react-redux';
 import { compose, withProps } from 'recompose';
-import GoCommit from 'react-icons/lib/go/git-commit';
-import GoX from 'react-icons/lib/go/x';
+import { GoGitCommit, GoX } from 'react-icons/go';
 import styled from 'styled-components';
 import Card from './Card';
 import Event from './Event'
+import { ShiftedContainer } from './UnsortedComponents';
 import { toggleEvent } from '../redux/events'
 
 import {
@@ -25,12 +25,6 @@ const GOOGLE_MAPS_API_KEY = 'AIzaSyDUl-ub3O_XrUZ71artT6KIksNxSJmKn1U';
 
 const CardWrapper = styled.div`
   max-width: ${props => props.width};
-`
-
-const ShiftedContainer = styled.div`
-  position: absolute;
-  left: ${props => `${props.offset}px`};
-  top: ${props => `${props.offset}px`};
 `
 
 const List = ({
@@ -59,7 +53,7 @@ const List = ({
         key={event.id}
         onClick={() => onEventClick(event)}
       >
-        <GoCommit />
+        <GoGitCommit />
         {event.moment.calendar()}
         {' '}
         <b>{event.name}</b>
@@ -69,7 +63,8 @@ const List = ({
     { events.filter(e => e.isSelected).map((event, i) => (
       <ShiftedContainer
         key={event.id}
-        offset={(i + 1) * 20}
+        top={(i + 1) * 20}
+        left={(i + 1) * 20}
       >
         {/* <EventWrapper> */}
           <Event

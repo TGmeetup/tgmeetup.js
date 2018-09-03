@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+
+const Card = styled.div`
+  font-size: 18px;
+  max-width: ${props => props.width};
+  background: white;
+  box-shadow: 0 0 5px #888888;
+`;
 
 export const Title = styled.div`
   margin: 0;
@@ -25,7 +32,7 @@ export const Title = styled.div`
   svg {
     float: right;
   }
-`
+`;
 
 export const Content = styled.div`
   margin: 0;
@@ -67,15 +74,79 @@ export const Item = styled.p`
   }
 `;
 
-const Card = styled.div`
-  font-size: 18px;
-  max-width: ${props => props.width};
-  background: white;
-  box-shadow: 0 0 5px #888888;
+
+export const Action = styled.a`
+  color: initial;
+  padding: .5em;
+
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+
+  ${props =>
+    props.href &&
+    props.href.indexOf('mailto:') < 0 &&
+    css`
+      text-transform: uppercase;
+    `
+  }
+
+  ${props => props.onClick && css`
+    cursor: pointer;
+  `}
+
+  ${props => (props.href || props.onClick) && css`
+    &:hover {
+      background: lightgray;
+    }
+    &:active {
+      background: gray;
+    }
+  `}
+
+  & > svg {
+    margin: .5em;
+    font-size: 1.4em;
+  }
+
+  > * {
+    margin: 0;
+    text-overflow: ellipsis;
+  }
 `;
+
+
+export const Actions = styled.div`
+  display: flex;
+  align-items: stretch;
+  flex-wrap: no-wrap;
+  flex-basis: 100%;
+  min-height: 3em;
+  text-align: center;
+
+  & > ${Action} {
+    flex: 1;
+    width: 0;
+  }
+`;
+
+export const Badge = styled.span`
+  position: absolute;
+  left: calc(50% + 0.5em);
+  top: 1em;
+  background: lightgray;
+  padding-left: 0.4em;
+  padding-right: 0.4em;
+  border-radius: 0.4em;
+`
 
 Card.Title = Title;
 Card.Content = Content;
 Card.Item = Item;
+Card.Actions = Actions;
+Card.Action = Action;
+Card.Badge = Badge;
 
 export default Card;
