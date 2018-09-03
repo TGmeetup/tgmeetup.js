@@ -3,6 +3,7 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import styled, { injectGlobal } from 'styled-components';
 import Header, { headerHeight } from './components/Header';
 import MapView from './components/Map';
+import GroupView from './views/GroupView';
 import Calendar from './components/Calendar';
 
 /* eslint-disable no-unused-expressions */
@@ -31,6 +32,7 @@ class App extends Component {
           <Switch>
             <Redirect exact from='/' to='/map/' />
             <Route path='/map/' component={MapView} />
+            <Route path='/group/' component={GroupView} />
           </Switch>
         </Container>
       </div>

@@ -1,25 +1,15 @@
-import styled, { css } from 'styled-components';
+import React, { Component } from 'react';
+import styled from 'styled-components';
 
-const infoBox = css`
-  font-size: 18px;
-  background: white;
-  width: 400px;
-`;
-
-export const EventWrapper = styled.div`
-  ${infoBox}
-  box-shadow: 0 0 5px #888888;
-`;
-
-
-export const EventTitle = styled.div`
+export const Title = styled.div`
   margin: 0;
   padding-top: 2em;
   padding-left: 1em;
   padding-right: 1em;
   padding-bottom: 1em;
   color: white;
-  background: ${props => props.color};
+  background: ${props => props.color || 'gray'};
+
   h2 {
     margin-bottom: 0;
   }
@@ -37,24 +27,29 @@ export const EventTitle = styled.div`
   }
 `
 
-const infiniteHeight = '1000px';
-
-export const EventContent = styled.div`
+export const Content = styled.div`
   margin: 0;
   padding-top: 1em;
   padding-bottom: 1em;
-  transition: all .5s;
-  max-height: ${infiniteHeight};
+  padding-left: 0.7em;
+  padding-right: 0.7em;
+  word-wrap: break-word;
+
 `
 
-export const EventItem = styled.p`
+export const Item = styled.p`
   margin: 0;
   padding-top: 0.5em;
   padding-bottom: 0.5em;
-  padding-right: 1em;
+  padding-left: 0.7em;
+  padding-right: 0.7em;
+  margin-left: -0.7em;
+  margin-right: -0.7em;
+
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+
   &:hover {
     background: lightgray;
   }
@@ -63,7 +58,6 @@ export const EventItem = styled.p`
   }
 
   svg {
-    padding-left: 0.7em;
     padding-right: 0.7em;
   }
 
@@ -71,8 +65,17 @@ export const EventItem = styled.p`
     text-overflow: ellipsis;
     overflow: hidden;
   }
-`
-
-export const ListWrapper = styled.div`
-  ${infoBox}
 `;
+
+const Card = styled.div`
+  font-size: 18px;
+  max-width: ${props => props.width};
+  background: white;
+  box-shadow: 0 0 5px #888888;
+`;
+
+Card.Title = Title;
+Card.Content = Content;
+Card.Item = Item;
+
+export default Card;

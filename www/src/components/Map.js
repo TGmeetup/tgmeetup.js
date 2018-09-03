@@ -11,10 +11,7 @@ import { compose, withProps } from 'recompose';
 import GoCommit from 'react-icons/lib/go/git-commit';
 import GoX from 'react-icons/lib/go/x';
 import styled from 'styled-components';
-import {
-  EventTitle, EventContent, EventItem, EventWrapper,
-  ListWrapper
-} from './StyledComponents';
+import Card from './Card';
 import Event from './Event'
 import { toggleEvent } from '../redux/events'
 
@@ -26,6 +23,9 @@ import {
 
 const GOOGLE_MAPS_API_KEY = 'AIzaSyDUl-ub3O_XrUZ71artT6KIksNxSJmKn1U';
 
+const CardWrapper = styled.div`
+  max-width: ${props => props.width};
+`
 
 const ShiftedContainer = styled.div`
   position: absolute;
@@ -41,8 +41,8 @@ const List = ({
   onEventCloseClick,
   onCloseClick
 }) => (
-  <ListWrapper zoom={zoom}>
-    <EventTitle color={color}>
+  <Card width='400px'>
+    <Card.Title color={color}>
       <GoX onClick={() => onCloseClick()} />
       <h2>
         Events on
@@ -52,10 +52,10 @@ const List = ({
           : events[0].local_city
         }
       </h2>
-    </EventTitle>
-    <EventContent>
+    </Card.Title>
+    <Card.Content>
     { events.map(event => (
-      <EventItem
+      <Card.Item
         key={event.id}
         onClick={() => onEventClick(event)}
       >
@@ -63,23 +63,23 @@ const List = ({
         {event.moment.calendar()}
         {' '}
         <b>{event.name}</b>
-      </EventItem>
+      </Card.Item>
     ))}
-    </EventContent>
+    </Card.Content>
     { events.filter(e => e.isSelected).map((event, i) => (
       <ShiftedContainer
         key={event.id}
         offset={(i + 1) * 20}
       >
-        <EventWrapper>
+        {/* <EventWrapper> */}
           <Event
             event={event}
             onCloseClick={() => onEventClick(event)}
           />
-        </EventWrapper>
+        {/* </EventWrapper> */}
       </ShiftedContainer>
     ))}
-  </ListWrapper>
+  </Card>
 )
 
 class MapView extends Component {

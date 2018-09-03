@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 import 'moment/locale/zh-tw';
 import reducers from './reducers';
 import { addEvent } from './redux/events';
+import { addGroup } from './redux/groups';
 import './index.css';
 import App from './App';
 
@@ -37,8 +38,19 @@ fetch('https://api.github.com/repos/TGmeetup/tgmeetup.js/issues?labels=Event&sta
     };
   }))
   .then(events => {
+    const isGroupFetched = new Set();
+
     events.forEach(event => {
       store.dispatch(addEvent(event));
+
+      if (!isGroupFetched.has(event.groupRef)) {
+        isGroupFetched.add(event.groupRef);
+
+        fetch(`https://raw.githubusercontent.com/TGmeetup/TGmeetup/master/${event.groupRef}/package.json`)
+          .then(res => res.json())
+          .then(group => store.dispatch(addGroup(event.groupRef, group)))
+      }
+
     });
   });
 

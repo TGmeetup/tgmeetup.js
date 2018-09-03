@@ -3,20 +3,15 @@ import GoLink from 'react-icons/lib/go/link';
 import GoClock from 'react-icons/lib/go/clock';
 import GoLocation from 'react-icons/lib/go/location';
 import GoX from 'react-icons/lib/go/x';
-import {
-  EventWrapper, EventTitle,
-  EventContent, EventItem,
-} from './StyledComponents';
+import Card from './Card';
 
 export default ({
   event,
   onCloseClick,
   shrink = false,
 }) => (
-  <div>
-    <EventTitle
-      color={event.color}
-    >
+  <Card width='400px'>
+    <Card.Title color={event.color}>
       <GoX onClick={onCloseClick} />
       <h2>
         <a
@@ -26,9 +21,9 @@ export default ({
           {event.name}
         </a>
       </h2>
-    </EventTitle>
-    <EventContent>
-      <EventItem>
+    </Card.Title>
+    <Card.Content>
+      <Card.Item>
         <GoLink />
         {' '}
         <a
@@ -37,13 +32,13 @@ export default ({
         >
           {event.link}
         </a>
-      </EventItem>
-      <EventItem>
+      </Card.Item>
+      <Card.Item>
       <GoClock />
         {' '}
         {event.moment.calendar()}
-      </EventItem>
-      <EventItem>
+      </Card.Item>
+      <Card.Item>
         <GoLocation />
         {' '}
         { event.location.length <= 1 && (
@@ -52,7 +47,7 @@ export default ({
         { event.location.length > 1 && (
           `${event.location}, ${event.local_city}`
         )}
-      </EventItem>
-    </EventContent>
-  </div>
+      </Card.Item>
+    </Card.Content>
+  </Card>
 );
