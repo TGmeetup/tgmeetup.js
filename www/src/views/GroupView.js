@@ -1,20 +1,18 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { Grid, Row, Col } from 'react-flexbox-grid';
-import { GoLink, GoGitCommit } from 'react-icons/go';
+import { GoGitCommit } from 'react-icons/go';
 import {
-  TiLocation, TiPhone, TiTicket, TiRss, TiMail, TiWorld,
+  TiLocation, TiTicket, TiRss, TiMail, TiWorld,
   TiSocialTwitter, TiSocialFacebook, TiSocialYoutube
 } from 'react-icons/ti';
 import Card from '../components/Card';
 import { ShiftedContainer } from '../components/UnsortedComponents';
 import { extractGroups } from '../redux/groups';
 
-import avatar from '../logo.png';
-
-// GoCalendar
 const Wrapper = styled.div`
+  background: #f8f9fa;
   margin-top: 1em;
   width: 100%;
 `
@@ -30,9 +28,9 @@ const SocialMediaCard = ({ socials = [] }) => (
       let Icon = TiRss;
       if (social.type === 'twitter') {
         Icon =  TiSocialTwitter;
-      } else if (social.type == 'facebook') {
+      } else if (social.type === 'facebook') {
         Icon = TiSocialFacebook;
-      } else if (social.type == 'youtube') {
+      } else if (social.type === 'youtube') {
         Icon = TiSocialYoutube;
       }
       return (
@@ -72,7 +70,7 @@ class GroupCard extends Component {
   render() {
     const { isSocialOpened, isEventOpened } = this.state;
     const { group } = this.props;
-    console.log(group);
+
     return (
       <GroupCardWrapper>
         <Card>

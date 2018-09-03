@@ -1,6 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { GoCalendar, GoRss, GoMarkGithub } from 'react-icons/go';
+import { TiMap, TiGroup } from 'react-icons/ti';
 import logo from '../logo.png';
 
 export const headerHeight = '8vh';
@@ -33,27 +34,13 @@ export default () => (
   <Header>
     <img src={logo} alt="tgmeetup" />
     <MenuRight>
-      <a
-        href="https://github.com/TGmeetup/TGmeetup"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <GoMarkGithub />
-      </a>
-      <a
-        href="rss.xml"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <GoRss />
-      </a>
-      <a
-        href="https://calendar.google.com/calendar?cid=dGdtZWV0dXA3QGdtYWlsLmNvbQ"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <GoCalendar />
-      </a>
+      <Link to="/map">
+        <TiMap />
+      </Link>
+      <Link to="/group">
+        <TiGroup />
+      </Link>
+
     </MenuRight>
   </Header>
 )

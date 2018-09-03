@@ -9,7 +9,6 @@ import InfoBox from "react-google-maps/lib/components/addons/InfoBox";
 import { connect } from 'react-redux';
 import { compose, withProps } from 'recompose';
 import { GoGitCommit, GoX } from 'react-icons/go';
-import styled from 'styled-components';
 import Card from './Card';
 import Event from './Event'
 import { ShiftedContainer } from './UnsortedComponents';
@@ -22,10 +21,6 @@ import {
 } from '../redux/markers';
 
 const GOOGLE_MAPS_API_KEY = 'AIzaSyDUl-ub3O_XrUZ71artT6KIksNxSJmKn1U';
-
-const CardWrapper = styled.div`
-  max-width: ${props => props.width};
-`
 
 const List = ({
   zoom,
@@ -77,7 +72,7 @@ const List = ({
   </Card>
 )
 
-class MapView extends Component {
+class MyMap extends Component {
   state = {
     zoom: 8,
   }
@@ -93,7 +88,7 @@ class MapView extends Component {
   }
 
   render() {
-    const { markers, hasOnlyOneActiveMarker } = this.props;
+    const { markers } = this.props;
     const { toggleOnlyOneMarker, toggleEvent } = this.props;
 
     return (
@@ -137,17 +132,9 @@ class MapView extends Component {
   }
 }
 
-const mapStateToProps = state =>  {
-  const markers = extractMarkers(state)
-  const activeMarkers = markers.filter(m => m.isSelected)
-  const hasOnlyOneActiveMarker = activeMarkers.length === 1
-    ? activeMarkers[0] : null;
-
-  return {
-    markers,
-    hasOnlyOneActiveMarker
-  }
-};
+const mapStateToProps = state =>  ({
+  markers: extractMarkers(state)
+});
 
 const mapDispatchToProps = (dispatch) => ({
   toggleOnlyOneMarker: (latlngStr) => {
@@ -168,4 +155,4 @@ export default compose(
   withScriptjs,
   withGoogleMap,
   connect(mapStateToProps, mapDispatchToProps),
-)(MapView);
+)(MyMap);
