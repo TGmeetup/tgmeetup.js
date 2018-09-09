@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { injectGlobal } from 'styled-components';
 import Header from './components/Header';
-import Footer from './components/Footer';
 import MapView from './views/MapView';
 import GroupView from './views/GroupView';
 
@@ -24,7 +23,6 @@ class App extends Component {
           <Route path='/map' component={MapView} />
           <Route path='/group' component={GroupView} />
         </Switch>
-        <Footer />
       </div>
     );
   }

@@ -1,12 +1,13 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+import { Link, withRouter } from 'react-router-dom';
+import styled, { css } from 'styled-components';
 import { TiMap, TiGroup } from 'react-icons/ti';
 import logo from '../logo.png';
+import { GoMarkGithub, GoRss, GoCalendar } from 'react-icons/go';
 
 export const headerHeight = '8vh';
 
-const Header = styled.header`
+const Wrapper = styled.header`
   position: relative;
   height: ${headerHeight};
   z-index: 1;
@@ -18,29 +19,93 @@ const Header = styled.header`
   }
 `
 
-const MenuRight = styled.div`
+const Menu = styled.ul`
   position: absolute;
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
   top: 0;
-  right: 0;
   height: 100%;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+`
+
+const Item = styled.li`
+  float: left;
+  height: 100%;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
   svg {
     height: 100%;
     width: 1em;
-    margin-right: 1em;
   }
+
+  &:hover {
+    background: lightgray;
+  }
+
+  &:active {
+    background: gray;
+  }
+
+  ${props => props.active && css`
+    background: lightgray;
+  `}
 `
 
-export default () => (
-  <Header>
-    <img src={logo} alt="tgmeetup" />
-    <MenuRight>
-      <Link to="/map">
-        <TiMap />
-      </Link>
-      <Link to="/group">
-        <TiGroup />
-      </Link>
+const MenuLeft = styled(Menu)`
+  left: 0;
+`
 
+const MenuRight = styled(Menu)`
+  right: 0;
+`
+
+const Header = ({ location }) => (
+  <Wrapper>
+    <img src={logo} alt="tgmeetup" />
+    <MenuLeft>
+      <Item active={location.pathname === '/map'}>
+        <Link to="/map">
+          <TiMap />
+        </Link>
+      </Item>
+      <Item  active={location.pathname === '/group'}>
+        <Link to="/group">
+          <TiGroup />
+        </Link>
+      </Item>
+    </MenuLeft>
+    <MenuRight>
+      <Item>
+        <a
+          href="https://github.com/TGmeetup/TGmeetup"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <GoMarkGithub />
+        </a>
+      </Item>
+      <Item>
+        <a
+          href="rss.xml"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <GoRss />
+        </a>
+      </Item>
+      <Item>
+        <a
+          href="https://calendar.google.com/calendar?cid=dGdtZWV0dXA3QGdtYWlsLmNvbQ"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <GoCalendar />
+        </a>
+      </Item>
     </MenuRight>
-  </Header>
+  </Wrapper>
 )
+
+export default withRouter(Header);
