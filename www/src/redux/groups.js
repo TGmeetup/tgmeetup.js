@@ -4,57 +4,57 @@ import randomColor from 'randomcolor';
 
 export const ADD_GROUP = 'ADD_GROUP';
 
-export default (state = {}, action, events) => {
+const group = (state, action, globalState) => {
+  const { events } = globalState;
   switch (action.type) {
-    case ADD_GROUP: {
-      const group = state[action.payload.ref] || {
-        events: [],
-        color: randomColor({ luminosity: 'dark' })
-      };
-
+    case ADD_GROUP:
       return {
-        ...state,
-        [action.payload.ref]: {
-          ...group,
-          ...action.payload.group,
-          events: filter(
-            events,
-            event => event.groupRef === action.payload.ref
-          ).map(e => e.id),
-        },
+        ...action.group,
+        events: events.allIds.filter(id => events.byId[id].groupRef === action.id),
       };
-    }
-
-    case ADD_EVENT: {
-      const group = state[action.payload.groupRef];
-
-      if (!group) return state;
-
-      return {
-        ...state,
-        [action.payload.groupRef]: {
-          ...group,
-          events: [
-            ...group.events,
-            action.payload.id,
-          ]
-        }
-      };
-    }
-
     default:
       return state;
   }
 }
 
-export const extractGroups = ({ events, groups }) =>
-  map(groups, (group, ref) => ({
-    ...group,
-    ref,
-    events: group.events.map(id => events[id])
-  }))
+const byId = (state = {}, action, globalState) => {
+  switch (action.type) {
+    case ADD_GROUP:
+      return {
+        ...state,
+        [action.id]: group(undefined, action, globalState),
+      };
+    default:
+      return state;
+  }
+}
 
-export const addGroup = (ref, group) => ({
+const allIds = (state = [], action) => {
+  switch (action.type) {
+    case ADD_GROUP:
+      return [ ...state, action.id];
+    default:
+      return state;
+  }
+}
+
+export default (state = {}, action, globalState) => ({
+  byId: byId(state.byId, action, globalState),
+  allIds: allIds(state.allIds, action),
+})
+
+export const extractGroups = ({ events, groups }) =>
+  groups.allIds.map(id => ({
+    ...groups.byId[id],
+    events: groups.byId[id].events.map(id => events.byId[id])
+  }));
+
+export const addGroup = (id, group) => ({
   type: ADD_GROUP,
-  payload: { ref, group },
+  id,
+  group: {
+    id,
+    ...group,
+    color: randomColor({ luminosity: 'dark' })
+  },
 })

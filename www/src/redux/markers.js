@@ -1,100 +1,124 @@
 import { map, mapValues } from 'lodash';
 import randomColor from 'randomcolor';
 import * as moment from 'moment';
-import { ADD_EVENT } from './events';
-import { binaryInsert } from '../tools'
+import { ADD_EVENT, getEvents } from './events';
 
 export const ACTIVE_ONLY_ONE_MARKER = 'ACTIVE_ONLY_ONE_MARKER';
 export const TOGGLE_MARKER = 'TOGGLE_MARKER';
 export const TOGGLE_ONLY_ONE_MARKER = 'TOGGLE_ONLY_ONE_MARKER';
 export const CLEAR_MARKER = 'CLEAR_MARKER';
+export const SORT_EVENTS_IN_MARKER = 'SORT_EVENTS_IN_MARKER';
 
-export default (state = {}, action, events) => {
+const marker = (state, action) => {
   switch (action.type) {
     case ADD_EVENT:
-      const newEvent = {
-        ...action.payload,
-        moment: moment(action.payload.datetime)
-      };
-
-      const latlngStr = JSON.stringify(newEvent.geocode);
-
-      const marker = state[latlngStr] || {
-        orderedEventIds: [],
+      state = state || {
+        id: action.payload.latlngStr,
+        latlng: action.payload.geocode,
+        events: [],
         isSelected: false,
         color: randomColor({ luminosity: 'dark' })
       };
 
-      marker.orderedEventIds = binaryInsert(
-        marker.orderedEventIds.map(id => events[id]),
-        newEvent,
-        (e1, e2) => e1.moment - e2.moment
-      ).map(event => event.id)
+      return (state.id === action.payload.latlngStr)
+        ? {
+            ...state,
+            events: [ ...state.events, action.payload.id],
+          }
+        : state;
 
+    case TOGGLE_MARKER:
+      return (state.id === action.id)
+        ? {
+            ...state,
+            isSelected: !state.isSelected,
+          }
+        : state;
+    case ACTIVE_ONLY_ONE_MARKER:
       return {
         ...state,
-        [latlngStr]: marker
+        isSelected: (state.id === action.id),
       };
+    case TOGGLE_ONLY_ONE_MARKER:
+      return {
+        ...state,
+        isSelected: (state.id === action.id)
+          ? !state.isSelected
+          : false,
+      };
+    case CLEAR_MARKER:
+      return {
+        ...state,
+        isSelected: false,
+      }
+    default:
+  }
+}
 
+const byId = (state = {}, action) => {
+  switch (action.type) {
+    case ADD_EVENT:
+      return {
+        ...state,
+        [action.payload.latlngStr]: marker(state[action.payload.latlngStr], action),
+      }
     case TOGGLE_MARKER:
       return {
         ...state,
-        [action.payload]: {
-          ...state[action.payload],
-          isSelected: !state[action.payload].isSelected,
-        },
-      };
-
+        [action.id]: marker(state[action.id], action),
+      }
     case ACTIVE_ONLY_ONE_MARKER:
-      return mapValues(state, (group, latlngStr) => ({
-        ...group,
-        isSelected: (latlngStr === action.payload)
-          ? true
-          : false,
-      }));
-
     case TOGGLE_ONLY_ONE_MARKER:
-      return mapValues(state, (group, latlngStr) => ({
-        ...group,
-        isSelected: (latlngStr === action.payload)
-          ? !group.isSelected
-          : false,
-      }));
-
     case CLEAR_MARKER:
-      return mapValues(state, group => ({
-        ...group,
-        isSelected: false,
-      }));
-
+      return mapValues(state, (e) => marker(e, action));
     default:
       return state;
   }
 }
 
+const allIds = (state = [], action, byId) => {
+  switch (action.type) {
+    case ADD_EVENT:
+      return (state.indexOf(action.payload.latlngStr) < 0)
+        ? [ ...state, action.payload.latlngStr ]
+        : state;
+    default:
+      return state;
+  }
+}
+
+export default (state = {}, action) => ({
+  byId: byId(state.byId, action),
+  allIds: allIds(state.allIds, action, byId),
+})
+
 export const extractMarkers = ({ markers, events }) =>
-  map(markers, (marker , latlngStr) => ({
-    ...marker,
-    latlngStr,
-    latlng: JSON.parse(latlngStr),
-    events: marker.orderedEventIds.map(id => events[id])
+  markers.allIds.map(id => ({
+    ...markers.byId[id],
+    events: getEvents({
+      ...events,
+      allIds: markers.byId[id].events,
+      })
   }));
 
-export const toggleOnlyOneMarker = (latlngStr) => ({
+export const toggleOnlyOneMarker = (id) => ({
   type: TOGGLE_ONLY_ONE_MARKER,
-  payload: latlngStr,
+  id,
 })
 
-export const toggleMarker = (latlngStr) => ({
+export const toggleMarker = (id) => ({
   type: TOGGLE_MARKER,
-  payload: latlngStr,
+  id,
 })
 
-export const activeOnlyOneMarker = (latlngStr) => ({
+export const activeOnlyOneMarker = (id) => ({
   type: ACTIVE_ONLY_ONE_MARKER,
-  payload: latlngStr,
+  id,
 })
 
+export const sortEventsInMarker = () => ({
+  type: SORT_EVENTS_IN_MARKER
+})
 
 export const clearMarker = () => ({
   type: CLEAR_MARKER,

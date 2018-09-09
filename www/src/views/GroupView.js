@@ -160,7 +160,7 @@ const GroupView = ({ groups, history, activeEvent }) => (
     <Grid>
       <Row>
       { groups.map(group => (
-        <Col key={group.ref} xs={12} md={4}>
+        <Col key={group.id} xs={12} md={4}>
           <GroupCard
             group={group}
             history={history}

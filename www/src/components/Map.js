@@ -101,11 +101,11 @@ class MyMap extends Component {
           this.map = mapRef;
         }}
       >
-      { markers.map(({ events, isSelected, latlng, latlngStr, color }) => (
+      { markers.map(({ id, events, isSelected, latlng, color }) => (
         <Marker
-          key={latlngStr}
+          key={id}
           position={latlng}
-          onClick={() => toggleOnlyOneMarker(latlngStr)}
+          onClick={() => toggleOnlyOneMarker(id)}
         >
         { isSelected && (
           <InfoBox
@@ -120,8 +120,8 @@ class MyMap extends Component {
               color={color}
               events={events}
               onEventClick={(event) => toggleEvent(event)}
-              onCloseClick={() => toggleOnlyOneMarker(latlngStr)}
-              toggle={(event) => toggleMarker({latlngStr, event})}
+              onCloseClick={() => toggleOnlyOneMarker(id)}
+              toggle={(event) => toggleMarker({id, event})}
             />
           </InfoBox>
         )}
@@ -137,8 +137,8 @@ const mapStateToProps = state =>  ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  toggleOnlyOneMarker: (latlngStr) => {
-    dispatch(toggleOnlyOneMarker(latlngStr));
+  toggleOnlyOneMarker: (id) => {
+    dispatch(toggleOnlyOneMarker(id));
   },
   toggleEvent: (event) => {
     dispatch(toggleEvent(event));
