@@ -15,7 +15,8 @@ const Footer = styled.footer`
 `;
 
 const Item = styled.div`
-  margin-right: 2em;
+  text-overflow: ellipsis;
+  word-wrap: nowrap;
 
 `
 

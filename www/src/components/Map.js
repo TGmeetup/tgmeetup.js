@@ -58,8 +58,8 @@ const List = ({
     { events.filter(e => e.isSelected).map((event, i) => (
       <ShiftedContainer
         key={event.id}
-        top={(i + 1) * 20}
-        left={(i + 1) * 20}
+        top={`${(i + 1) * 20}px`}
+        left={`${(i + 1) * 20}px`}
       >
         {/* <EventWrapper> */}
           <Event

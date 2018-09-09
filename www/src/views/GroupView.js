@@ -9,6 +9,8 @@ import {
 } from 'react-icons/ti';
 import Card from '../components/Card';
 import { ShiftedContainer } from '../components/UnsortedComponents';
+import { activeOnlyOneEvent } from '../redux/events';
+import { activeOnlyOneMarker } from '../redux/markers';
 import { extractGroups } from '../redux/groups';
 
 const Wrapper = styled.div`
@@ -67,6 +69,12 @@ class GroupCard extends Component {
     }));
   }
 
+  handleEventClick = (event) => {
+    this.props.activeEvent(event);
+
+    this.props.history.push('/map');
+  }
+
   render() {
     const { isSocialOpened, isEventOpened } = this.state;
     const { group } = this.props;
@@ -93,7 +101,10 @@ class GroupCard extends Component {
           <Card.Content>
           { isEventOpened && (
             group.events.map(event => (
-              <Card.Item key={event.id}>
+              <Card.Item
+                key={event.id}
+                onClick={() => this.handleEventClick(event)}
+              >
                 <GoGitCommit />
                 {event.moment.calendar()}
                 {' '}
@@ -106,15 +117,14 @@ class GroupCard extends Component {
             </p>
           </Card.Content>
           <Card.Actions>
-
-            { group.contact && (
-              <Card.Action
-                href={`mailto:${group.contact}`}
-              >
-                <TiMail />
-                <span>Mail</span>
-              </Card.Action>
-            )}
+          { group.contact && (
+            <Card.Action
+              href={`mailto:${group.contact}`}
+            >
+              <TiMail />
+              <span>Mail</span>
+            </Card.Action>
+          )}
             <Card.Action
               onClick={this.toggleSocial}
             >
@@ -145,13 +155,17 @@ class GroupCard extends Component {
   }
 }
 
-const GroupView = ({ groups }) => (
+const GroupView = ({ groups, history, activeEvent }) => (
   <Wrapper>
     <Grid>
       <Row>
       { groups.map(group => (
         <Col key={group.ref} xs={12} md={4}>
-          <GroupCard group={group} />
+          <GroupCard
+            group={group}
+            history={history}
+            activeEvent={activeEvent}
+          />
         </Col>
       ))}
       </Row>
@@ -163,6 +177,11 @@ const mapStateToProps = state => ({
   groups: extractGroups(state)
 });
 
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = dispatch => ({
+  activeEvent: event => {
+    dispatch(activeOnlyOneEvent(event));
+    dispatch(activeOnlyOneMarker(JSON.stringify(event.geocode)))
+  }
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(GroupView);
+export default connect(mapStateToProps, mapDispatchToProps)((GroupView));

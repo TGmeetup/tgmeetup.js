@@ -4,6 +4,7 @@ import * as moment from 'moment';
 import { ADD_EVENT } from './events';
 import { binaryInsert } from '../tools'
 
+export const ACTIVE_ONLY_ONE_MARKER = 'ACTIVE_ONLY_ONE_MARKER';
 export const TOGGLE_MARKER = 'TOGGLE_MARKER';
 export const TOGGLE_ONLY_ONE_MARKER = 'TOGGLE_ONLY_ONE_MARKER';
 export const CLEAR_MARKER = 'CLEAR_MARKER';
@@ -44,6 +45,14 @@ export default (state = {}, action, events) => {
         },
       };
 
+    case ACTIVE_ONLY_ONE_MARKER:
+      return mapValues(state, (group, latlngStr) => ({
+        ...group,
+        isSelected: (latlngStr === action.payload)
+          ? true
+          : false,
+      }));
+
     case TOGGLE_ONLY_ONE_MARKER:
       return mapValues(state, (group, latlngStr) => ({
         ...group,
@@ -80,6 +89,12 @@ export const toggleMarker = (latlngStr) => ({
   type: TOGGLE_MARKER,
   payload: latlngStr,
 })
+
+export const activeOnlyOneMarker = (latlngStr) => ({
+  type: ACTIVE_ONLY_ONE_MARKER,
+  payload: latlngStr,
+})
+
 
 export const clearMarker = () => ({
   type: CLEAR_MARKER,
