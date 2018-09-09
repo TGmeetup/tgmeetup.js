@@ -4,6 +4,34 @@ import randomColor from 'randomcolor';
 
 export const ADD_GROUP = 'ADD_GROUP';
 
+
+const shimGroupColor = (group) => {
+  switch (group.name) {
+    case 'MOPCON':
+      return '#010135';
+    case 'WoFOSS':
+      return '#00eac8';
+    case 'JCConf':
+      return '#3433B1';
+    case 'CNTUG':
+      return '#BCBCBC';
+    case 'elixirTW':
+      return '#550062';
+    case 'hcsm':
+      return '#00A79A';
+    case 'AgileCommunity.tw':
+      return '#353535';
+    case 'hackingthursday':
+      return '#C99956';
+    case 'PyHUG':
+      return '#00FF00';
+    case 'DigitalOceanHsinchu':
+      return '#4556FF';
+    default:
+      return randomColor({ luminosity: 'dark' });
+  }
+}
+
 const group = (state, action, globalState) => {
   const { events } = globalState;
   switch (action.type) {
@@ -55,6 +83,6 @@ export const addGroup = (id, group) => ({
   group: {
     id,
     ...group,
-    color: randomColor({ luminosity: 'dark' })
+    color: shimGroupColor(group),
   },
 })
