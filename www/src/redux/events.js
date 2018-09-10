@@ -2,7 +2,6 @@ import binarySearchInsert from 'binary-search-insert';
 import * as moment from 'moment';
 import randomColor from 'randomcolor'
 import { mapValues } from 'lodash';
-import { insert} from '../ultis';
 
 export const ADD_EVENT = 'ADD_EVNET';
 export const TOGGLE_EVNET = 'TOGGLE_EVENT';

@@ -1,5 +1,3 @@
-import { map, filter } from 'lodash';
-import { ADD_EVENT } from './events';
 import randomColor from 'randomcolor';
 
 export const ADD_GROUP = 'ADD_GROUP';

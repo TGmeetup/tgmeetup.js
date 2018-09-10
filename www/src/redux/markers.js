@@ -1,6 +1,5 @@
-import { map, mapValues } from 'lodash';
+import { mapValues } from 'lodash';
 import randomColor from 'randomcolor';
-import * as moment from 'moment';
 import { ADD_EVENT, getEvents } from './events';
 
 export const ACTIVE_ONLY_ONE_MARKER = 'ACTIVE_ONLY_ONE_MARKER';
