@@ -65,45 +65,45 @@ const Header = ({ location }) => (
   <Wrapper>
     <img src={logo} alt="tgmeetup" />
     <MenuLeft>
-      <Item active={location.pathname === '/map'}>
-        <Link to="/map">
-          <TiMap />
-        </Link>
-      </Item>
-      <Item  active={location.pathname === '/group'}>
-        <Link to="/group">
+      <Link to="/map">
+        <Item active={location.pathname === '/map'}>
+            <TiMap />
+        </Item>
+      </Link>
+      <Link to="/group">
+        <Item active={location.pathname === '/group'}>
           <TiGroup />
-        </Link>
-      </Item>
+        </Item>
+      </Link>
     </MenuLeft>
     <MenuRight>
-      <Item>
-        <a
-          href="https://github.com/TGmeetup/TGmeetup"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <GoMarkGithub />
-        </a>
-      </Item>
-      <Item>
-        <a
-          href="rss.xml"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+      <a
+        href="https://github.com/TGmeetup/TGmeetup"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <Item>
+            <GoMarkGithub />
+        </Item>
+      </a>
+      <a
+        href="rss.xml"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <Item>
           <GoRss />
-        </a>
-      </Item>
-      <Item>
-        <a
-          href="https://calendar.google.com/calendar?cid=dGdtZWV0dXA3QGdtYWlsLmNvbQ"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        </Item>
+      </a>
+      <a
+        href="https://calendar.google.com/calendar?cid=dGdtZWV0dXA3QGdtYWlsLmNvbQ"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <Item>
           <GoCalendar />
-        </a>
-      </Item>
+        </Item>
+      </a>
     </MenuRight>
   </Wrapper>
 )

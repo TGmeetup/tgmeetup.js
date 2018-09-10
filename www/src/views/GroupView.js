@@ -21,6 +21,32 @@ const Wrapper = styled.div`
 
 const GroupCardWrapper = styled.div`
   margin-bottom: 1em;
+
+  ${Card} {
+    height: 500px;
+  }
+
+  ${Card.Title} {
+    padding-top: 0;
+    display: flex;
+    align-items: flex-end;
+    height: 6em;
+    flex: 0 0 auto;
+  }
+
+  ${Card.Content} {
+    flex: 1 1 auto;
+    overflow: auto;
+  }
+`;
+
+const LongTextEllipse = styled.p`
+  line-height: 1.5em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
 `
 
 const SocialMediaCard = ({ socials = [] }) => (
@@ -83,21 +109,23 @@ class GroupCard extends Component {
       <GroupCardWrapper>
         <Card>
           <Card.Title color={group.color}>
-            <h2>{ group.name }</h2>
+            <h2>{ group.title }</h2>
           </Card.Title>
-          <Card.Actions>
-            <Card.Action>
-              <TiLocation />
-              <span>{ group.city }</span>
-            </Card.Action>
-            <Card.Action
-              onClick={this.toggleEvent}
-            >
-              <TiTicket />
-              <Card.Badge>{group.events.length}</Card.Badge>
-              <span>Events</span>
-            </Card.Action>
-          </Card.Actions>
+          <Card.Header>
+            <Card.Actions>
+              <Card.Action>
+                <TiLocation />
+                <span>{ group.city }</span>
+              </Card.Action>
+              <Card.Action
+                onClick={this.toggleEvent}
+              >
+                <TiTicket />
+                <Card.Badge>{group.events.length}</Card.Badge>
+                <span>Events</span>
+              </Card.Action>
+            </Card.Actions>
+          </Card.Header>
           <Card.Content>
           { isEventOpened && (
             group.events.map(event => (
@@ -112,43 +140,45 @@ class GroupCard extends Component {
               </Card.Item>
             ))
           )}
-            <p>
+            <LongTextEllipse lines={3}>
             { group.description }
-            </p>
+            </LongTextEllipse>
           </Card.Content>
-          <Card.Actions>
-          { group.contact && (
-            <Card.Action
-              href={`mailto:${group.contact}`}
-            >
-              <TiMail />
-              <span>Mail</span>
-            </Card.Action>
-          )}
-            <Card.Action
-              onClick={this.toggleSocial}
-            >
-              <TiRss />
-              <span>Social</span>
-              { isSocialOpened && (
-                <ShiftedContainer
-                  left="100%"
-                  top={0}
-                >
-                  <SocialMediaCard
-                    socials={group['social-media']}
-                  />
-                </ShiftedContainer>
-              )}
-            </Card.Action>
-            <Card.Action
-              target="_blank"
-              href={group.registration.url}
-            >
-              <TiWorld />
-              <p>{ group.registration.type }</p>
-            </Card.Action>
-          </Card.Actions>
+          <Card.Footer>
+            <Card.Actions>
+            { group.contact && (
+              <Card.Action
+                href={`mailto:${group.contact}`}
+              >
+                <TiMail />
+                <span>Mail</span>
+              </Card.Action>
+            )}
+              <Card.Action
+                onClick={this.toggleSocial}
+              >
+                <TiRss />
+                <span>Social</span>
+                { isSocialOpened && (
+                  <ShiftedContainer
+                    left="100%"
+                    top={0}
+                  >
+                    <SocialMediaCard
+                      socials={group['social-media']}
+                    />
+                  </ShiftedContainer>
+                )}
+              </Card.Action>
+              <Card.Action
+                target="_blank"
+                href={group.registration.url}
+              >
+                <TiWorld />
+                <p>{ group.registration.type }</p>
+              </Card.Action>
+            </Card.Actions>
+          </Card.Footer>
         </Card>
       </GroupCardWrapper>
     );

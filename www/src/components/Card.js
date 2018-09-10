@@ -1,6 +1,8 @@
 import styled, { css } from 'styled-components';
 
 const Card = styled.div`
+  display: flex;
+  flex-direction: column;
   font-size: 18px;
   max-width: ${props => props.width};
   background: white;
@@ -121,10 +123,8 @@ export const Actions = styled.div`
   display: flex;
   align-items: stretch;
   flex-wrap: no-wrap;
-  flex-basis: 100%;
   min-height: 3em;
   text-align: center;
-
   & > ${Action} {
     flex: 1;
     width: 0;
@@ -141,11 +141,22 @@ export const Badge = styled.span`
   border-radius: 0.4em;
 `
 
+export const Header = styled.header`
+  width: 100%;
+`
+
+export const Footer = styled.footer`
+  width: 100%;
+  align-self: flex-end;
+`
+
 Card.Title = Title;
 Card.Content = Content;
 Card.Item = Item;
 Card.Actions = Actions;
 Card.Action = Action;
 Card.Badge = Badge;
+Card.Header = Header;
+Card.Footer = Footer;
 
 export default Card;
