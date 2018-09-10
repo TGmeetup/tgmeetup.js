@@ -16,7 +16,7 @@ const event = (state, action) => {
         isSelected: false,
       }
     case ADD_GROUP:
-      return (state.groupRef === action.id)
+      return (state.group === action.id)
       ? {
           ...state,
           color: action.group.color
@@ -93,6 +93,7 @@ export const addEvent = (event) => ({
   type: ADD_EVENT,
   payload: {
     ...event,
+    group: event.groupRef,
     moment: moment(event.datetime),
     latlngStr: JSON.stringify(event.geocode),
   },

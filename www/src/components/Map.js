@@ -13,9 +13,9 @@ import Card from './Card';
 import Event from './Event'
 import { ShiftedContainer } from './UnsortedComponents';
 import { toggleEvent } from '../redux/events'
+import { extractMarkers } from  '../normalizr/';
 
 import {
-  extractMarkers,
   toggleOnlyOneMarker,
   toggleMarker
 } from '../redux/markers';

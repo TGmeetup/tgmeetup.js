@@ -4,7 +4,8 @@ import {
   GoLink,
   GoClock,
   GoLocation,
-  GoX
+  GoX,
+  GoOrganization
 } from 'react-icons/go'
 
 export default ({
@@ -49,6 +50,10 @@ export default ({
         { event.location.length > 1 && (
           `${event.location}, ${event.local_city}`
         )}
+      </Card.Item>
+      <Card.Item>
+        <GoOrganization />{' '}
+        { event.group.title }
       </Card.Item>
     </Card.Content>
   </Card>

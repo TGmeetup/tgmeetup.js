@@ -1,3 +1,4 @@
+import { some } from 'lodash';
 import randomColor from 'randomcolor';
 
 export const ADD_GROUP = 'ADD_GROUP';
@@ -36,7 +37,7 @@ const group = (state, action, globalState) => {
     case ADD_GROUP:
       return {
         ...action.group,
-        events: events.allIds.filter(id => events.byId[id].groupRef === action.id),
+        events: events.allIds.filter(id => events.byId[id].group === action.id),
       };
     default:
       return state;
@@ -69,11 +70,15 @@ export default (state = {}, action, globalState) => ({
   allIds: allIds(state.allIds, action),
 })
 
-export const extractGroups = ({ events, groups }) =>
-  groups.allIds.map(id => ({
-    ...groups.byId[id],
-    events: groups.byId[id].events.map(id => events.byId[id])
-  }));
+export const extractGroups = ({ events, groups, filters = {} }) =>
+  groups.allIds
+    .filter(
+      id => some([ groups.byId[id] ], filters)
+    )
+    .map(id => ({
+      ...groups.byId[id],
+      events: groups.byId[id].events.map(id => events.byId[id])
+    }));
 
 export const addGroup = (id, group) => ({
   type: ADD_GROUP,

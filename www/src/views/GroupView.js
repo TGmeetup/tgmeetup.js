@@ -1,21 +1,22 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { Grid, Row, Col } from 'react-flexbox-grid';
 import { GoGitCommit } from 'react-icons/go';
 import {
-  TiLocation, TiTicket, TiRss, TiMail, TiWorld,
+  TiLocation, TiTicket, TiRss, TiMail, TiWorld, TiDocumentText,
   TiSocialTwitter, TiSocialFacebook, TiSocialYoutube
 } from 'react-icons/ti';
 import Card from '../components/Card';
 import { ShiftedContainer } from '../components/UnsortedComponents';
 import { activeOnlyOneEvent } from '../redux/events';
 import { activeOnlyOneMarker } from '../redux/markers';
-import { extractGroups } from '../redux/groups';
+import { toggleFilter, getFilters } from '../redux/filters';
+import { extractGroups } from '../normalizr';
 
 const Wrapper = styled.div`
   background: #f8f9fa;
-  margin-top: 1em;
+  padding-top: 1em;
   width: 100%;
 `
 
@@ -47,7 +48,21 @@ const LongTextEllipse = styled.p`
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
-`
+`;
+
+const FilterIcon = ({ filter }) => {
+  let Icon = TiDocumentText;
+  if (filter.name === 'city') {
+    Icon = TiLocation;
+  }
+
+  return (
+    <Fragment>
+      <Icon />
+      <span>{ filter.value }</span>
+    </Fragment>
+  )
+}
 
 const SocialMediaCard = ({ socials = [] }) => (
   <Card>
@@ -104,7 +119,7 @@ class GroupCard extends Component {
   render() {
     const { isSocialOpened, isEventOpened } = this.state;
     const { group } = this.props;
-
+    const { toggleFilter } = this.props;
     return (
       <GroupCardWrapper>
         <Card>
@@ -113,7 +128,11 @@ class GroupCard extends Component {
           </Card.Title>
           <Card.Header>
             <Card.Actions>
-              <Card.Action>
+              <Card.Action
+                onClick={
+                  () => toggleFilter({ city: group.city })
+                }
+              >
                 <TiLocation />
                 <span>{ group.city }</span>
               </Card.Action>
@@ -185,17 +204,22 @@ class GroupCard extends Component {
   }
 }
 
-const GroupView = ({ groups, history, activeEvent }) => (
+const GroupView = ({ groups, filters, ...args }) => (
   <Wrapper>
     <Grid>
+      { filters.length > 0 &&
+        <Card.Actions>
+        { filters.map(filter => (
+          <Card.Action key={filter.name}>
+            <FilterIcon filter={filter} />
+          </Card.Action>
+        ))}
+        </Card.Actions>
+      }
       <Row>
       { groups.map(group => (
         <Col key={group.id} xs={12} md={4}>
-          <GroupCard
-            group={group}
-            history={history}
-            activeEvent={activeEvent}
-          />
+          <GroupCard group={group} {...args}/>
         </Col>
       ))}
       </Row>
@@ -204,14 +228,16 @@ const GroupView = ({ groups, history, activeEvent }) => (
 )
 
 const mapStateToProps = state => ({
-  groups: extractGroups(state)
+  groups: extractGroups(state),
+  filters: getFilters(state.filters),
 });
 
 const mapDispatchToProps = dispatch => ({
   activeEvent: event => {
     dispatch(activeOnlyOneEvent(event));
     dispatch(activeOnlyOneMarker(JSON.stringify(event.geocode)))
-  }
+  },
+  toggleFilter: (...args) => dispatch(toggleFilter(...args)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)((GroupView));
