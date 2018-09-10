@@ -1,6 +1,6 @@
 import { mapValues } from 'lodash';
 import randomColor from 'randomcolor';
-import { ADD_EVENT, getEvents } from './events';
+import { ADD_EVENT, getEvents, sortEvents } from './events';
 
 export const ACTIVE_ONLY_ONE_MARKER = 'ACTIVE_ONLY_ONE_MARKER';
 export const TOGGLE_MARKER = 'TOGGLE_MARKER';
@@ -8,7 +8,7 @@ export const TOGGLE_ONLY_ONE_MARKER = 'TOGGLE_ONLY_ONE_MARKER';
 export const CLEAR_MARKER = 'CLEAR_MARKER';
 export const SORT_EVENTS_IN_MARKER = 'SORT_EVENTS_IN_MARKER';
 
-const marker = (state, action) => {
+const marker = (state, action, globalState) => {
   switch (action.type) {
     case ADD_EVENT:
       state = state || {
@@ -50,11 +50,22 @@ const marker = (state, action) => {
         ...state,
         isSelected: false,
       }
+    case SORT_EVENTS_IN_MARKER:
+      console.log(globalState);
+      const { events } = globalState;
+      return {
+        ...state,
+        events: sortEvents({
+          ...events,
+          allIds: state.events,
+        })
+      };
     default:
+      return state;
   }
 }
 
-const byId = (state = {}, action) => {
+const byId = (state = {}, action, globalState) => {
   switch (action.type) {
     case ADD_EVENT:
       return {
@@ -69,7 +80,8 @@ const byId = (state = {}, action) => {
     case ACTIVE_ONLY_ONE_MARKER:
     case TOGGLE_ONLY_ONE_MARKER:
     case CLEAR_MARKER:
-      return mapValues(state, (e) => marker(e, action));
+    case SORT_EVENTS_IN_MARKER:
+      return mapValues(state, (m) => marker(m, action, globalState));
     default:
       return state;
   }
@@ -86,8 +98,8 @@ const allIds = (state = [], action, byId) => {
   }
 }
 
-export default (state = {}, action) => ({
-  byId: byId(state.byId, action),
+export default (state = {}, action, globalState) => ({
+  byId: byId(state.byId, action, globalState),
   allIds: allIds(state.allIds, action, byId),
 })
 

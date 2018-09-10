@@ -1,7 +1,7 @@
 import binarySearchInsert from 'binary-search-insert';
 import * as moment from 'moment';
-import randomColor from 'randomcolor'
 import { mapValues } from 'lodash';
+import { ADD_GROUP } from './groups';
 
 export const ADD_EVENT = 'ADD_EVNET';
 export const TOGGLE_EVNET = 'TOGGLE_EVENT';
@@ -12,9 +12,16 @@ const event = (state, action) => {
     case ADD_EVENT:
       return {
         ...action.payload,
-        color: randomColor({ luminosity: 'dark' }),
+        color: 'gray',
         isSelected: false,
       }
+    case ADD_GROUP:
+      return (state.groupRef === action.id)
+      ? {
+          ...state,
+          color: action.group.color
+        }
+      : state;
     case TOGGLE_EVNET:
       return (state.id === action.payload.id)
         ? {
@@ -45,6 +52,7 @@ const byId = (state = {}, action) => {
         [action.payload.id]: event(state[action.payload.id], action),
       }
     case ACTIVE_ONLY_ONE_EVENT:
+    case ADD_GROUP:
       return mapValues(state, (e, idStr) => event(e, action));
     default:
       return state;
@@ -102,3 +110,13 @@ export const activeOnlyOneEvent = (event) => ({
 
 export const getEvents = (state) =>
   state.allIds.map(id => state.byId[id]);
+
+export const sortEvents = (state) =>
+  Object.values(
+    state.allIds.reduce(
+      (map, id) => ({
+        ...map,
+        [idToIndex[id]]: id,
+      }),
+      {})
+  );
