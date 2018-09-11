@@ -53,13 +53,11 @@ const byId = (state = {}, action) => {
       }
     case ACTIVE_ONLY_ONE_EVENT:
     case ADD_GROUP:
-      return mapValues(state, (e, idStr) => event(e, action));
+      return mapValues(state, e => event(e, action));
     default:
       return state;
   }
 }
-
-let idToIndex = {};
 
 const allIds = (state = [], action, byId) => {
   switch (action.type) {
@@ -69,11 +67,6 @@ const allIds = (state = [], action, byId) => {
       binarySearchInsert(nextState, (a, b) => (
         byId[a].moment - byId[b].moment
       ), action.payload.id);
-
-      idToIndex = nextState.reduce((map, id, index) => ({
-        ...map,
-        [id]: index,
-      }), {});
 
       return nextState;
     default:
@@ -112,12 +105,18 @@ export const activeOnlyOneEvent = (event) => ({
 export const getEvents = (state) =>
   state.allIds.map(id => state.byId[id]);
 
-export const sortEvents = (state) =>
-  Object.values(
-    state.allIds.reduce(
+export const sortEvents = (state, ids) => {
+  const idIndexMap = state.allIds.reduce((map, id, index) => ({
+    ...map,
+    [id]: index,
+  }), {});
+
+  return Object.values(
+    ids.reduce(
       (map, id) => ({
         ...map,
-        [idToIndex[id]]: id,
+        [idIndexMap[id]]: id,
       }),
       {})
   );
+}

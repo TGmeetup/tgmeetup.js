@@ -54,10 +54,7 @@ const marker = (state, action, globalState) => {
       const { events } = globalState;
       return {
         ...state,
-        events: sortEvents({
-          ...events,
-          allIds: state.events,
-        })
+        events: sortEvents(globalState.events, state.events),
       };
     default:
       return state;
