@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import styled, { css } from 'styled-components';
-import { TiMap, TiGroup } from 'react-icons/ti';
+import { TiMap, TiGroup, TiTicket } from 'react-icons/ti';
 import logo from '../logo.png';
 import { GoMarkGithub, GoRss, GoCalendar } from 'react-icons/go';
 
@@ -73,6 +73,11 @@ const Header = ({ location }) => (
       <Link to="/group">
         <Item active={location.pathname === '/group'}>
           <TiGroup />
+        </Item>
+      </Link>
+      <Link to="/events">
+        <Item active={location.pathname === '/events'}>
+          <TiTicket />
         </Item>
       </Link>
     </MenuLeft>

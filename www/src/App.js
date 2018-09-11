@@ -4,6 +4,7 @@ import { injectGlobal } from 'styled-components';
 import Header from './components/Header';
 import MapView from './views/MapView';
 import GroupView from './views/GroupView';
+import EventsView from './views/EventsView';
 
 /* eslint-disable no-unused-expressions */
 injectGlobal`
@@ -22,6 +23,7 @@ class App extends Component {
           <Redirect exact from='/' to='/map' />
           <Route path='/map' component={MapView} />
           <Route path='/group' component={GroupView} />
+          <Route path='/events' component={EventsView} />
         </Switch>
       </div>
     );
