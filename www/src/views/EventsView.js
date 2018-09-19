@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Grid, Row, Col } from 'react-flexbox-grid';
 import { GoGitCommit } from 'react-icons/go';
-import { getEvents } from '../redux/events';
+import { selectEvents } from '../redux/selectors';
 import Card from '../components/Card';
 
 const View = ({ events, ...rests }) => (
@@ -32,7 +32,7 @@ const View = ({ events, ...rests }) => (
 )
 
 const mapStateToProps = (state) => ({
-  events: getEvents(state.events),
+  events: selectEvents(state.events),
 })
 
 export default connect(mapStateToProps)(View);

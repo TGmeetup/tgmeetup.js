@@ -1,5 +1,5 @@
 import { mapValues, keys, uniq } from 'lodash';
-import { ADD_ENTITIES } from './index';
+import { ADD_ENTITIES } from '../actions';
 
 const category = (state, action) => {
   switch (action.type) {

@@ -9,10 +9,8 @@ import {
 } from 'react-icons/ti';
 import Card from '../components/Card';
 import { ShiftedContainer } from '../components/UnsortedComponents';
-import { activeOnlyOneEvent } from '../redux/events';
-import { activeOnlyOneMarker } from '../redux/markers';
-import { toggleFilter, getFilters } from '../redux/filters';
-import { selectGroups } from '../redux/groups';
+import { activeOnlyOneEvent, activeOnlyOneMarker, toggleFilter } from '../redux/actions';
+import { selectFilters, selectGroups } from '../redux/selectors';
 
 const Wrapper = styled.div`
   background: #f8f9fa;
@@ -229,7 +227,7 @@ const GroupView = ({ groups, filters, ...args }) => (
 
 const mapStateToProps = state => ({
   groups: selectGroups(state),
-  filters: getFilters(state.filters),
+  filters: selectFilters(state.filters),
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -16,7 +16,7 @@ export default (state = {}, action) => {
   }
 }
 
-export const getFilters = (filters) =>
+export const selectFilters = (filters) =>
   Object.keys(filters).map(field => ({
     name: field,
     value: filters[field],

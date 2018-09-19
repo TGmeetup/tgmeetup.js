@@ -1,5 +1,4 @@
 import 'moment/locale/zh-tw';
-import { createStore } from 'redux';
 import { HashRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import BigCalendar from 'react-big-calendar'
@@ -7,26 +6,16 @@ import moment from 'moment'
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { addEvent } from './redux/events';
-import { addGroup } from './redux/groups';
+import { addEvent, addEntities, sortEventsInMarker } from './redux/actions';
 import { fetchCategories } from './apis/fetch';
 import { ghFetch as fetch } from './apis';
 import { normalizeCategories } from './normalizr';
-import { sortEventsInMarker } from './redux/markers';
 import App from './App';
-import reducers, { addEntities } from './redux';
+import store from './redux';
 
 import './index.css';
 
 BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment))
-
-/* eslint-disable no-underscore-dangle */
-const store = createStore(
-  reducers,
-  process.env.NODE_ENV !== 'production' &&
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
-);
-/* eslint-enable */
 
 fetchCategories()
   .then(categories => normalizeCategories(categories))

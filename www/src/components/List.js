@@ -2,7 +2,7 @@ import React from 'react';
 import { map } from 'lodash';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { extractMarkers } from '../redux/markers' ;
+import { selectMarkers } from '../redux/selectors' ;
 import Event from './Event'
 
 const Container = styled.div`
@@ -32,7 +32,7 @@ const List = ({
 )
 
 const mapStateToProps = state =>  {
-  const markers = extractMarkers(state)
+  const markers = selectMarkers(state)
   const activeMarkers = markers.filter(m => m.isSelected)
   const hasOnlyOneActiveMarker = activeMarkers.length === 1
     ? activeMarkers[0] : null;

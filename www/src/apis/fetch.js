@@ -1,4 +1,3 @@
-import uuid from 'uuid/v4';
 import { flatten } from 'lodash';
 import { createHash } from 'crypto';
 import { ghFetch as fetch } from './index';

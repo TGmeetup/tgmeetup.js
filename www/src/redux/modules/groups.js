@@ -1,9 +1,8 @@
 import { some, mapValues, keys, uniq } from 'lodash';
 import randomColor from 'randomcolor';
 
-import { ADD_ENTITIES } from './index';
-import { ADD_EVENT } from './events';
-import { extractGroups } from '../normalizr';
+import { ADD_ENTITIES } from '../actions';
+import { extractGroups } from '../../normalizr';
 
 export const ADD_GROUP = 'ADD_GROUP';
 

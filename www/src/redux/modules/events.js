@@ -102,7 +102,7 @@ export const activeOnlyOneEvent = (event) => ({
   payload: event,
 })
 
-export const getEvents = (state) =>
+export const selectEvents = (state) =>
   state.allIds.map(id => state.byId[id]);
 
 export const sortEvents = (state, ids) => {

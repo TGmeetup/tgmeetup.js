@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+
 import {
   withScriptjs,
   withGoogleMap,
@@ -12,13 +13,8 @@ import { GoGitCommit, GoX } from 'react-icons/go';
 import Card from './Card';
 import Event from './Event'
 import { ShiftedContainer } from './UnsortedComponents';
-import { toggleEvent } from '../redux/events'
+import { toggleEvent, toggleOnlyOneMarker, toggleMarker } from '../redux/actions'
 import { extractMarkers } from  '../normalizr/';
-
-import {
-  toggleOnlyOneMarker,
-  toggleMarker
-} from '../redux/markers';
 
 const GOOGLE_MAPS_API_KEY = 'AIzaSyDUl-ub3O_XrUZ71artT6KIksNxSJmKn1U';
 

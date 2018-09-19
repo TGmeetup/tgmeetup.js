@@ -1,6 +1,10 @@
 import { mapValues } from 'lodash';
 import randomColor from 'randomcolor';
-import { ADD_EVENT, getEvents, sortEvents } from './events';
+import {
+  ADD_EVENT,
+  selectEvents,
+  sortEvents,
+} from './events';
 
 export const ACTIVE_ONLY_ONE_MARKER = 'ACTIVE_ONLY_ONE_MARKER';
 export const TOGGLE_MARKER = 'TOGGLE_MARKER';
@@ -98,10 +102,10 @@ export default (state = {}, action, globalState) => ({
   allIds: allIds(state.allIds, action, byId),
 })
 
-export const extractMarkers = ({ markers, events }) =>
+export const selectMarkers = ({ markers, events }) =>
   markers.allIds.map(id => ({
     ...markers.byId[id],
-    events: getEvents({
+    events: selectEvents({
       ...events,
       allIds: markers.byId[id].events,
       })
