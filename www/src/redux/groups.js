@@ -1,8 +1,11 @@
-import { some } from 'lodash';
+import { some, mapValues, keys, uniq } from 'lodash';
 import randomColor from 'randomcolor';
 
-export const ADD_GROUP = 'ADD_GROUP';
+import { ADD_ENTITIES } from './index';
+import { ADD_EVENT } from './events';
+import { extractGroups } from '../normalizr';
 
+export const ADD_GROUP = 'ADD_GROUP';
 
 const shimGroupColor = (group) => {
   switch (group.name) {
@@ -32,13 +35,18 @@ const shimGroupColor = (group) => {
 }
 
 const group = (state, action, globalState) => {
-  const { events } = globalState;
   switch (action.type) {
-    case ADD_GROUP:
+    case ADD_ENTITIES: {
+      const { events } = globalState;
       return {
-        ...action.group,
-        events: events.allIds.filter(id => events.byId[id].group === action.id),
-      };
+        ...state,
+        events: [
+          ...state.events,
+          ...events.allIds.filter(id => events.byId[id].group === state.id),
+        ],
+        color: shimGroupColor(group),
+      }
+    }
     default:
       return state;
   }
@@ -46,10 +54,10 @@ const group = (state, action, globalState) => {
 
 const byId = (state = {}, action, globalState) => {
   switch (action.type) {
-    case ADD_GROUP:
+    case ADD_ENTITIES:
       return {
         ...state,
-        [action.id]: group(undefined, action, globalState),
+        ...mapValues(action.entities.groups, g => group(g, action, globalState)),
       };
     default:
       return state;
@@ -58,8 +66,8 @@ const byId = (state = {}, action, globalState) => {
 
 const allIds = (state = [], action) => {
   switch (action.type) {
-    case ADD_GROUP:
-      return [ ...state, action.id];
+    case ADD_ENTITIES:
+      return uniq([ ...state, ...keys(action.entities.groups) ]);
     default:
       return state;
   }
@@ -70,15 +78,13 @@ export default (state = {}, action, globalState) => ({
   allIds: allIds(state.allIds, action),
 })
 
-export const extractGroups = ({ events, groups, filters = {} }) =>
-  groups.allIds
-    .filter(
-      id => some([ groups.byId[id] ], filters)
-    )
-    .map(id => ({
-      ...groups.byId[id],
-      events: groups.byId[id].events.map(id => events.byId[id])
-    }));
+export const selectGroups = (state) =>
+  extractGroups(
+    state.groups.allIds.filter(
+      id => some([ state.groups.byId[id] ], state.filters)
+    ),
+    state,
+  );
 
 export const addGroup = (id, group) => ({
   type: ADD_GROUP,

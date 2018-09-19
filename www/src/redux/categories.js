@@ -1,5 +1,7 @@
+import { mapValues, keys, uniq } from 'lodash';
+import { ADD_ENTITIES } from './index';
 
-const XXX = (state, action) => {
+const category = (state, action) => {
   switch (action.type) {
     default:
       return state;
@@ -8,6 +10,11 @@ const XXX = (state, action) => {
 
 const byId = (state = {}, action) => {
   switch (action.type) {
+    case ADD_ENTITIES:
+      return {
+        ...state,
+        ...mapValues(action.entities.categories, cat => category(cat, action)),
+      };
     default:
       return state;
   }
@@ -15,6 +22,8 @@ const byId = (state = {}, action) => {
 
 const allIds = (state = [], action) => {
   switch (action.type) {
+    case ADD_ENTITIES:
+      return uniq([ ...state, ...keys(action.entities.categories) ])
     default:
       return state;
   }

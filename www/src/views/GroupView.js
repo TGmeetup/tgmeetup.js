@@ -12,7 +12,7 @@ import { ShiftedContainer } from '../components/UnsortedComponents';
 import { activeOnlyOneEvent } from '../redux/events';
 import { activeOnlyOneMarker } from '../redux/markers';
 import { toggleFilter, getFilters } from '../redux/filters';
-import { extractGroups } from '../normalizr';
+import { selectGroups } from '../redux/groups';
 
 const Wrapper = styled.div`
   background: #f8f9fa;
@@ -228,7 +228,7 @@ const GroupView = ({ groups, filters, ...args }) => (
 )
 
 const mapStateToProps = state => ({
-  groups: extractGroups(state),
+  groups: selectGroups(state),
   filters: getFilters(state.filters),
 });
 

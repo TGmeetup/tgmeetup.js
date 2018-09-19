@@ -1,18 +1,22 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { HashRouter } from 'react-router-dom';
-import { createStore } from 'redux';
-import { Provider } from 'react-redux';
 import 'moment/locale/zh-tw';
-import reducers from './reducers';
-import { addEvent } from './redux/events';
-import { addGroup } from './redux/groups';
-import { sortEventsInMarker } from './redux/markers';
-import './index.css';
-import App from './App';
-
+import { createStore } from 'redux';
+import { HashRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
 import BigCalendar from 'react-big-calendar'
 import moment from 'moment'
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+import { addEvent } from './redux/events';
+import { addGroup } from './redux/groups';
+import { fetchCategories } from './apis/fetch';
+import { ghFetch as fetch } from './apis';
+import { normalizeCategories } from './normalizr';
+import { sortEventsInMarker } from './redux/markers';
+import App from './App';
+import reducers, { addEntities } from './redux';
+
+import './index.css';
 
 BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment))
 
@@ -23,6 +27,10 @@ const store = createStore(
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
 );
 /* eslint-enable */
+
+fetchCategories()
+  .then(categories => normalizeCategories(categories))
+  .then(normalizedData => store.dispatch(addEntities(normalizedData.entities)))
 
 fetch('https://api.github.com/repos/TGmeetup/tgmeetup.js/issues?labels=Event&state=open')
   .then(res => res.json())
@@ -39,23 +47,11 @@ fetch('https://api.github.com/repos/TGmeetup/tgmeetup.js/issues?labels=Event&sta
     };
   }))
   .then(events => {
-    const groups = new Set();
-
     events.forEach(event => {
       store.dispatch(addEvent(event));
-
-      groups.add(event.groupRef);
-
     });
 
     store.dispatch(sortEventsInMarker());
-
-    groups.forEach(ref => {
-      fetch(`https://raw.githubusercontent.com/TGmeetup/TGmeetup/master/${ref}/package.json`)
-      .then(res => res.json())
-      .then(group => store.dispatch(addGroup(ref, group)))
-    })
-
   });
 
 ReactDOM.render(

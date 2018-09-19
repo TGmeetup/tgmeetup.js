@@ -51,7 +51,6 @@ const marker = (state, action, globalState) => {
         isSelected: false,
       }
     case SORT_EVENTS_IN_MARKER:
-      const { events } = globalState;
       return {
         ...state,
         events: sortEvents(globalState.events, state.events),
