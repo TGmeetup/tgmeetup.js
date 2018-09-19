@@ -1,7 +1,9 @@
+import { normalize } from 'normalizr';
 import { some, mapValues, keys, uniq } from 'lodash';
 import randomColor from 'randomcolor';
 
 import { ADD_ENTITIES } from '../actions';
+import { addEntities } from '../actions';
 import { extractGroups } from '../../apis/schema';
 
 export const ADD_GROUP = 'ADD_GROUP';
@@ -94,3 +96,14 @@ export const addGroup = (id, group) => ({
     color: shimGroupColor(group),
   },
 })
+
+export const getGroups = (groups) => (dispatch) =>
+  Promise.all(groups.map(group => dispatch(getGroup(group))));
+
+export const getGroup = (group) => (dispatch, getState, { api, schema }) =>
+  api.fetchGroup(group)
+    .then(group => {
+      const data = normalize(group, schema.group);
+      dispatch(addEntities(data.entities));
+      return group;
+    });

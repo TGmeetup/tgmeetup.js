@@ -11,13 +11,16 @@ export const marker = new schema.Entity('markers', {
   events: [ event ]
 });
 
-export const category = new schema.Entity('categories', {
+export const country = new schema.Entity('countries', {
   groups: [ group ]
+})
+
+export const category = new schema.Entity('categories', {
+  countries: [ country ]
 });
 
 group.define({
-  events: [ event ],
-  category
+  events: [ event ]
 })
 
 export const entities = (state) =>

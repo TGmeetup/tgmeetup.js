@@ -2,6 +2,7 @@ import binarySearchInsert from 'binary-search-insert';
 import * as moment from 'moment';
 import { mapValues } from 'lodash';
 import { ADD_GROUP } from './groups';
+import { sortEventsInMarker } from './markers';
 
 export const ADD_EVENT = 'ADD_EVNET';
 export const TOGGLE_EVNET = 'TOGGLE_EVENT';
@@ -120,3 +121,23 @@ export const sortEvents = (state, ids) => {
       {})
   );
 }
+
+export const getEvents = () => (dispatch, getState, { api, schema }) =>
+  fetch('https://api.github.com/repos/TGmeetup/tgmeetup.js/issues?labels=Event&state=open')
+    .then(res => res.json())
+    .then(issues => issues.map(issue => {
+      const reDetailText = /<details>((?:.|[\r\n])*?)<\/detail>/gm;
+      const { body } = issue;
+
+      const eventStr = reDetailText.exec(body)[1];
+      const event = JSON.parse(unescape(eventStr));
+
+      return {
+        ...event,
+        ...issue,
+      };
+    }))
+    .then(
+      events => events.map(e => dispatch(addEvent(e)))
+    )
+    .then(_ => dispatch(sortEventsInMarker()));

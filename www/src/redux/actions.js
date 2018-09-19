@@ -12,6 +12,7 @@ export {
   sortEventsInMarker,
   clearMarker,
 } from './modules/markers';
+export { getCategories } from './modules/categories';
 export { toggleFilter } from './modules/filters';
 export { addGroup } from './modules/groups';
 
