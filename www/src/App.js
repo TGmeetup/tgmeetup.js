@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { injectGlobal } from 'styled-components';
 import Header from './components/Header';
-import MapView from './views/MapView';
-import GroupView from './views/GroupView';
-import EventsView from './views/EventsView';
+import MapView from './pages/MapView';
+import GroupView from './pages/GroupView';
+import EventsView from './pages/EventsView';
 
 /* eslint-disable no-unused-expressions */
 injectGlobal`
