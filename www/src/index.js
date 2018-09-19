@@ -9,7 +9,7 @@ import ReactDOM from 'react-dom';
 import { addEvent, addEntities, sortEventsInMarker } from './redux/actions';
 import { fetchCategories } from './apis/fetch';
 import { ghFetch as fetch } from './apis';
-import { normalizeCategories } from './normalizr';
+import { normalizeCategories } from './apis/schema';
 import App from './App';
 import store from './redux';
 

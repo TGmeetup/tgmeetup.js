@@ -14,7 +14,7 @@ import Card from './Card';
 import Event from './Event'
 import { ShiftedContainer } from './UnsortedComponents';
 import { toggleEvent, toggleOnlyOneMarker, toggleMarker } from '../redux/actions'
-import { extractMarkers } from  '../normalizr/';
+import { extractMarkers } from  '../apis/schema';
 
 const GOOGLE_MAPS_API_KEY = 'AIzaSyDUl-ub3O_XrUZ71artT6KIksNxSJmKn1U';
 

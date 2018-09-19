@@ -2,7 +2,7 @@ import { some, mapValues, keys, uniq } from 'lodash';
 import randomColor from 'randomcolor';
 
 import { ADD_ENTITIES } from '../actions';
-import { extractGroups } from '../../normalizr';
+import { extractGroups } from '../../apis/schema';
 
 export const ADD_GROUP = 'ADD_GROUP';
 
