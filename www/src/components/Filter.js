@@ -24,7 +24,9 @@ const genFilter = (name ,state = [], Icon, { filter, toggleFilter }) => () => (
   )
 )
 
-const FilterRow = styled.p`
+const FilterRow = styled.div`
+  width: 100%;
+  margin-bottom: 0.5em;
   svg {
     font-size: 2em;
     vertical-align: middle;
@@ -43,10 +45,23 @@ const ChipCss = css`
     &:hover {
       background: gray;
     }
+
+    &:active {
+      background: darkslategray;
+    }
+
   `}
 
   ${props => props.active && css`
-    background: gray;
+    background: #435bff;
+
+    &:hover {
+      background: #2f41be;
+    }
+
+    &:active {
+      background: #1c276c;
+    }
   `}
 `;
 
@@ -58,6 +73,7 @@ const InputChip = styled.input.attrs({
   placeholder: 'Enter group name'
 })`
   ${ChipCss}
+  display: inline;
   font-size: 1em;
   border: 0;
 `;
