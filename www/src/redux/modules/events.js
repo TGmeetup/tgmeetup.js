@@ -1,6 +1,7 @@
 import binarySearchInsert from 'binary-search-insert';
 import * as moment from 'moment';
 import { mapValues } from 'lodash';
+import { ADD_ENTITIES } from '../actions';
 import { ADD_GROUP } from './groups';
 import { sortEventsInMarker } from './markers';
 
@@ -21,6 +22,13 @@ const event = (state, action) => {
       ? {
           ...state,
           color: action.group.color
+        }
+      : state;
+    case ADD_ENTITIES:
+      return (state.group in (action.entities.groups || {}))
+      ? {
+          ...state,
+          color: action.entities.groups[state.group].color || 'gray',
         }
       : state;
     case TOGGLE_EVNET:
@@ -54,6 +62,7 @@ const byId = (state = {}, action) => {
       }
     case ACTIVE_ONLY_ONE_EVENT:
     case ADD_GROUP:
+    case ADD_ENTITIES:
       return mapValues(state, e => event(e, action));
     default:
       return state;

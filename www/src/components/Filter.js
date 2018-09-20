@@ -47,21 +47,18 @@ const ChipCss = css`
     }
 
     &:active {
-      background: darkslategray;
+      background: #0c3f93;
     }
 
   `}
 
   ${props => props.active && css`
-    background: #435bff;
+    background: #1464e8;
 
     &:hover {
-      background: #2f41be;
+      background: #1157c9;
     }
 
-    &:active {
-      background: #1c276c;
-    }
   `}
 `;
 

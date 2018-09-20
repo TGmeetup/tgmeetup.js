@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { TransitionMotion, spring } from 'react-motion';
 import { Row, Col } from 'react-flexbox-grid';
@@ -91,8 +92,8 @@ export class GroupCard extends Component {
   }
 
   handleEventClick = (event) => {
-    this.props.activeEvent(event);
-
+    this.props.activeOnlyOneEvent(event);
+    this.props.activeOnlyOneMarker(event.latlngStr);
     this.props.history.push('/map');
   }
 
@@ -203,14 +204,28 @@ export class _Groups extends Component {
       { styles => (
         <Row style={{ position: 'relative' }}>
         { styles.map(({ key, data: { group }, style: { scale, ...restStyle } }) => (
-          <Col key={key} xs={12} md={4}
-            style={{
-              transform: `scale(${scale})`,
-              ...restStyle
-            }}
-          >
-            <GroupCard group={group} {...restProps}/>
-          </Col>
+          group.events.length > 0 && (
+            <Col key={key} xs={12} md={4}
+              style={{
+                transform: `scale(${scale})`,
+                ...restStyle
+              }}
+            >
+              <GroupCard group={group} {...restProps}/>
+            </Col>
+          )
+        ))}
+        { styles.map(({ key, data: { group }, style: { scale, ...restStyle } }) => (
+          group.events.length === 0 && (
+            <Col key={key} xs={12} md={4}
+              style={{
+                transform: `scale(${scale})`,
+                ...restStyle
+              }}
+            >
+              <GroupCard group={group} {...restProps}/>
+            </Col>
+          )
         ))}
         </Row>
       )}
@@ -223,7 +238,7 @@ const mapStateToProps = state => ({
   groups: selectGroups(state)
 })
 
-export const Groups = connect(
+export const Groups = withRouter(connect(
   mapStateToProps,
   actions
-)(_Groups);
+)(_Groups));

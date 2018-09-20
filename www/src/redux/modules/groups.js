@@ -104,8 +104,13 @@ export const addGroup = (id, group) => ({
   },
 })
 
-export const getGroups = (groups, parent = {}) => (dispatch) =>
-  Promise.all(groups.map(group => dispatch(getGroup(group, parent))));
+export const getGroups = (groups, parent = {}) => async (dispatch) => {
+  if (!groups) {
+    groups = await fetch('https://raw.githubusercontent.com/TGmeetup/TGmeetup/master/all-groups')
+      .then(res => res.json());
+  }
+  return Promise.all(groups.map(group => dispatch(getGroup(group, parent))));
+}
 
 export const getGroup = (group, parent = {}) => (dispatch, getState, { api, schema }) =>
   api.fetchGroup(group)

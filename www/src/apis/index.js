@@ -35,17 +35,29 @@ const fetchPackageJson = async (ghGroupDir) => {
     .catch(err => console.error(err));
 }
 
-export const fetchGroup = (group) => {
-  if (group instanceof String) {
-    throw new Error('fetchGroup is not ready handle string');
-  }
+export const fetchGroup = (group) => (
+  (typeof group === 'string')
+    ? fetch(group)
+      .then(res => res.json())
+      .then(group => ({
+        id: `${group.category}/${group.countrycode}/${group.name}`,
+        ...group,
+        country: {
+          id: createHash('md5').update(group.countrycode).digest('hex'),
+          name: group.countrycode,
+        },
+        category: {
+          id: createHash('md5').update(group.category).digest('hex'),
+          name: group.category,
+        },
+        events: [],
+      }))
+    : fetch(group.url)
+      .then(res => res.json())
+      .then(async ghGroupDir => ({
+        id: group.path,
+        events: [],
+        ...await fetchPackageJson(ghGroupDir),
+      }))
+  ).catch(err => console.error(err));
 
-  return fetch(group.url)
-    .then(res => res.json())
-    .then(async ghGroupDir => ({
-      id: group.path,
-      events: [],
-      ...await fetchPackageJson(ghGroupDir),
-    }))
-    .catch(err => console.error(err));
-}

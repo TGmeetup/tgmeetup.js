@@ -14,7 +14,7 @@ export {
 } from './modules/markers';
 export { getCategories } from './modules/categories';
 export { toggleFilter } from './modules/filters';
-export { addGroup } from './modules/groups';
+export { addGroup, getGroups } from './modules/groups';
 
 export const ADD_ENTITIES = 'ADD_ENTITIES';
 
