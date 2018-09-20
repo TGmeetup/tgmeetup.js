@@ -36,20 +36,29 @@ export default (state = {}, action) => ({
   allIds: allIds(state.allIds, action),
 })
 
-export const getCategories = (categories = ['community', 'conference'], continues = false) => (dispatch) =>
+export const selectCategories = ({ categories }, nested = true) =>
+  nested
+  ? []
+  : categories.allIds.map(id => categories.byId[id]);
+
+export const getCategories = ( categories = ['community', 'conference'], continues = false, parent = {}) => (dispatch) =>
   Promise.all(
     categories.map(
       category => dispatch(
-        getCategory(category, continues)
+        getCategory(category, continues, parent)
       )
     )
   );
 
-export const getCategory = (category, continues) => (dispatch, getState, { api, schema }) =>
+export const getCategory = (category, continues, parent = {}) => (dispatch, getState, { api, schema }) =>
   api.fetchCategory(category)
     .then(async category => continues ? {
       ...category,
-      countries: await dispatch(getCountries(category.countries, continues))
+      countries: await dispatch(getCountries(
+        category.countries,
+        continues,
+        { ...parent, category: { id: category.id } }
+      ))
     } : {
       ...category,
       countries: [],

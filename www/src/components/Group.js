@@ -199,14 +199,11 @@ export class _Groups extends Component {
         willEnter={() => ({
           scale: 0.5,
         })}
-        willLeave={() => ({
-          scale: spring(0)
-        })}
       >
       { styles => (
         <Row style={{ position: 'relative' }}>
         { styles.map(({ key, data: { group }, style: { scale, ...restStyle } }) => (
-          <Col key={key} ref={key} xs={12} md={4}
+          <Col key={key} xs={12} md={4}
             style={{
               transform: `scale(${scale})`,
               ...restStyle

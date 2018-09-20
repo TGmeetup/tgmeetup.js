@@ -20,7 +20,9 @@ export const category = new schema.Entity('categories', {
 });
 
 group.define({
-  events: [ event ]
+  events: [ event ],
+  category,
+  country,
 })
 
 export const entities = (state) =>

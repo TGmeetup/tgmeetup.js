@@ -1,5 +1,5 @@
 import { normalize } from 'normalizr';
-import { some, mapValues, keys, uniq } from 'lodash';
+import { some, mapValues, keys, uniq, includes } from 'lodash';
 import randomColor from 'randomcolor';
 
 import { ADD_ENTITIES } from '../actions';
@@ -79,13 +79,20 @@ export default (state = {}, action, globalState) => ({
   allIds: allIds(state.allIds, action),
 })
 
-export const selectGroups = (state) =>
-  extractGroups(
-    state.groups.allIds.filter(
-      id => some([ state.groups.byId[id] ], state.filters)
-    ),
+export const selectGroups = (state) => {
+  const { groups } = state;
+  const { title, city, ...filters } = state.filters;
+  return extractGroups(
+    groups.allIds
+      .filter(id => some([ groups.byId[id] ], filters))
+      .filter(id => (
+        includes(groups.byId[id].title.toLocaleLowerCase(), (title || '').toLocaleLowerCase()) ||
+        includes(groups.byId[id].name.toLocaleLowerCase(), (title || '').toLocaleLowerCase())
+      ))
+      .filter(id => includes(groups.byId[id].city.toLocaleLowerCase(), (city || '').toLocaleLowerCase())),
     state,
   );
+}
 
 export const addGroup = (id, group) => ({
   type: ADD_GROUP,
@@ -97,11 +104,15 @@ export const addGroup = (id, group) => ({
   },
 })
 
-export const getGroups = (groups) => (dispatch) =>
-  Promise.all(groups.map(group => dispatch(getGroup(group))));
+export const getGroups = (groups, parent = {}) => (dispatch) =>
+  Promise.all(groups.map(group => dispatch(getGroup(group, parent))));
 
-export const getGroup = (group) => (dispatch, getState, { api, schema }) =>
+export const getGroup = (group, parent = {}) => (dispatch, getState, { api, schema }) =>
   api.fetchGroup(group)
+    .then(group => ({
+      ...parent,
+      ...group,
+    }))
     .then(group => {
       const data = normalize(group, schema.group);
       dispatch(addEntities(data.entities));

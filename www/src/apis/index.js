@@ -19,7 +19,7 @@ export const fetchCountry = (country) => {
   return fetch(country.url)
     .then(res => res.json())
     .then(ghGroups => ({
-      id: country.path,
+      id: createHash('md5').update(country.name).digest('hex'),
       name: country.name,
       groups: ghGroups,
     }))

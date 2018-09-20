@@ -4,7 +4,7 @@ export default (state = {}, action) => {
   switch (action.type) {
     case TOGGLE_FILTER:
       Object.keys(action.filter).forEach(field => {
-        if (field in state) {
+        if (field in state && state[field] === action.filter[field]) {
           delete state[field]
         } else {
           state[field] = action.filter[field];

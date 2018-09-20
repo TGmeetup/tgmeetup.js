@@ -1,40 +1,179 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { TiDocumentText, TiLocation } from 'react-icons/ti';
+import { TiLocation, TiWorld, TiNews, TiGroup } from 'react-icons/ti';
+import styled, { css } from 'styled-components';
+import { debounce } from 'lodash';
 
-import Card from './Card';
 import * as actions from '../redux/actions';
-import { selectFilters } from '../redux/selectors';
+import { selectFilters, selectCategories, selectCountries } from '../redux/selectors';
 
-const FilterIcon = ({ filter }) => {
-  let Icon = TiDocumentText;
-  if (filter.name === 'city') {
-    Icon = TiLocation;
+const genFilter = (name ,state = [], Icon, { filter, toggleFilter }) => () => (
+  state.length > 0 && (
+    <FilterRow>
+      <Icon />
+      { state.map(s => (
+        <Chip
+          key={s.id}
+          onClick={(e) => toggleFilter({ [name]: s.id })}
+          active={s.id === filter[name]}
+        >
+        { s.name }
+        </Chip>
+      ))}
+    </FilterRow>
+  )
+)
+
+const FilterRow = styled.p`
+  svg {
+    font-size: 2em;
+    vertical-align: middle;
   }
-  return <Icon />;
+`;
+
+const ChipCss = css`
+  background-color: lightgray;
+  padding: 0.5em 1em;
+  border-radius: 1em;
+  margin-left: 1em;
+
+  ${props => props.onClick && css`
+    cursor: pointer;
+
+    &:hover {
+      background: gray;
+    }
+  `}
+
+  ${props => props.active && css`
+    background: gray;
+  `}
+`;
+
+const Chip = styled.span`
+  ${ChipCss}
+`;
+
+const InputChip = styled.input.attrs({
+  placeholder: 'Enter group name'
+})`
+  ${ChipCss}
+  font-size: 1em;
+  border: 0;
+`;
+
+class NameFilter extends Component {
+
+  componentWillMount() {
+    const { toggleFilter } = this.props;
+
+    this.debouncedOnChange = debounce(
+      (title) => toggleFilter({ title }),
+      250,
+      { maxWait: 1000 }
+    );
+  }
+  onChange = (e) => this.debouncedOnChange(e.target.value)
+
+  render() {
+    return (
+      <FilterRow>
+        <TiGroup />
+        <InputChip
+          onChange={this.onChange}
+        />
+      </FilterRow>
+    );
+  }
 }
+
+class LocationFilter extends Component {
+  state = {
+    text: ''
+  }
+
+  componenDidMount() {
+    const { city = '' } = this.props.filter;
+    this.setState({ text: city });
+  }
+
+  componentWillMount() {
+    const { toggleFilter } = this.props;
+
+    this.debouncedOnChange = debounce(
+      (city) => toggleFilter({ city }),
+      250,
+      { maxWait: 1000 }
+    );
+  }
+
+  componentWillReceiveProps(props) {
+    const { city = '' } = this.props.filter;
+    this.setState({ text: city });
+  }
+
+  onChange = (e) => {
+    this.setState({ text: e.target.value});
+    this.debouncedOnChange(e.target.value);
+  }
+
+  render() {
+    return (
+      <FilterRow>
+        <TiLocation />
+        <InputChip
+          value={this.state.text}
+          onChange={this.onChange}
+        />
+      </FilterRow>
+    );
+  }
+}
+
+const GroupFilterWrapper = styled.section`
+  margin-bottom: 1em;
+`
 
 class _GroupFilter extends Component {
   render() {
-    const { filters } = this.props;
+    const { filter, categories, countries } = this.props;
     const { toggleFilter } = this.props;
-    return (filters.length > 0 &&
-      <Card.Actions>
-      { filters.map(filter => (
-        <Card.Action
-          key={filter.name}
-          onClick={(e) => toggleFilter({ [filter.name]: filter.value })}
-        >
-          <FilterIcon filter={filter} />
-          <span>{ filter.value }</span>
-        </Card.Action>
-      ))}
-      </Card.Actions>
+
+    const CategoryFilter = genFilter(
+      'category',
+      categories,
+      TiNews,
+      {
+        filter,
+        toggleFilter
+      }
+    );
+
+    const CountryFilter = genFilter(
+      'country',
+      countries,
+      TiWorld,
+      {
+        filter,
+        toggleFilter
+      }
+    );
+
+    return (
+      <GroupFilterWrapper>
+        <NameFilter toggleFilter={toggleFilter} />
+        <LocationFilter filter={filter} toggleFilter={toggleFilter} />
+        <CategoryFilter />
+        <CountryFilter />
+      </GroupFilterWrapper>
     )
   }
 }
 
 const mapStateToProps = state => ({
+  categories: selectCategories(state, false),
+  countries: selectCountries(state, false),
+  filter: state.filters,
   filters: selectFilters(state.filters),
 })
 
