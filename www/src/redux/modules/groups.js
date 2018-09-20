@@ -45,7 +45,7 @@ const group = (state, action, globalState) => {
           ...state.events,
           ...events.allIds.filter(id => events.byId[id].group === state.id),
         ],
-        color: shimGroupColor(state),
+        color: state.color || shimGroupColor(state),
       }
     }
     default:
