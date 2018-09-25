@@ -4,7 +4,7 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import { injectGlobal } from 'styled-components';
 import Header from './components/Header';
 import MapView from './pages/MapView';
-import GroupView from './pages/GroupView';
+import GroupRoute from './pages/groups';
 import EventRoute from './pages/events';
 
 /* eslint-disable no-unused-expressions */
@@ -24,7 +24,7 @@ class App extends Component {
           <Switch>
             <Redirect exact from='/' to='/map' />
             <Route path='/map' component={MapView} />
-            <Route path='/group' component={GroupView} />
+            <Route path='/groups' component={GroupRoute} />
             <Route path='/events' component={EventRoute} />
           </Switch>
         </div>

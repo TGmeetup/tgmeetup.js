@@ -70,8 +70,8 @@ const Header = ({ location }) => (
             <TiMap />
         </Item>
       </Link>
-      <Link to="/group">
-        <Item active={location.pathname === '/group'}>
+      <Link to="/groups">
+        <Item active={location.pathname === '/groups'}>
           <TiGroup />
         </Item>
       </Link>

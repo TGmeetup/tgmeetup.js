@@ -5,13 +5,9 @@ import { Grid, Row, Col } from 'react-flexbox-grid';
 import { GoGitCommit } from 'react-icons/go';
 import styled from 'styled-components';
 import { selectEvents } from '../../redux/selectors';
+import { NonStyleLink } from '../../components';
 import Card from '../../components/Card';
 import { withFadeIn } from '../../components/FadeIn';
-
-const NonStyleLink = styled(Link)`
-  color: initial;
-  text-decoration: none;
-`
 
 const View = ({ events, ...rests }) => (
   <Grid style={{ marginTop: '1em' }}>

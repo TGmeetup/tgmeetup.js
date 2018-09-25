@@ -9,6 +9,7 @@ import {
 } from 'react-icons/ti';
 import styled from 'styled-components';
 
+import { NonStyleLink } from './';
 import Card from './Card';
 import FadeIn from './FadeIn';
 import { ShiftedContainer } from './UnsortedComponents';
@@ -105,7 +106,9 @@ export class GroupCard extends Component {
       <GroupCardWrapper>
         <Card>
           <Card.Title color={group.color}>
-            <h2>{ group.title }</h2>
+            <NonStyleLink to={`/groups/${group.id}`}>
+              <h2>{ group.title }</h2>
+            </NonStyleLink>
           </Card.Title>
           <Card.Header>
             <Card.Actions>
