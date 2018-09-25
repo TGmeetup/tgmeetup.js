@@ -5,6 +5,7 @@
   "private": true,
   "dependencies": {
     "binary-search-insert": "^1.0.3",
+    "hoist-non-react-statics": "^3.0.1",
     "lodash": "^4.17.10",
     "mkdirp": "^0.5.1",
     "moment": "^2.22.2",

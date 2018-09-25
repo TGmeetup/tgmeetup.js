@@ -7,6 +7,11 @@ const Card = styled.div`
   max-width: ${props => props.width};
   background: white;
   box-shadow: 0 0 5px #888888;
+
+  ${props => !props.onMap && css`
+    margin-top: 1em;
+    margin-bottom: 1em;
+  `}
 `;
 
 export const Title = styled.div`
@@ -43,6 +48,28 @@ export const Content = styled.div`
   padding-right: 0.7em;
   word-wrap: break-word;
 
+`
+
+export const Block = styled.div`
+  margin: 0;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  padding-left: 0.7em;
+  padding-right: 0.7em;
+  margin-left: -0.7em;
+  margin-right: -0.7em;
+
+  &:first-child {
+    margin-top: -1em;
+  }
+
+  &:last-child {
+    margin-bottom: -1em;
+  }
+
+  ${props => props.fluid && css`
+    padding: 0;
+  `}
 `
 
 export const Item = styled.p`
@@ -152,6 +179,7 @@ export const Footer = styled.footer`
 
 Card.Title = Title;
 Card.Content = Content;
+Card.Block = Block;
 Card.Item = Item;
 Card.Actions = Actions;
 Card.Action = Action;

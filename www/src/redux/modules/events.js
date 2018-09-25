@@ -1,6 +1,7 @@
-import { normalize } from 'normalizr';
+import { normalize, denormalize } from 'normalizr';
 import { mapValues, merge } from 'lodash';
 
+import * as schema from '../../apis/schema';
 import { ADD_ENTITIES, addEntities } from '../actions';
 
 export const TOGGLE_EVNET = 'TOGGLE_EVENT';
@@ -80,8 +81,8 @@ export const activeOnlyOneEvent = (event) => ({
   payload: event,
 })
 
-export const selectEvents = (state) =>
-  state.allIds.map(id => state.byId[id]);
+export const selectEvents = (ids, state) =>
+  denormalize(ids, [ schema.event ], schema.entities(state));
 
 export const getEvents = () => (dispatch, getState, { api, schema }) =>
   api.fetchEvents()

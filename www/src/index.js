@@ -1,5 +1,4 @@
 import 'moment/locale/zh-tw';
-import { HashRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import BigCalendar from 'react-big-calendar'
 import moment from 'moment'
@@ -18,11 +17,9 @@ store.dispatch(getGroups(undefined));
 store.dispatch(getEvents());
 
 ReactDOM.render(
-  <HashRouter>
-    <Provider store={store}>
-      <App />
-    </Provider>
-  </HashRouter>,
+  <Provider store={store}>
+    <App />
+  </Provider>,
   document.getElementById('root')
 );
 

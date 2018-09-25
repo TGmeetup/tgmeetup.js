@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
+import { HashRouter } from 'react-router-dom';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { injectGlobal } from 'styled-components';
 import Header from './components/Header';
 import MapView from './pages/MapView';
 import GroupView from './pages/GroupView';
-import EventsView from './pages/EventsView';
+import EventRoute from './pages/events';
 
 /* eslint-disable no-unused-expressions */
 injectGlobal`
@@ -17,15 +18,17 @@ injectGlobal`
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <Header />
-        <Switch>
-          <Redirect exact from='/' to='/map' />
-          <Route path='/map' component={MapView} />
-          <Route path='/group' component={GroupView} />
-          <Route path='/events' component={EventsView} />
-        </Switch>
-      </div>
+      <HashRouter>
+        <div>
+          <Header />
+          <Switch>
+            <Redirect exact from='/' to='/map' />
+            <Route path='/map' component={MapView} />
+            <Route path='/group' component={GroupView} />
+            <Route path='/events' component={EventRoute} />
+          </Switch>
+        </div>
+      </HashRouter>
     );
   }
 }

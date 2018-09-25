@@ -16,7 +16,7 @@ import { ShiftedContainer } from './UnsortedComponents';
 import { toggleEvent, toggleOnlyOneMarker, toggleMarker } from '../redux/actions'
 import { extractMarkers } from  '../apis/schema';
 
-const GOOGLE_MAPS_API_KEY = 'AIzaSyDUl-ub3O_XrUZ71artT6KIksNxSJmKn1U';
+export const GOOGLE_MAPS_API_KEY = 'AIzaSyDUl-ub3O_XrUZ71artT6KIksNxSJmKn1U';
 
 const List = ({
   zoom,
@@ -26,7 +26,7 @@ const List = ({
   onEventCloseClick,
   onCloseClick
 }) => (
-  <Card width='400px'>
+  <Card onMap width='400px'>
     <Card.Title color={color}>
       <GoX onClick={() => onCloseClick()} />
       <h2>

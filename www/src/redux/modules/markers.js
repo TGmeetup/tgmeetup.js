@@ -1,5 +1,7 @@
 import { mapValues, uniq, keys } from 'lodash';
+import { denormalize } from 'normalizr';
 import randomColor from 'randomcolor';
+import * as schema from '../../apis/schema';
 import { ADD_ENTITIES } from '../actions';
 import { selectEvents } from './events';
 
@@ -83,14 +85,8 @@ export default (state = {}, action, globalState) => ({
   allIds: allIds(state.allIds, action, byId),
 })
 
-export const selectMarkers = ({ markers, events }) =>
-  markers.allIds.map(id => ({
-    ...markers.byId[id],
-    events: selectEvents({
-      ...events,
-      allIds: markers.byId[id].events,
-      })
-  }));
+export const selectMarkers = (ids, state) =>
+  denormalize(ids, [ schema.marker ], schema.entities(state));
 
 export const toggleOnlyOneMarker = (id) => ({
   type: TOGGLE_ONLY_ONE_MARKER,

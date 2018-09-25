@@ -32,7 +32,7 @@ const List = ({
 )
 
 const mapStateToProps = state =>  {
-  const markers = selectMarkers(state)
+  const markers = selectMarkers(state.markers.allIds, state)
   const activeMarkers = markers.filter(m => m.isSelected)
   const hasOnlyOneActiveMarker = activeMarkers.length === 1
     ? activeMarkers[0] : null;
