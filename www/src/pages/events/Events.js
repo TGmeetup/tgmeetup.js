@@ -6,7 +6,7 @@ import { GoGitCommit } from 'react-icons/go';
 import styled from 'styled-components';
 import { selectEvents } from '../../redux/selectors';
 import Card from '../../components/Card';
-import withFadeIn from '../../components/withFadeIn';
+import { withFadeIn } from '../../components/FadeIn';
 
 const NonStyleLink = styled(Link)`
   color: initial;

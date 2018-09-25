@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { TransitionMotion, spring } from 'react-motion';
 import { Row, Col } from 'react-flexbox-grid';
 import { GoGitCommit } from 'react-icons/go';
 import {
@@ -11,6 +10,7 @@ import {
 import styled from 'styled-components';
 
 import Card from './Card';
+import FadeIn from './FadeIn';
 import { ShiftedContainer } from './UnsortedComponents';
 import { selectGroups } from '../redux/selectors';
 import * as actions from '../redux/actions';
@@ -189,47 +189,22 @@ export class _Groups extends Component {
   render() {
     const { groups, ...restProps } = this.props;
     return (
-      <TransitionMotion
-        styles={groups.map(group => ({
-          key: group.id,
-          data: { group },
-          style: {
-            scale: spring(1),
-          }
-        }))}
-        willEnter={() => ({
-          scale: 0.5,
-        })}
-      >
-      { styles => (
-        <Row style={{ position: 'relative' }}>
-        { styles.map(({ key, data: { group }, style: { scale, ...restStyle } }) => (
-          group.events.length > 0 && (
-            <Col key={key} xs={12} md={4}
-              style={{
-                transform: `scale(${scale})`,
-                ...restStyle
-              }}
-            >
-              <GroupCard group={group} {...restProps}/>
-            </Col>
-          )
-        ))}
-        { styles.map(({ key, data: { group }, style: { scale, ...restStyle } }) => (
-          group.events.length === 0 && (
-            <Col key={key} xs={12} md={4}
-              style={{
-                transform: `scale(${scale})`,
-                ...restStyle
-              }}
-            >
-              <GroupCard group={group} {...restProps}/>
-            </Col>
-          )
-        ))}
-        </Row>
-      )}
-      </TransitionMotion>
+      <Row style={{ position: 'relative' }}>
+      { groups.filter(group => group.events.length > 0).map(group => (
+        <Col key={group.id} xs={12} md={4}>
+          <FadeIn>
+            <GroupCard group={group} {...restProps}/>
+          </FadeIn>
+        </Col>
+      ))}
+      { groups.filter(group => group.events.length === 0).map(group => (
+        <Col key={group.id} xs={12} md={4}>
+          <FadeIn>
+            <GroupCard group={group} {...restProps}/>
+          </FadeIn>
+        </Col>
+      ))}
+      </Row>
     )
   }
 }

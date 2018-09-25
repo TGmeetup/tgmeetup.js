@@ -1,15 +1,15 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Grid, Row, Col } from 'react-flexbox-grid';
+import { Grid } from 'react-flexbox-grid';
 import { compose } from 'recompose';
 import styled from 'styled-components';
-import { TiLocation, TiCalendar, TiTime } from 'react-icons/ti';
+import { TiLocation, TiCalendar } from 'react-icons/ti';
 
 import { selectEvents } from '../../redux/selectors';
 import Card from '../../components/Card';
 import Map from '../../components/SingleMarkerMap';
-import withFadeIn from '../../components/withFadeIn';
+import { withFadeIn } from '../../components/FadeIn';
 
 const GroupInformationWrapper = styled.div`
   display: flex;
@@ -31,7 +31,7 @@ const GroupInformationWrapper = styled.div`
 const GroupInformation = ({ group }) => (
   !!group &&
   <GroupInformationWrapper>
-    <img src={group.logoURL}/>
+    <img src={group.logoURL} alt="group-avatar" />
     <div>
       <p>By {group.title}, {group.category.name}</p>
       <p>At {group.city}</p>

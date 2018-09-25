@@ -3,7 +3,6 @@ import { denormalize } from 'normalizr';
 import randomColor from 'randomcolor';
 import * as schema from '../../apis/schema';
 import { ADD_ENTITIES } from '../actions';
-import { selectEvents } from './events';
 
 export const ACTIVE_ONLY_ONE_MARKER = 'ACTIVE_ONLY_ONE_MARKER';
 export const TOGGLE_MARKER = 'TOGGLE_MARKER';

@@ -1,6 +1,7 @@
 import React from 'react';
 import hoistNonReactStatic from 'hoist-non-react-statics';
 import styled, { keyframes } from 'styled-components';
+
 const fadeIn = keyframes`
   from {
     transform: translate(0, 3em);
@@ -16,7 +17,7 @@ const FadeIn = styled.div`
   animation: ${fadeIn} 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
 `;
 
-const withFadeIn = Component => {
+export const withFadeIn = Component => {
   const C = (props) =>
     <FadeIn>
       <Component {...props} />
@@ -28,4 +29,4 @@ const withFadeIn = Component => {
   return hoistNonReactStatic(C, Component);
 }
 
-export default withFadeIn;
+export default FadeIn;
