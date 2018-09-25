@@ -41,7 +41,9 @@ export const fetchGroup = (group) => (
     ? fetch(group)
       .then(res => res.json())
       .then(group => ({
-        id: `${group.category}/${group.countrycode}/${group.name}`,
+        // id escape slash, since react router params not accept slash
+        id: encodeURIComponent(`${group.category}/${group.countrycode}/${group.name}`),
+        ref: `${group.category}/${group.countrycode}/${group.name}`,
         ...group,
         country: {
           id: createHash('md5').update(group.countrycode).digest('hex'),
@@ -75,7 +77,8 @@ export const fetchEvents = () =>
       return {
         ...event,
         id: issue.id,
-        group: event.groupRef,
+        // group escape slash, since react router params not accept slash
+        group: encodeURIComponent(event.groupRef),
         country: event.countrycode,
         moment: moment(event.datetime),
         latlngStr: JSON.stringify(event.geocode),

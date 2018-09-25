@@ -82,7 +82,9 @@ export const selectGroups = (ids, state) => {
   const { groups } = state;
   const { title, city, ...filters } = state.filters;
 
-  const filteredIds = ids
+  const filteredIds = ids.length === 1
+    ? ids
+    : ids
     .filter(id => some([ groups.byId[id] ], filters))
     .filter(id => (
       includes(groups.byId[id].title.toLocaleLowerCase(), (title || '').toLocaleLowerCase()) ||

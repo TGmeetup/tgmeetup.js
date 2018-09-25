@@ -8,39 +8,11 @@ import { TiLocation, TiCalendar } from 'react-icons/ti';
 
 import { selectEvents } from '../../redux/selectors';
 import Card from '../../components/Card';
-import Map from '../../components/SingleMarkerMap';
+import Map from '../../components/SimpleMarkerMap';
 import { withFadeIn } from '../../components/FadeIn';
+import { Information as GroupInfo } from '../groups/Group';
 
-const GroupInformationWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-
-  color: gray;
-
-  img {
-    height: 100px;
-    border-radius: 50%;
-  }
-
-  div {
-    margin-left: 1em;
-  }
-`;
-
-const GroupInformation = ({ group }) => (
-  !!group &&
-  <GroupInformationWrapper>
-    <img src={group.logoURL} alt="group-avatar" />
-    <div>
-      <p>By {group.title}, {group.category.name}</p>
-      <p>At {group.city}</p>
-    </div>
-  </GroupInformationWrapper>
-)
-
-
-const Event = ({ event }) => (
+const Event = ({ event, history }) => (
   !!event &&
   <Grid style={{ marginTop: '1em' }}>
     <Card>
@@ -69,11 +41,11 @@ const Event = ({ event }) => (
             {event.location}
           </p>
         </Card.Block>
-        <Card.Block>
-          <GroupInformation group={event.group} />
+        <Card.Block onClick={() => history.push(`/groups/${event.group.id}`)}>
+          <GroupInfo group={event.group} />
         </Card.Block>
         <Card.Block fluid style={{ height: '600px' }}>
-          <Map geocode={event.geocode}/>
+          <Map geocodes={[event.geocode]}/>
         </Card.Block>
       </Card.Content>
     </Card>

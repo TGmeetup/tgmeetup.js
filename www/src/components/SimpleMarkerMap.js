@@ -9,12 +9,14 @@ import { compose, withProps } from 'recompose';
 
 import { GOOGLE_MAPS_API_KEY } from './Map';
 
-const SingleMarkerMap = ({ geocode }) => (
+const SingleMarkerMap = ({ geocodes }) => (
   <GoogleMap
-    defaultCenter={geocode}
+    defaultCenter={geocodes[0]}
     zoom={15}
   >
-    <Marker position={geocode} />
+  { geocodes.map((geocode, i) => (
+    <Marker key={i} position={geocode} />
+  ))}
   </GoogleMap>
 )
 

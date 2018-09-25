@@ -70,6 +70,21 @@ export const Block = styled.div`
   ${props => props.fluid && css`
     padding: 0;
   `}
+
+  ${props => props.pad && css`
+    padding-left: 3em;
+    padding-right: 3em;
+  `}
+
+  ${props => props.onClick && css`
+    cursor: pointer;
+    &:hover {
+    background: lightgray;
+    }
+    &:active {
+      background: gray;
+    }
+  `}
 `
 
 export const Item = styled.p`
@@ -85,12 +100,15 @@ export const Item = styled.p`
   overflow: hidden;
   text-overflow: ellipsis;
 
-  &:hover {
+  ${props => props.onClick && css`
+    cursor: pointer;
+    &:hover {
     background: lightgray;
-  }
-  &:active {
-    background: gray;
-  }
+    }
+    &:active {
+      background: gray;
+    }
+  `}
 
   svg {
     padding-right: 0.7em;
