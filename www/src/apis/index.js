@@ -1,4 +1,5 @@
 import { createHash } from 'crypto';
+import * as moment from 'moment';
 import fetch from './fetch';
 
 export const fetchCategory = (category) =>
@@ -61,3 +62,48 @@ export const fetchGroup = (group) => (
       }))
   ).catch(err => console.error(err));
 
+export const fetchEvents = () =>
+  fetch('https://api.github.com/repos/TGmeetup/tgmeetup.js/issues?labels=Event&state=open')
+    .then(res => res.json())
+    .then(issues => issues.map(issue => {
+      const reDetailText = /<details>((?:.|[\r\n])*?)<\/detail>/gm;
+      const { body } = issue;
+
+      const eventStr = reDetailText.exec(body)[1];
+      const event = JSON.parse(unescape(eventStr));
+
+      return {
+        ...event,
+        id: issue.id,
+        group: event.groupRef,
+        country: event.countrycode,
+        moment: moment(event.datetime),
+        latlngStr: JSON.stringify(event.geocode),
+      };
+    }))
+    .then(events => events.sort((a, b) => a.moment - b.moment))
+    .then(events => {
+      const markers = {};
+
+      events.forEach(event => {
+        const markerId = event.latlngStr;
+
+        if (markers[markerId] === undefined) {
+          markers[markerId] = {
+            id: markerId,
+            latlng: event.geocode,
+            events: [],
+          }
+        }
+
+        const marker = markers[markerId];
+
+        marker.events.push({ id: event.id });
+
+        event.marker = marker;
+      });
+
+
+
+      return events;
+    })

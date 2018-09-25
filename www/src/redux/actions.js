@@ -9,7 +9,6 @@ export {
   toggleOnlyOneMarker,
   toggleMarker,
   activeOnlyOneMarker,
-  sortEventsInMarker,
   clearMarker,
 } from './modules/markers';
 export { getCategories } from './modules/categories';
@@ -18,7 +17,8 @@ export { addGroup, getGroups } from './modules/groups';
 
 export const ADD_ENTITIES = 'ADD_ENTITIES';
 
-export const addEntities = (entities) => ({
+export const addEntities = (entities, result = {}) => ({
   type: ADD_ENTITIES,
-  entities
+  entities,
+  result,
 })

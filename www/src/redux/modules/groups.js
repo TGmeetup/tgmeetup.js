@@ -6,8 +6,6 @@ import { ADD_ENTITIES } from '../actions';
 import { addEntities } from '../actions';
 import { extractGroups } from '../../apis/schema';
 
-export const ADD_GROUP = 'ADD_GROUP';
-
 const shimGroupColor = (group) => {
   switch (group.name) {
     case 'MOPCON':
@@ -35,15 +33,16 @@ const shimGroupColor = (group) => {
   }
 }
 
-const group = (state, action, globalState) => {
+const group = (state, action) => {
   switch (action.type) {
     case ADD_ENTITIES: {
-      const { events } = globalState;
       return {
         ...state,
         events: [
           ...state.events,
-          ...events.allIds.filter(id => events.byId[id].group === state.id),
+          ...(action.result.events || []).filter(
+            eventId => action.entities.events[eventId].group === state.id
+          ),
         ],
         color: state.color || shimGroupColor(state),
       }
@@ -53,12 +52,12 @@ const group = (state, action, globalState) => {
   }
 }
 
-const byId = (state = {}, action, globalState) => {
+const byId = (state = {}, action) => {
   switch (action.type) {
     case ADD_ENTITIES:
       return {
-        ...state,
-        ...mapValues(action.entities.groups, g => group(g, action, globalState)),
+        ...mapValues(state, g => group(g, action)),
+        ...mapValues(action.entities.groups, g => group(g, action)),
       };
     default:
       return state;
@@ -94,16 +93,6 @@ export const selectGroups = (state) => {
   );
 }
 
-export const addGroup = (id, group) => ({
-  type: ADD_GROUP,
-  id,
-  group: {
-    id,
-    ...group,
-    color: shimGroupColor(group),
-  },
-})
-
 export const getGroups = (groups, parent = {}) => async (dispatch) => {
   if (!groups) {
     groups = await fetch('https://raw.githubusercontent.com/TGmeetup/TGmeetup/master/all-groups')
@@ -118,6 +107,18 @@ export const getGroup = (group, parent = {}) => (dispatch, getState, { api, sche
       ...parent,
       ...group,
     }))
+    .then(group => {
+      const { events } = getState();
+      return {
+        ...group,
+        events: events.allIds
+          .filter(eventId => events.byId[eventId].group === group.id)
+          .map(eventId => ({
+            id: eventId,
+            color: group.color,
+          })),
+      };
+    })
     .then(group => {
       const data = normalize(group, schema.group);
       dispatch(addEntities(data.entities));

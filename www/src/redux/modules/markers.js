@@ -1,35 +1,24 @@
-import { mapValues } from 'lodash';
+import { mapValues, uniq, keys } from 'lodash';
 import randomColor from 'randomcolor';
-import {
-  ADD_EVENT,
-  selectEvents,
-  sortEvents,
-} from './events';
+import { ADD_ENTITIES } from '../actions';
+import { selectEvents } from './events';
 
 export const ACTIVE_ONLY_ONE_MARKER = 'ACTIVE_ONLY_ONE_MARKER';
 export const TOGGLE_MARKER = 'TOGGLE_MARKER';
 export const TOGGLE_ONLY_ONE_MARKER = 'TOGGLE_ONLY_ONE_MARKER';
 export const CLEAR_MARKER = 'CLEAR_MARKER';
-export const SORT_EVENTS_IN_MARKER = 'SORT_EVENTS_IN_MARKER';
 
 const marker = (state, action, globalState) => {
   switch (action.type) {
-    case ADD_EVENT:
-      state = state || {
-        id: action.payload.latlngStr,
-        latlng: action.payload.geocode,
-        events: [],
+    case ADD_ENTITIES:
+      return {
+        ...state,
         isSelected: false,
-        color: randomColor({ luminosity: 'dark' })
+        color: randomColor({
+          luminosity: 'dark',
+          seed: state.id,
+        }),
       };
-
-      return (state.id === action.payload.latlngStr)
-        ? {
-            ...state,
-            events: [ ...state.events, action.payload.id],
-          }
-        : state;
-
     case TOGGLE_MARKER:
       return (state.id === action.id)
         ? {
@@ -54,11 +43,6 @@ const marker = (state, action, globalState) => {
         ...state,
         isSelected: false,
       }
-    case SORT_EVENTS_IN_MARKER:
-      return {
-        ...state,
-        events: sortEvents(globalState.events, state.events),
-      };
     default:
       return state;
   }
@@ -66,11 +50,11 @@ const marker = (state, action, globalState) => {
 
 const byId = (state = {}, action, globalState) => {
   switch (action.type) {
-    case ADD_EVENT:
+    case ADD_ENTITIES:
       return {
         ...state,
-        [action.payload.latlngStr]: marker(state[action.payload.latlngStr], action),
-      }
+        ...mapValues(action.entities.markers, m => marker(m, action)),
+      };
     case TOGGLE_MARKER:
       return {
         ...state,
@@ -79,7 +63,6 @@ const byId = (state = {}, action, globalState) => {
     case ACTIVE_ONLY_ONE_MARKER:
     case TOGGLE_ONLY_ONE_MARKER:
     case CLEAR_MARKER:
-    case SORT_EVENTS_IN_MARKER:
       return mapValues(state, (m) => marker(m, action, globalState));
     default:
       return state;
@@ -88,10 +71,8 @@ const byId = (state = {}, action, globalState) => {
 
 const allIds = (state = [], action, byId) => {
   switch (action.type) {
-    case ADD_EVENT:
-      return (state.indexOf(action.payload.latlngStr) < 0)
-        ? [ ...state, action.payload.latlngStr ]
-        : state;
+    case ADD_ENTITIES:
+      return uniq([ ...state, ...keys(action.entities.markers) ]);
     default:
       return state;
   }
@@ -125,11 +106,6 @@ export const activeOnlyOneMarker = (id) => ({
   type: ACTIVE_ONLY_ONE_MARKER,
   id,
 })
-
-export const sortEventsInMarker = () => ({
-  type: SORT_EVENTS_IN_MARKER
-})
-
 export const clearMarker = () => ({
   type: CLEAR_MARKER,
 })
