@@ -44,7 +44,6 @@ const group = (state, action) => {
             eventId => action.entities.events[eventId].group === state.id
           ),
         ],
-        color: state.color || shimGroupColor(state),
       }
     }
     default:
@@ -111,13 +110,17 @@ export const getGroup = (group, parent = {}) => (dispatch, getState, { api, sche
     }))
     .then(group => {
       const { events } = getState();
+
+      const color = group.color || shimGroupColor(group);
+
       return {
         ...group,
+        color,
         events: events.allIds
           .filter(eventId => events.byId[eventId].group === group.id)
           .map(eventId => ({
             id: eventId,
-            color: group.color,
+            color,
           })),
       };
     })
