@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Grid, Row, Col } from 'react-flexbox-grid';
+import { Grid } from 'react-flexbox-grid';
 import { GoGitCommit } from 'react-icons/go';
 import { selectEvents } from '../../redux/selectors';
 import { NonStyleLink } from '../../components';
@@ -15,18 +15,12 @@ const View = ({ events, ...rests }) => (
       </Card.Title>
       <Card.Content>
       { events.map(e => (
-        <Card.Item key={e.id}>
+        <Card.Item key={e.id} onClick={() => {}}>
           <NonStyleLink to={`/events/${e.id}`}>
-            <Row middle="xs">
-              <Col xs={1}><GoGitCommit /></Col>
-              <Col xs={11}>
-                <Row>
-                  <Col xs={6} md={2}><span>{e.moment.calendar()}</span></Col>
-                  <Col xs={6} last="md" md={5} style={{ textAlign: 'right' }}><span>{ e.location.trim() || e.local_city }</span></Col>
-                  <Col xs={12} md={5}><b>{ e.name }</b></Col>
-                </Row>
-              </Col>
-            </Row>
+            <GoGitCommit />{' '}
+            {e.moment.calendar()}{' '}
+            <b className="event">{ e.name }</b>{' '}
+            { e.location.trim() || e.local_city }
           </NonStyleLink>
         </Card.Item>
       ))}

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Grid } from 'react-flexbox-grid';
 import { compose } from 'recompose';
 import styled from 'styled-components';
-import { TiChartPie, TiChevronRight, TiTicket, TiPhone } from 'react-icons/ti';
+import { TiChevronRight, TiTicket, TiPhone } from 'react-icons/ti';
 
 import { selectGroups } from '../../redux/selectors';
 import Card from '../../components/Card';
@@ -39,7 +39,7 @@ export const Information = ({ group }) => (
       <p>
         Registration from
         {' '}
-        <a href={group.registration.url}>
+        <a href={group.registration.url} target="_blank">
         { group.registration.type.toUpperCase() }
         </a>
       </p>
@@ -67,9 +67,8 @@ const Group = ({ group, history }) => (
           // Typo on Mopcon group information
           // https://github.com/TGmeetup/TGmeetup/pull/49/files
           (media.urls || media.url || []).map(url => (
-            <p>
+            <p key={media.type + url}>
               <a
-                key={media.type + media.url}
                 href={url}
                 target="_blank"
               >

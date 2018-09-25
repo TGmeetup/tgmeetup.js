@@ -3,7 +3,6 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Grid } from 'react-flexbox-grid';
 import { compose } from 'recompose';
-import styled from 'styled-components';
 import { TiLocation, TiCalendar } from 'react-icons/ti';
 
 import { selectEvents } from '../../redux/selectors';
