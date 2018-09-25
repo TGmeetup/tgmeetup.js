@@ -41,10 +41,3 @@ export const extractMarkers = (state) =>
     [ marker ],
     entities(state)
   );
-
-export const extractGroups = (ids, state) =>
-  denormalize(
-    ids,
-    [ group ],
-    entities(state)
-  );

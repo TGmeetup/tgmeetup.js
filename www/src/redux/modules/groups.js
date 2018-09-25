@@ -1,10 +1,10 @@
-import { normalize } from 'normalizr';
+import { normalize, denormalize } from 'normalizr';
 import { some, mapValues, keys, uniq, includes } from 'lodash';
 import randomColor from 'randomcolor';
 
+import * as schema from '../../apis/schema';
 import { ADD_ENTITIES } from '../actions';
 import { addEntities } from '../actions';
-import { extractGroups } from '../../apis/schema';
 
 const shimGroupColor = (group) => {
   switch (group.name) {
@@ -78,19 +78,19 @@ export default (state = {}, action, globalState) => ({
   allIds: allIds(state.allIds, action),
 })
 
-export const selectGroups = (state) => {
+export const selectGroups = (ids, state) => {
   const { groups } = state;
   const { title, city, ...filters } = state.filters;
-  return extractGroups(
-    groups.allIds
-      .filter(id => some([ groups.byId[id] ], filters))
-      .filter(id => (
-        includes(groups.byId[id].title.toLocaleLowerCase(), (title || '').toLocaleLowerCase()) ||
-        includes(groups.byId[id].name.toLocaleLowerCase(), (title || '').toLocaleLowerCase())
-      ))
-      .filter(id => includes(groups.byId[id].city.toLocaleLowerCase(), (city || '').toLocaleLowerCase())),
-    state,
-  );
+
+  const filteredIds = ids
+    .filter(id => some([ groups.byId[id] ], filters))
+    .filter(id => (
+      includes(groups.byId[id].title.toLocaleLowerCase(), (title || '').toLocaleLowerCase()) ||
+      includes(groups.byId[id].name.toLocaleLowerCase(), (title || '').toLocaleLowerCase())
+    ))
+    .filter(id => includes(groups.byId[id].city.toLocaleLowerCase(), (city || '').toLocaleLowerCase()));
+
+  return denormalize(filteredIds, [ schema.group ], schema.entities(state));
 }
 
 export const getGroups = (groups, parent = {}) => async (dispatch) => {

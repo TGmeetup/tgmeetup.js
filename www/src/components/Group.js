@@ -213,7 +213,7 @@ export class _Groups extends Component {
 }
 
 const mapStateToProps = state => ({
-  groups: selectGroups(state)
+  groups: selectGroups(state.groups.allIds, state)
 })
 
 export const Groups = withRouter(connect(

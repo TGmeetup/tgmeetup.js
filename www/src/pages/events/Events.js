@@ -1,9 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Grid, Row, Col } from 'react-flexbox-grid';
 import { GoGitCommit } from 'react-icons/go';
-import styled from 'styled-components';
 import { selectEvents } from '../../redux/selectors';
 import { NonStyleLink } from '../../components';
 import Card from '../../components/Card';
