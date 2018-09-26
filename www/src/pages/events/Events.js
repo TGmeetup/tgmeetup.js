@@ -8,9 +8,9 @@ import Card from '../../blocks/Card';
 import { withFadeIn } from '../../components/FadeIn';
 
 const View = ({ events, ...rests }) => (
-  <Grid style={{ marginTop: '1em' }}>
+  <Grid>
     <Card>
-      <Card.Title color="lightgreen">
+      <Card.Title>
         <h2>All Events</h2>
       </Card.Title>
       <Card.Content>
@@ -19,8 +19,8 @@ const View = ({ events, ...rests }) => (
           <NonStyleLink to={`/events/${e.id}`}>
             <GoGitCommit />{' '}
             {e.moment.calendar()}{' '}
-            <b className="event">{ e.name }</b>{' '}
-            { e.location.trim() || e.local_city }
+            <b>{ e.name }</b>{' '}
+            <span>{ e.location.trim() || e.local_city }</span>
           </NonStyleLink>
         </Card.Item>
       ))}

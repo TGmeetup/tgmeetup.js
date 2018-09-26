@@ -4,7 +4,7 @@ import modifier from '../modifier';
 export const HoverableCss = css`
   cursor: pointer;
   &:hover {
-  background: lightgray;
+    background: lightgray;
   }
   &:active {
     background: gray;
@@ -85,6 +85,10 @@ export const Block = styled.div`
     a {
       color: inherit;
     }
+  `)}
+
+  ${modifier('__text_center')( css`
+    text-align: center;
   `)}
 
   ${modifier('onClick')(HoverableCss)}
