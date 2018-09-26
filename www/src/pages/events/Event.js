@@ -6,7 +6,7 @@ import { compose } from 'recompose';
 import { TiLocation, TiCalendar } from 'react-icons/ti';
 
 import { selectEvents } from '../../redux/selectors';
-import Card from '../../components/Card';
+import Card from '../../blocks/Card';
 import Map from '../../components/SimpleMarkerMap';
 import { withFadeIn } from '../../components/FadeIn';
 import { Information as GroupInfo } from '../groups/Group';

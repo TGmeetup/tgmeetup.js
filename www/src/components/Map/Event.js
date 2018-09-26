@@ -1,19 +1,19 @@
 import React from 'react';
-import Card from './Card';
+import Card from '../../blocks/Card';
 import {
   GoLink,
   GoClock,
   GoLocation,
   GoX,
   GoOrganization
-} from 'react-icons/go'
+} from 'react-icons/go';
 
 export default ({
   event,
   onCloseClick,
   shrink = false,
 }) => (
-  <Card width='400px'>
+  <Card __small __no_margin __shifted_top>
     <Card.Title color={event.color}>
       <GoX onClick={onCloseClick} />
       <h2>

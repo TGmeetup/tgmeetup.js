@@ -1,17 +1,14 @@
 import styled, { css } from 'styled-components';
+import modifier from '../modifier';
 
-const Card = styled.div`
-  display: flex;
-  flex-direction: column;
-  font-size: 18px;
-  max-width: ${props => props.width};
-  background: white;
-  box-shadow: 0 0 5px #888888;
-
-  ${props => !props.onMap && css`
-    margin-top: 1em;
-    margin-bottom: 1em;
-  `}
+export const HoverableCss = css`
+  cursor: pointer;
+  &:hover {
+  background: lightgray;
+  }
+  &:active {
+    background: gray;
+  }
 `;
 
 export const Title = styled.div`
@@ -47,17 +44,16 @@ export const Content = styled.div`
   padding-left: 0.7em;
   padding-right: 0.7em;
   word-wrap: break-word;
-
-`
+`;
 
 export const Block = styled.div`
   margin: 0;
+  margin-left: -0.7em;
+  margin-right: -0.7em;
   padding-top: 0.5em;
   padding-bottom: 0.5em;
   padding-left: 0.7em;
   padding-right: 0.7em;
-  margin-left: -0.7em;
-  margin-right: -0.7em;
 
   &:first-child {
     margin-top: -1em;
@@ -67,48 +63,30 @@ export const Block = styled.div`
     margin-bottom: -1em;
   }
 
-  ${props => props.fluid && css`
+  ${modifier('__fluid')( css`
     padding: 0;
-  `}
+  `)}
 
-  ${props => props.pad && css`
+  ${modifier('__shrink')( css`
     padding-left: 3em;
     padding-right: 3em;
-  `}
+  `)}
 
-  ${props => props.onClick && css`
-    cursor: pointer;
-    &:hover {
-    background: lightgray;
-    }
-    &:active {
-      background: gray;
-    }
-  `}
-`
+  ${modifier('onClick')(HoverableCss)}
+`;
 
 export const Item = styled.p`
   margin: 0;
+  margin-left: -0.7em;
+  margin-right: -0.7em;
   padding-top: 0.5em;
   padding-bottom: 0.5em;
   padding-left: 0.7em;
   padding-right: 0.7em;
-  margin-left: -0.7em;
-  margin-right: -0.7em;
 
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-
-  ${props => props.onClick && css`
-    cursor: pointer;
-    &:hover {
-    background: lightgray;
-    }
-    &:active {
-      background: gray;
-    }
-  `}
 
   svg {
     padding-right: 0.7em;
@@ -118,8 +96,9 @@ export const Item = styled.p`
     text-overflow: ellipsis;
     overflow: hidden;
   }
-`;
 
+  ${modifier('onClick')(HoverableCss)}
+`;
 
 export const Action = styled.a`
   color: initial;
@@ -139,19 +118,6 @@ export const Action = styled.a`
     `
   }
 
-  ${props => props.onClick && css`
-    cursor: pointer;
-  `}
-
-  ${props => (props.href || props.onClick) && css`
-    &:hover {
-      background: lightgray;
-    }
-    &:active {
-      background: gray;
-    }
-  `}
-
   & > svg {
     margin: .5em;
     font-size: 1.4em;
@@ -161,8 +127,10 @@ export const Action = styled.a`
     margin: 0;
     text-overflow: ellipsis;
   }
-`;
 
+  ${modifier('onClick')(HoverableCss)}
+  ${modifier('href')(HoverableCss)}
+`;
 
 export const Actions = styled.div`
   display: flex;
@@ -176,6 +144,7 @@ export const Actions = styled.div`
   }
 `;
 
+
 export const Badge = styled.span`
   position: absolute;
   left: calc(50% + 0.5em);
@@ -184,25 +153,13 @@ export const Badge = styled.span`
   padding-left: 0.4em;
   padding-right: 0.4em;
   border-radius: 0.4em;
-`
+`;
 
 export const Header = styled.header`
   width: 100%;
-`
+`;
 
 export const Footer = styled.footer`
   width: 100%;
   align-self: flex-end;
-`
-
-Card.Title = Title;
-Card.Content = Content;
-Card.Block = Block;
-Card.Item = Item;
-Card.Actions = Actions;
-Card.Action = Action;
-Card.Badge = Badge;
-Card.Header = Header;
-Card.Footer = Footer;
-
-export default Card;
+`;

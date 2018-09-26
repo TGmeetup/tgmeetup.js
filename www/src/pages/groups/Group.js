@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import { TiChevronRight, TiTicket, TiPhone } from 'react-icons/ti';
 
 import { selectGroups } from '../../redux/selectors';
-import Card from '../../components/Card';
+import Card from '../../blocks/Card';
 import { withFadeIn } from '../../components/FadeIn';
 import Map from '../../components/SimpleMarkerMap';
 import Icon from '../../components/Icon';

@@ -4,7 +4,7 @@ import { Grid } from 'react-flexbox-grid';
 import { GoGitCommit } from 'react-icons/go';
 import { selectEvents } from '../../redux/selectors';
 import { NonStyleLink } from '../../components';
-import Card from '../../components/Card';
+import Card from '../../blocks/Card';
 import { withFadeIn } from '../../components/FadeIn';
 
 const View = ({ events, ...rests }) => (

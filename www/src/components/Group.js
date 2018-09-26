@@ -10,7 +10,7 @@ import {
 import styled from 'styled-components';
 
 import { NonStyleLink } from './';
-import Card from './Card';
+import Card from '../blocks/Card';
 import FadeIn from './FadeIn';
 import { ShiftedContainer } from './UnsortedComponents';
 import { selectGroups } from '../redux/selectors';
