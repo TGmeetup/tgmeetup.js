@@ -33,7 +33,9 @@ const View = ({ events, filters, toggleEventFilter, ...rests }) => (
         <Card.Item key={e.id} onClick={() => {}}>
           <NonStyleLink to={`/events/${e.id}`}>
             <GoGitCommit />{' '}
-            {e.moment.calendar()}{' '}
+            {e.moment.calendar(undefined, {
+              sameElse: '(dd) DD/MM HH:mm'
+            })}{' '}
             <b>{ e.name }</b>{' '}
             <span>{ e.location.trim() || e.local_city }</span>
           </NonStyleLink>
