@@ -55,6 +55,8 @@ export const Block = styled.div`
   padding-left: 0.7em;
   padding-right: 0.7em;
 
+  background: ${props => props.color};
+
   &:first-child {
     margin-top: -1em;
   }
@@ -63,6 +65,10 @@ export const Block = styled.div`
     margin-bottom: -1em;
   }
 
+  ${modifier('__size_fixed_md')( css`
+    height: 600px;
+  `)}
+
   ${modifier('__fluid')( css`
     padding: 0;
   `)}
@@ -70,6 +76,15 @@ export const Block = styled.div`
   ${modifier('__shrink')( css`
     padding-left: 3em;
     padding-right: 3em;
+  `)}
+
+  ${modifier('__bright')( css`
+    color: lightgray;
+    filter: brightness(150%);
+
+    a {
+      color: inherit;
+    }
   `)}
 
   ${modifier('onClick')(HoverableCss)}

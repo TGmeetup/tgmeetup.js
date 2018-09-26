@@ -1,16 +1,19 @@
 import React, { Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Grid } from 'react-flexbox-grid';
 import { compose } from 'recompose';
+import { uniq } from 'lodash';
+
 import styled from 'styled-components';
+import { Grid } from 'react-flexbox-grid';
 import { TiChevronRight, TiTicket, TiPhone } from 'react-icons/ti';
 
 import { selectGroups } from '../../redux/selectors';
+
 import Card from '../../blocks/Card';
-import { withFadeIn } from '../../components/FadeIn';
-import Map from '../../components/SimpleMarkerMap';
 import Icon from '../../components/Icon';
+import { withFadeIn } from '../../components/FadeIn';
+import { PlainMap as Map } from '../../components/Map';
 
 const GroupInformationWrapper = styled.div`
   display: flex;
@@ -58,20 +61,17 @@ const Group = ({ group, history }) => (
         <Card.Block>
           <Information group={group} />
         </Card.Block>
-        <Card.Block pad>
+        <Card.Block __shrink>
           <p>{group.description}</p>
         </Card.Block>
         <h2><TiPhone /> Contact</h2>
-        <Card.Block pad>
+        <Card.Block __shrink>
         { (group['social-media'] || []).map(media =>
           // Typo on Mopcon group information
           // https://github.com/TGmeetup/TGmeetup/pull/49/files
           (media.urls || media.url || []).map(url => (
             <p key={media.type + url}>
-              <a
-                href={url}
-                target="_blank"
-              >
+              <a href={url} target="_blank">
                 <Icon type={media.type} />
                 {` ${url}`}
               </a>
@@ -92,8 +92,11 @@ const Group = ({ group, history }) => (
               <b>{event.name}</b>
             </Card.Item>
             ))}
-            <Card.Block fluid style={{ height: '600px' }}>
-              <Map geocodes={group.events.map(e => e.geocode)}/>
+            <Card.Block __fluid __size_fixed_md>
+              <Map zoomToStreet
+                markers={uniq(group.events.map(event => event.marker))}
+                center={group.events[0].geocode}
+              />
             </Card.Block>
           </Fragment>
         }

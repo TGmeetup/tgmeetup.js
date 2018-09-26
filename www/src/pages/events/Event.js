@@ -1,30 +1,28 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Grid } from 'react-flexbox-grid';
 import { compose } from 'recompose';
+
+import { Grid } from 'react-flexbox-grid';
 import { TiLocation, TiCalendar } from 'react-icons/ti';
 
 import { selectEvents } from '../../redux/selectors';
+
 import Card from '../../blocks/Card';
-import Map from '../../components/SimpleMarkerMap';
+import { PlainMap as Map } from '../../components/Map';
 import { withFadeIn } from '../../components/FadeIn';
 import { Information as GroupInfo } from '../groups/Group';
 
+
 const Event = ({ event, history }) => (
   !!event &&
-  <Grid style={{ marginTop: '1em' }}>
+  <Grid>
     <Card>
       <Card.Title color={event.color}>
         <h2>{ event.name }</h2>
       </Card.Title>
       <Card.Content>
-        <Card.Block style={{
-          color: 'lightgray',
-          background: event.color,
-          filter: 'brightness(150%)',
-          }}
-        >
+        <Card.Block __bright color={event.color}>
           <p>
             <TiCalendar />
             {' '}
@@ -32,19 +30,24 @@ const Event = ({ event, history }) => (
             {' '}
             {event.moment.format('MM/DD/YYYY')}
             {' '}
-            {`(${event.moment.format('dddd')})`}
+            ({event.moment.format('dddd')})
           </p>
           <p>
-            <TiLocation />
-            {' '}
-            {event.location}
+              <TiLocation />
+              {' '}
+              <a href={`https://www.google.com/maps/?q=${encodeURI(event.location)}`} target="_blank">
+                {event.location}
+              </a>
           </p>
         </Card.Block>
         <Card.Block onClick={() => history.push(`/groups/${event.group.id}`)}>
           <GroupInfo group={event.group} />
         </Card.Block>
-        <Card.Block fluid style={{ height: '600px' }}>
-          <Map geocodes={[event.geocode]}/>
+        <Card.Block __fluid __size_fixed_md>
+          <Map zoomToStreet
+            markers={[ event.marker ]}
+            center={event.geocode}
+          />
         </Card.Block>
       </Card.Content>
     </Card>
