@@ -1,11 +1,13 @@
 import { normalize, denormalize } from 'normalizr';
-import { mapValues, merge } from 'lodash';
+import { mapValues, merge, includes } from 'lodash';
 
 import * as schema from '../../apis/schema';
 import { ADD_ENTITIES, addEntities } from '../actions';
 
 export const TOGGLE_EVNET = 'TOGGLE_EVENT';
 export const ACTIVE_ONLY_ONE_EVENT = 'ACTIVE_ONLY_ONE_EVENT';
+export const TOGGLE_EVENT_FILTER = 'TOGGLE_EVENT_FILTER';
+export const CLEAR_EVENT_FILTER = 'CLEAR_EVENT_FILTER';
 
 const event = (state, action) => {
   switch (action.type) {
@@ -63,11 +65,30 @@ const allIds = (state = [], action, byId) => {
   }
 }
 
+const filters = (state = {}, action) => {
+  switch (action.type) {
+    case TOGGLE_EVENT_FILTER:
+      Object.keys(action.filter).forEach(field => {
+        if (field in state && state[field] === action.filter[field]) {
+          delete state[field]
+        } else {
+          state[field] = action.filter[field];
+        }
+      });
+      return { ...state };
+    case CLEAR_EVENT_FILTER:
+      return {};
+    default:
+      return state;
+  }
+}
+
 export default (state = {}, action) => {
   const nextById = byId(state.byId, action);
   return {
     byId: nextById,
     allIds: allIds(state.allIds, action, nextById),
+    filters: filters(state.filters, action),
   };
 }
 
@@ -81,8 +102,23 @@ export const activeOnlyOneEvent = (event) => ({
   payload: event,
 })
 
-export const selectEvents = (ids, state) =>
-  denormalize(ids, [ schema.event ], schema.entities(state));
+export const toggleEventFilter = (filter) => ({
+  type: TOGGLE_EVENT_FILTER,
+  filter,
+})
+
+export const clearEventFilter = () => ({
+  type: CLEAR_EVENT_FILTER,
+})
+
+export const selectEvents = (ids, state) => {
+  const { filters } = state.events;
+
+  return denormalize(ids, [ schema.event ], schema.entities(state))
+    .filter(event =>
+      includes(event.name.toLowerCase(), (filters.name || '').toLowerCase())
+    );
+}
 
 export const getEvents = () => (dispatch, getState, { api, schema }) =>
   api.fetchEvents()

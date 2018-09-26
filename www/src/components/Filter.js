@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { TiLocation, TiWorld, TiNews, TiGroup } from 'react-icons/ti';
-import styled, { css } from 'styled-components';
 import { debounce } from 'lodash';
+
+import styled, { css } from 'styled-components';
+import { TiLocation, TiWorld, TiNews, TiGroup } from 'react-icons/ti';
 
 import * as actions from '../redux/actions';
 import { selectFilters, selectCategories, selectCountries } from '../redux/selectors';

@@ -4,6 +4,8 @@ export {
   activeOnlyOneEvent,
   getEvents,
   sortEvents,
+  toggleEventFilter,
+  clearEventFilter,
 } from './modules/events';
 export {
   toggleOnlyOneMarker,
