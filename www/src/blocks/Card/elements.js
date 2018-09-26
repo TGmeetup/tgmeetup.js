@@ -116,6 +116,8 @@ export const Item = styled.p`
     overflow: hidden;
   }
 
+  ${modifier('__hoverable')(HoverableCss)}
+
   ${modifier('onClick')(HoverableCss)}
 `;
 

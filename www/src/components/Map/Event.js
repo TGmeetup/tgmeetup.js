@@ -7,6 +7,7 @@ import {
   GoX,
   GoOrganization
 } from 'react-icons/go';
+import { NonStyleLink } from '../';
 
 export default ({
   event,
@@ -17,12 +18,9 @@ export default ({
     <Card.Title color={event.color}>
       <GoX onClick={onCloseClick} />
       <h2>
-        <a
-          href={event.link}
-          target="_blank"
-        >
+        <NonStyleLink to={`/events/${event.id}`}>
           {event.name}
-        </a>
+        </NonStyleLink>
       </h2>
     </Card.Title>
     <Card.Content>
@@ -51,9 +49,11 @@ export default ({
           `${event.location}, ${event.local_city}`
         )}
       </Card.Item>
-      <Card.Item>
-        <GoOrganization />{' '}
-        { event.group.title }
+      <Card.Item __hoverable>
+        <GoOrganization />
+          <NonStyleLink to={`/groups/${event.group.id}`}>
+          { event.group.title }
+        </NonStyleLink>
       </Card.Item>
     </Card.Content>
   </Card>
