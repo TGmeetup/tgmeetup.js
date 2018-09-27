@@ -85,7 +85,7 @@ const Wrapper = styled.div`
 `
 const GroupView = ({ data: { groups } }) => (
   <Wrapper>
-    <SEO seo={groupListToSEO(groups)} />
+    <SEO seo={groupListToSEO(groups.edges.map(edge => edge.node))} />
     <Grid>
       <Row>
       { groups.edges.map(edge => edge.node).filter(group => group.events.length > 0).map(group => (

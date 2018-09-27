@@ -15,7 +15,7 @@ const Wrapper = styled.div`
 
 const Markers = ({ data: { markers }}) => (
   <Wrapper>
-    <SEO seo={markerListToSEO(markers)} />
+    <SEO seo={markerListToSEO(markers.edges.map(edge => edge.node))} />
     <Map markers={markers.edges.map(edge => edge.node)}/>
   </Wrapper>
 )

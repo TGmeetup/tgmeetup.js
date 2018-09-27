@@ -12,7 +12,7 @@ import { withFadeIn } from '../components/FadeIn';
 
 const View = ({ data: { events } }) => (
   <Grid>
-    <SEO seo={eventListToSEO(events)} />
+    <SEO seo={eventListToSEO(events.edges.map(edge => edge.node))} />
     <Card>
       <Card.Title __primary>
         <h2>All Events</h2>
