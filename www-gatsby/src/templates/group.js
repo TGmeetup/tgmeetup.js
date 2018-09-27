@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { graphql } from 'gatsby';
 import { compose } from 'recompose';
 import { uniqBy } from 'lodash';
 

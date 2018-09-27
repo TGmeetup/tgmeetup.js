@@ -65,7 +65,9 @@ const MenuRight = styled(Menu)`
 
 const Header = () => (
   <Wrapper>
-    <img src={logo} alt="tgmeetup" />
+    <Link to="/">
+      <img src={logo} alt="tgmeetup" />
+    </Link>
     <MenuLeft>
       <Link __color_blue to="/markers">
         <Item>
