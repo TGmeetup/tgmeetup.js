@@ -5,7 +5,9 @@
   "scripts": {
     "develop": "gatsby develop",
     "build": "gatsby build",
-    "serve": "gatsby serve"
+    "serve": "gatsby serve",
+    "deploy:root": "gh-pages -d public/ -b master -r git@github.com:TGmeetup/TGmeetup.github.io.git",
+    "deploy:root:travis": "gh-pages -d public/ -b master -r https://${GHBOT_TOKEN}@github.com/TGmeetup/TGmeetup.github.io.git"
   },
   "dependencies": {
     "babel-plugin-styled-components": "^1.7.1",
