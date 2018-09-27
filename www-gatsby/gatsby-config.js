@@ -4,6 +4,8 @@ module.exports = {
     siteUrl: `http://tgmeetup.github.io`
   },
   plugins: [
-    `gatsby-source-tgmeetup`
+    `gatsby-source-tgmeetup`,
+    `gatsby-plugin-react-helmet`,
+    `gatsby-plugin-styled-components`
   ]
 }

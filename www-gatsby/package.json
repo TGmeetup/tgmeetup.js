@@ -8,7 +8,10 @@
     "serve": "gatsby serve"
   },
   "dependencies": {
+    "babel-plugin-styled-components": "^1.7.1",
     "gatsby": "^2.0.0",
+    "gatsby-plugin-react-helmet": "^3.0.0",
+    "gatsby-plugin-styled-components": "^3.0.0",
     "hoist-non-react-statics": "^3.0.1",
     "lodash": "^4.17.11",
     "react": "^16.5.1",
