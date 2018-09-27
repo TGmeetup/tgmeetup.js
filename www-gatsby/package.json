@@ -9,7 +9,14 @@
   },
   "dependencies": {
     "gatsby": "^2.0.0",
+    "hoist-non-react-statics": "^3.0.1",
+    "lodash": "^4.17.11",
     "react": "^16.5.1",
-    "react-dom": "^16.5.1"
+    "react-dom": "^16.5.1",
+    "react-flexbox-grid": "^2.1.2",
+    "react-google-maps": "^9.4.5",
+    "react-helmet": "^5.2.0",
+    "react-icons": "^3.1.0",
+    "styled-components": "^3.4.9"
   }
 }
