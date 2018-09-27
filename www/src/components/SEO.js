@@ -24,7 +24,7 @@ export const eventToSEO = (event) => ({
   ...defaultSEO,
   type: 'event',
   title : `${event.name} - ${defaultSEO.title}`,
-  image: event.group.logoURL,
+  image: event.group.logoURL || defaultSEO.image,
   description: `${event.group.title}\n${event.dateTime}\n${event.location}\n${event.local_city}`,
   url: `${defaultSEO.url}/events/${event.id}`,
 });
@@ -40,7 +40,7 @@ export const groupToSEO = (group) => ({
   ...defaultSEO,
   type: 'group',
   title: `${group.title} - ${defaultSEO.title}`,
-  image: group.logoURL,
+  image: group.logoURL || defaultSEO.image,
   description: `${group.events.length} events on ${group.title}!\n${group.city}`,
   url: `${defaultSEO.url}/events/${group.id}`,
 });
