@@ -1,12 +1,7 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { compose, withProps } from 'recompose';
-
+import { compose, withProps, withState } from 'recompose';
 import { GoogleMap, Marker, withScriptjs, withGoogleMap } from 'react-google-maps';
 import InfoBox from "react-google-maps/lib/components/addons/InfoBox";
-
-import * as actions from '../../redux/actions';
-import { selectMarkers } from '../../redux/selectors';
 
 import List from './List';
 
@@ -17,20 +12,20 @@ const _Map = ({
   zoomToStreet = false,
   center = { lat: 23.903687, lng: 121.07937 },
   markers = [],
-  toggleOnlyOneMarker,
-  ...restProps
+  activeMarkerId,
+  setActiveMarkerId,
 }) => (
   <GoogleMap
     defaultZoom={zoomToStreet ? 15 : 8}
     defaultCenter={center}
   >
-  { markers.map(({ id, events, isSelected, latlng, color }) => (
+  { markers.map(({ id, events, latlng, color }) => (
     <Marker
       key={id}
       position={latlng}
-      onClick={() => toggleOnlyOneMarker(id)}
+      onClick={() => setActiveMarkerId(() => id)}
     >
-    { isSelected && (
+    { events && (activeMarkerId === id) && (
       <InfoBox
         options={{
           closeBoxURL: ``,
@@ -41,8 +36,6 @@ const _Map = ({
         <List
           color={color}
           events={events}
-          {...restProps}
-          onCloseClick={() => toggleOnlyOneMarker(id)}
         />
       </InfoBox>
     )}
@@ -53,7 +46,7 @@ const _Map = ({
 
 _Map.displayName = 'Map';
 
-const BindedMap = compose(
+export const PlainMap = compose(
   withProps({
     googleMapURL: `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&v=3.exp&libraries=geometry,drawing,places`,
     loadingElement: <div style={{ height: `100%` }} />,
@@ -62,12 +55,7 @@ const BindedMap = compose(
   }),
   withScriptjs,
   withGoogleMap,
+  withState('activeMarkerId', 'setActiveMarkerId', null),
 )(_Map);
 
-export const PlainMap = connect(undefined, actions)(BindedMap);
-
-const mapStateToProps = state =>  ({
-  markers: selectMarkers(state.markers.allIds, state),
-});
-
-export default connect(mapStateToProps, actions)(BindedMap);
+export default PlainMap;

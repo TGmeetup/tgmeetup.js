@@ -35,6 +35,10 @@ export const Title = styled.div`
   svg {
     float: right;
   }
+
+  ${modifier('__primary')( css`
+    background: #00d1c9;
+  `)}
 `;
 
 export const Content = styled.div`
@@ -90,6 +94,8 @@ export const Block = styled.div`
   ${modifier('__text_center')( css`
     text-align: center;
   `)}
+
+  ${modifier('__hoverable')(HoverableCss)}
 
   ${modifier('onClick')(HoverableCss)}
 `;

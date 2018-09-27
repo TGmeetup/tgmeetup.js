@@ -1,9 +1,11 @@
 import React from 'react';
-import { Link, withRouter } from 'react-router-dom';
+
 import styled, { css } from 'styled-components';
 import { TiMap, TiGroup, TiTicket } from 'react-icons/ti';
-import logo from '../logo.png';
 import { GoMarkGithub, GoRss, GoCalendar } from 'react-icons/go';
+
+import Link from '../elements/Link';
+import logo from '../logo.png';
 
 export const headerHeight = '8vh';
 
@@ -61,22 +63,24 @@ const MenuRight = styled(Menu)`
   right: 0;
 `
 
-const Header = ({ location }) => (
+const Header = () => (
   <Wrapper>
-    <img src={logo} alt="tgmeetup" />
+    <Link to="/">
+      <img src={logo} alt="tgmeetup" />
+    </Link>
     <MenuLeft>
-      <Link to="/map">
-        <Item active={location.pathname === '/map'}>
+      <Link __color_blue to="/markers">
+        <Item>
             <TiMap />
         </Item>
       </Link>
-      <Link to="/groups">
-        <Item active={location.pathname === '/groups'}>
+      <Link __color_blue to="/groups">
+        <Item>
           <TiGroup />
         </Item>
       </Link>
-      <Link to="/events">
-        <Item active={location.pathname === '/events'}>
+      <Link __color_blue to="/events">
+        <Item>
           <TiTicket />
         </Item>
       </Link>
@@ -113,4 +117,4 @@ const Header = ({ location }) => (
   </Wrapper>
 )
 
-export default withRouter(Header);
+export default Header;

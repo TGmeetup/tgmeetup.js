@@ -7,20 +7,16 @@ import {
   GoX,
   GoOrganization
 } from 'react-icons/go';
-import { NonStyleLink } from '../';
+import Link from '../../elements/Link';
 
-export default ({
-  event,
-  onCloseClick,
-  shrink = false,
-}) => (
+export default ({ event }) => (
   <Card __small __no_margin __shifted_top>
     <Card.Title color={event.color}>
-      <GoX onClick={onCloseClick} />
+      <GoX />
       <h2>
-        <NonStyleLink to={`/events/${event.id}`}>
+        <Link to={`/events/${event.id}`}>
           {event.name}
-        </NonStyleLink>
+        </Link>
       </h2>
     </Card.Title>
     <Card.Content>
@@ -37,23 +33,18 @@ export default ({
       <Card.Item>
       <GoClock />
         {' '}
-        {event.moment.calendar()}
+        {event.dateTime}
       </Card.Item>
       <Card.Item>
         <GoLocation />
         {' '}
-        { event.location.length <= 1 && (
-          event.local_city
-        )}
-        { event.location.length > 1 && (
-          `${event.location}, ${event.local_city}`
-        )}
+        {event.location}
       </Card.Item>
       <Card.Item __hoverable>
         <GoOrganization />
-          <NonStyleLink to={`/groups/${event.group.id}`}>
+          <Link to={`/groups/${event.group.id}`}>
           { event.group.title }
-        </NonStyleLink>
+          </Link>
       </Card.Item>
     </Card.Content>
   </Card>
