@@ -26,10 +26,12 @@ exports.fetchEvents = () =>
       const event = JSON.parse(unescape(eventStr));
 
       return {
+        title: issue.title,
         ...event,
         id: issue.id,
         latlngStr: JSON.stringify(event.geocode),
         dateTime: new Date(event.datetime),
+        createAt: issue.created_at,
       };
     }))
     .then(events => events.sort((a, b) => a.dateTime - b.dateTime))
