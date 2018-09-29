@@ -17,12 +17,6 @@ before_deploy:
 
 deploy:
   - provider: script
-    script: yarn deploy:google-calendar
-    skip_cleanup: true
-    on:
-      branch: master
-
-  - provider: script
     script: yarn deploy:www
     skip_cleanup: true
     on:

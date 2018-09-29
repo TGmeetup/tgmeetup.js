@@ -16,7 +16,6 @@
     "lib/"
   ],
   "scripts": {
-    "deploy:google-calendar": "DEBUG=my:fetch,my:process babel-node src/createEventByListing",
     "deploy:www": "sh scripts/deploy-www.sh",
     "test": "echo 0",
     "build": "npm run clean && webpack --config webpack.production.config.js -p",
@@ -35,7 +34,6 @@
     "@babel/preset-env": "^7.0.0-beta.46",
     "@babel/register": "^7.0.0-beta.46",
     "babel-loader": "^8.0.0-beta",
-    "googleapis": "^30.0.0",
     "uglifyjs-webpack-plugin": "^1.2.5",
     "webpack": "^4.8.3",
     "webpack-cli": "^2.1.3",
