@@ -2,11 +2,5 @@
   "name": "gatsby-plugin-tgmeetup-google-calendar",
   "version": "1.0.0",
   "main": "index.js",
-  "license": "MIT",
-  "dependencies": {
-    "base32.js": "^0.1.0",
-    "debug": "^4.0.1",
-    "googleapis": "^34.0.0",
-    "uuid": "^3.3.2"
-  }
+  "license": "MIT"
 }
