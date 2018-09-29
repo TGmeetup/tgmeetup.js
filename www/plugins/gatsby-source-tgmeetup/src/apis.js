@@ -10,12 +10,12 @@ const fetchPackageJson = async (ghGroupDir) => {
     .catch(err => console.error(err));
 }
 
-exports.fetchGroup = (group) =>
+const fetchGroup = (group) =>
   fetch(group)
     .then(res => res.json())
     .catch(err => console.error(err));
 
-exports.fetchEvents = () =>
+const fetchEvents = (retry = 3) =>
   fetch('https://api.github.com/repos/TGmeetup/tgmeetup.js/issues?labels=Event&state=open')
     .then(res => res.json())
     .then(issues => issues.map(issue => {
@@ -35,3 +35,14 @@ exports.fetchEvents = () =>
       };
     }))
     .then(events => events.sort((a, b) => a.dateTime - b.dateTime))
+    .catch(err => {
+      console.error('Retry:', retry, err);
+      if (retry > 0) {
+        return fetchEvents(retry - 1)
+      }
+    });
+
+module.exports = {
+  fetchGroup,
+  fetchEvents,
+}
