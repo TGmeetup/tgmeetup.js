@@ -29,6 +29,7 @@ const fetchEvents = (retry = 3) =>
         title: issue.title,
         ...event,
         id: issue.id,
+        issueId: issue.id,
         latlngStr: JSON.stringify(event.geocode),
         dateTime: new Date(event.datetime),
         createAt: issue.created_at,

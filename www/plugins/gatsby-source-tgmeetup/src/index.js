@@ -29,13 +29,21 @@ const shimGroupColor = (group) => {
   }
 }
 
-exports.getGroups = async (createNodeId) => {
-  const groups = await fetch('https://raw.githubusercontent.com/TGmeetup/TGmeetup/master/all-groups')
+const getGroups = async (createNodeId) => {
+  const groupIds = await fetch('https://raw.githubusercontent.com/TGmeetup/TGmeetup/master/all-groups')
     .then(res => res.json());
 
   return Promise
-    .all(groups.map(group => getGroup(group)))
-    .then(groups => groups.map(group => ({
+    .all(groupIds.map(groupId => getGroup(groupId, createNodeId)))
+}
+
+const getGroup = (groupId, createNodeId) =>
+  apis.fetchGroup(groupId)
+    .then(group => ({
+      ...group,
+      color: group.color || shimGroupColor(group),
+    }))
+    .then(group => ({
       ...group,
       id: createNodeId(`${group.category}-${group.countrycode}-${group.name}`),
       country: {
@@ -47,17 +55,9 @@ exports.getGroups = async (createNodeId) => {
         name: group.category,
       },
       events: [],
-    })));
-}
+    }));
 
-const getGroup = (group) =>
-  apis.fetchGroup(group)
-    .then(group => ({
-      ...group,
-      color: group.color || shimGroupColor(group),
-    }))
-
-exports.getEvents = (createNodeId) =>
+const getEvents = (createNodeId) =>
   apis.fetchEvents()
     .then(events =>
       events.map(event => ({
@@ -93,3 +93,32 @@ exports.getEvents = (createNodeId) =>
 
       return events;
     });
+
+const checkAndGetGroup = async ([ groups = [], events = [] ], createNodeId) => {
+  const groupIds = new Set();
+  groups.forEach(g => groupIds.add(g.id));
+
+  await Promise.all(
+    events.map(async (e) => {
+      if (groupIds.has(e.group) === false) {
+        const group = await getGroup(
+          `https://raw.githubusercontent.com/TGmeetup/TGmeetup/master/${e.groupRef}/package.json`,
+          createNodeId
+        )
+
+        groups.push(group);
+        groupIds.add(group.id);
+
+        return group;
+      }
+    })
+  );
+
+  return [ groups, events ];
+}
+
+module.exports = {
+  getGroups,
+  getEvents,
+  checkAndGetGroup,
+}

@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const { createHash } = require('crypto');
 const { normalize } = require('normalizr');
-const { getGroups, getEvents } = require('./src/');
+const { getGroups, getEvents, checkAndGetGroup } = require('./src/');
 const schema = require('./src/schema');
 const { groupToNode, eventToNode, markerToNode, gatsbyNode } = require('./src/process-data');
 
@@ -11,6 +11,7 @@ exports.sourceNodes = async ({ actions, createNodeId }) => {
   const { createNode } = actions;
 
   const groupsData = await Promise.all([ getGroups(createNodeId), getEvents(createNodeId) ])
+    .then((data) => checkAndGetGroup(data, createNodeId))
     .then(([ groups, events ]) => schema.groupsAppendEvents(groups, events));
 
   const { groups, events, markers, categories, countries } = normalize(groupsData, [ schema.group ]).entities;
