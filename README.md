@@ -1,4 +1,4 @@
-<img alt="tgmeetup" src="https://raw.githubusercontent.com/TGmeetup/tgmeetup.js/master/www/src/logo.png" width="200">
+<img alt="tgmeetup" src="https://raw.githubusercontent.com/TGmeetup/tgmeetup.js/master/src/logo.png" width="200">
 
 # TGmeetup.js
 
