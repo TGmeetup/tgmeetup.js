@@ -17,7 +17,7 @@ before_deploy:
 
 deploy:
   - provider: script
-    script: yarn deploy:www
+    script: yarn deploy:root:travis
     skip_cleanup: true
     on:
       branch: master

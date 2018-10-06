@@ -1,7 +1,7 @@
 const debug = require('debug');
 const { google } = require('googleapis');
-const clientSecret = require('../../../../client_secret.json');
-const credentials = require('../../../../credentials.json');
+const clientSecret = require('../../../client_secret.json');
+const credentials = require('../../../credentials.json');
 
 debug_log = debug('tgmeetup:log');
 
