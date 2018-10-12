@@ -31,4 +31,4 @@ jobs:
           script: yarn deploy:travis
           skip_cleanup: true
           on:
-            branch: release
+            branch: transfer/github.io
