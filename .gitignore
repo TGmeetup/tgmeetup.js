@@ -65,3 +65,7 @@ secrets.tar
 .cache/
 public
 yarn-error.log
+
+# github deploy key
+tgmeetup_github_io_deploy_key
+tgmeetup_github_io_deploy_key.pub

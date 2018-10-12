@@ -6,8 +6,10 @@
     "develop": "gatsby develop",
     "build": "gatsby build",
     "serve": "gatsby serve",
-    "deploy:root": "npm run build && gh-pages -d public/ -b master -r git@github.com:TGmeetup/TGmeetup.github.io.git",
-    "deploy:root:travis": "DEBUG=tgmeetup:* npm run build && gh-pages -d public/ -b master -r https://${GHBOT_TOKEN}@github.com/TGmeetup/TGmeetup.github.io.git"
+    "test": "echo 0",
+    "deploy": "npm run build && gh-pages -d public -b master",
+    "build:travis": "DEBUG=tgmeetup:* npm run build",
+    "deploy:travis": "gh-pages -d public/ -b master"
   },
   "dependencies": {
     "babel-plugin-styled-components": "^1.7.1",
