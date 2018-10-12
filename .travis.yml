@@ -22,9 +22,6 @@ jobs:
     - stage: test
       script: yarn test
 
-    - stage: build
-      script: yarn build:travis
-
     - stage: deploy
       deploy:
         - provider: script
