@@ -63,7 +63,7 @@ const getEvents = (createNodeId) =>
       events.map(event => ({
         ...event,
         id: createNodeId(`event-${event.id}`),
-        group: createNodeId(event.groupRef.split('/').join('-')),
+        group: createNodeId(event.group_ref.split('/').join('-')),
         country: createNodeId(`country-${event.countrycode}`),
       })))
     .then(events => {
@@ -102,7 +102,7 @@ const checkAndGetGroup = async ([ groups = [], events = [] ], createNodeId) => {
     events.map(async (e) => {
       if (groupIds.has(e.group) === false) {
         const group = await getGroup(
-          `https://raw.githubusercontent.com/TGmeetup/TGmeetup/master/${e.groupRef}/package.json`,
+          `https://raw.githubusercontent.com/TGmeetup/TGmeetup/master/${e.group_ref}/package.json`,
           createNodeId
         )
 
