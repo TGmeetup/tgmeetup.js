@@ -34,7 +34,7 @@ const GroupInformationWrapper = styled.div`
 
 export const Information = ({ group }) => (
   <GroupInformationWrapper>
-    <img src={group.logoURL} alt="group-avatar" />
+    <img src={group.logo_url} alt="group-avatar" />
     <div>
       <p>By {group.title}, {group.category.name}</p>
       <p>At {group.city}</p>
@@ -122,7 +122,7 @@ export const query = graphql`
       id
       title
       color
-      logoURL
+      logo_url
       city
       description
       keywords

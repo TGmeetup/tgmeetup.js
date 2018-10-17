@@ -79,7 +79,7 @@ export const query = graphql`
       group {
         id
         title
-        logoURL
+        logo_url
         city
         registration {
           type
