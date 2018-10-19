@@ -1,11 +1,11 @@
+require("dotenv").config();
+
 const _ = require('lodash');
 const { createHash } = require('crypto');
 const { normalize } = require('normalizr');
 const { getGroups, getEvents, checkAndGetGroup } = require('./src/');
 const schema = require('./src/schema');
 const { groupToNode, eventToNode, markerToNode, gatsbyNode } = require('./src/process-data');
-
-require("dotenv").config({ path: `${__dirname}/.env` });
 
 exports.sourceNodes = async ({ actions, createNodeId }) => {
   const { createNode } = actions;
