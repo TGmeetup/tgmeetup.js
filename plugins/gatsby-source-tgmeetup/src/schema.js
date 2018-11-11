@@ -28,26 +28,10 @@ group.define({
   country,
 })
 
-const entities = (state) =>
-  mapValues(state, reducers => reducers.byId);
-
-const groupsAppendEvents = (groups = [], events = []) =>
-  groups.map(group => ({
-    ...group,
-    events: events
-      .filter(event => event.group === group.id)
-      .map(event => ({
-        ...event,
-        color: group.color
-      }))
-  }));
-
 module.exports = {
   group,
   event,
   marker,
   country,
   category,
-  entities,
-  groupsAppendEvents,
 }

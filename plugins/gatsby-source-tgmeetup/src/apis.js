@@ -1,19 +1,29 @@
-const { createHash } = require('crypto');
+const escapeRegexp = require('escape-string-regexp');
 const fetch = require('./fetch');
 
-const fetchPackageJson = async (ghGroupDir) => {
-  const packageJsonUrl = ghGroupDir.filter(f => f.name === 'package.json').shift()
-  if (!packageJsonUrl) return console.error('packageJsonUrl not found');
+const fetchGroupUrls = () =>
+  fetch('https://raw.githubusercontent.com/TGmeetup/TGmeetup/master/all-groups')
+  .then(res => res.json())
+  .catch(err => console.error(err));
 
-  return fetch(packageJsonUrl.download_url)
+const fetchGroup = (groupUrl) => {
+  const reGroupRef = new RegExp(
+    escapeRegexp('https://raw.githubusercontent.com/TGmeetup/TGmeetup/master/') +
+    '(.+)' +
+    escapeRegexp('/package.json')
+  );
+  const result = reGroupRef.exec(groupUrl);
+
+  const ref = result && result[1];
+  return fetch(groupUrl)
     .then(res => res.json())
+    .then(group => ({
+      ...group,
+      ref,
+      color: group.color || 'gray',
+    }))
     .catch(err => console.error(err));
 }
-
-const fetchGroup = (group) =>
-  fetch(group)
-    .then(res => res.json())
-    .catch(err => console.error(err));
 
 const fetchEvents = (retry = 3) =>
   fetch('https://api.github.com/repos/TGmeetup/TGmeetup.github.io/issues?labels=Event&state=open')
@@ -29,7 +39,6 @@ const fetchEvents = (retry = 3) =>
         title: issue.title,
         ...event,
         id: issue.id,
-        issueId: issue.id,
         latlngStr: JSON.stringify(event.geocode),
         dateTime: new Date(event.datetime),
         createAt: issue.created_at,
@@ -44,6 +53,7 @@ const fetchEvents = (retry = 3) =>
     });
 
 module.exports = {
+  fetchGroupUrls,
   fetchGroup,
   fetchEvents,
 }

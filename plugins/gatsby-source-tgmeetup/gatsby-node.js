@@ -1,20 +1,39 @@
 require("dotenv").config();
 
 const _ = require('lodash');
-const { createHash } = require('crypto');
 const { normalize } = require('normalizr');
-const { getGroups, getEvents, checkAndGetGroup } = require('./src/');
+const { createGroupNodes, createEventNodes, createMissingGroupNodesInEventNodes, linkEventNodesToGroupNodes, coloringEventNodesByGroupNodes } = require('./src/index');
 const schema = require('./src/schema');
-const { groupToNode, eventToNode, markerToNode, gatsbyNode } = require('./src/process-data');
+const { groupToNode, eventToNode, markerToNode, gatsbyNode } = require('./src/to-gatsby-node');
 
 exports.sourceNodes = async ({ actions, createNodeId }) => {
   const { createNode } = actions;
 
-  const groupsData = await Promise.all([ getGroups(createNodeId), getEvents(createNodeId) ])
-    .then((data) => checkAndGetGroup(data, createNodeId))
-    .then(([ groups, events ]) => schema.groupsAppendEvents(groups, events));
+  const [ eventNodes, groupNodes ] = await Promise.all([
+    createEventNodes(createNodeId), createGroupNodes(createNodeId)
+  ]);
 
-  const { groups, events, markers, categories, countries } = normalize(groupsData, [ schema.group ]).entities;
+  const missingGroupNodes = await createMissingGroupNodesInEventNodes(createNodeId, eventNodes, groupNodes);
+  if (missingGroupNodes.length === 0) {
+    console.log('all groups in all-group list');
+  }
+  groupNodes.push(...missingGroupNodes);
+
+  const coloredEventNodes = coloringEventNodesByGroupNodes(
+    eventNodes, groupNodes,
+  );
+
+  const linkedGroupNodes = linkEventNodesToGroupNodes(
+    coloredEventNodes, groupNodes
+  );
+
+  const { entities: {
+    groups,
+    events,
+    markers,
+    categories,
+    countries
+  }} = normalize(linkedGroupNodes, [ schema.group ]);
 
   _(groups).mapValues(groupToNode).forEach(node => createNode(node));
   _(events).mapValues(eventToNode).forEach(node => createNode(node));

@@ -16,6 +16,7 @@
     "crypto": "^1.0.1",
     "debug": "^4.0.1",
     "dotenv": "^6.0.0",
+    "escape-string-regexp": "^1.0.5",
     "gatsby": "^2.0.0",
     "gatsby-plugin-feed": "^2.0.5",
     "gatsby-plugin-react-helmet": "^3.0.0",
