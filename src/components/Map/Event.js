@@ -1,4 +1,5 @@
 import React from 'react';
+import * as moment from 'moment';
 import Card from '../../blocks/Card';
 import {
   GoLink,
@@ -33,7 +34,7 @@ export default ({ event }) => (
       <Card.Item>
       <GoClock />
         {' '}
-        {event.dateTime}
+        {moment(event.dateTime).calendar()}
       </Card.Item>
       <Card.Item>
         <GoLocation />

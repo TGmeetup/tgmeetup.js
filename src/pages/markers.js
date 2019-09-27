@@ -37,7 +37,7 @@ export const query = graphql`
             id
             name
             location
-            dateTime(fromNow: true, locale: "zh-tw")
+            dateTime
           }
         }
       }

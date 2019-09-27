@@ -1,4 +1,5 @@
 import React from 'react';
+import * as moment from 'moment';
 import { GoGitCommit } from 'react-icons/go';
 import Card from '../../blocks/Card';
 import Link from '../../elements/Link';
@@ -6,7 +7,6 @@ import Link from '../../elements/Link';
 const List = ({
   color,
   events,
-  toggleEvent,
 }) => (
   <Card __small __no_margin>
     <Card.Title color={color}>
@@ -21,7 +21,7 @@ const List = ({
       <Link key={event.id} to={`/events/${event.id}`}>
         <Card.Item __hoverable>
           <GoGitCommit />
-          {event.dateTime}
+          {moment(event.dateTime).calendar()}
           {' '}
           <b>{event.name}</b>
         </Card.Item>

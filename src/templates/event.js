@@ -1,4 +1,5 @@
 import React from 'react';
+import * as moment from 'moment';
 import { compose } from 'recompose';
 import { graphql, navigate } from 'gatsby';
 
@@ -22,7 +23,7 @@ const Event = ({ data: { event } }) => (
       </Card.Title>
       <Card.Content>
         <Card.Block __bright color={event.color}>
-          <p><TiCalendar /> { event.dateTime }</p>
+          <p><TiCalendar /> { moment(event.dateTime).format('HH:mm MMMDo Y (dddd)') }</p>
           <p>
             <TiLocation />
             {' '}
@@ -75,7 +76,7 @@ export const query = graphql`
         lng
       }
       geocodeFromGroup
-      dateTime(formatString: "HH:mm MM/DD/YYYY (dddd)", locale:"zh-tw")
+      dateTime
       group {
         id
         title

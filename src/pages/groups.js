@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import * as moment from 'moment';
 import { graphql, navigate } from 'gatsby';
 
 import { Grid, Row, Col } from 'react-flexbox-grid';
@@ -48,7 +49,7 @@ const GroupCard = ({ group }) => (
           onClick={() => navigate(`/events/${event.id}`)}
         >
           <GoGitCommit />
-          {event.dateTime}
+          {moment(event.dateTime).calendar()}
           {' '}
           <b>{event.name}</b>
         </Card.Item>
@@ -127,7 +128,7 @@ export const query = graphql`
           events {
             id
             name
-            dateTime(fromNow: true, locale: "zh-tw")
+            dateTime
           }
         }
       }

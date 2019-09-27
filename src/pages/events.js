@@ -1,4 +1,5 @@
 import React from 'react';
+import * as moment from 'moment';
 import { compose } from 'recompose';
 import { graphql } from 'gatsby';
 import { Grid } from 'react-flexbox-grid';
@@ -22,7 +23,7 @@ const View = ({ data: { events } }) => (
         <Card.Item key={e.id} onClick={() => {}}>
           <Link to={`/events/${e.id}`}>
             <GoGitCommit />{' '}
-            {e.dateTime}{' '}
+            {moment(e.dateTime).calendar()}{' '}
             <b>{ e.name }</b>{' '}
             <span>{ e.location.trim() || e.local_city }</span>
           </Link>
@@ -44,7 +45,7 @@ export const query = graphql`
       edges {
         node {
           id
-          dateTime(fromNow: true, locale: "zh-tw")
+          dateTime
           name
           location
         }

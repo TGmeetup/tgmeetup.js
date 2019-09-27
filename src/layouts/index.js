@@ -1,9 +1,18 @@
 import React from 'react';
 import Helmet from 'react-helmet';
+import * as moment from 'moment';
 import { withPrefix } from 'gatsby';
 import { injectGlobal } from 'styled-components';
 import hoistNonReactStatic from 'hoist-non-react-statics';
 import Header from '../components/Header';
+
+const locale = window
+  ? (window.navigator.userLanguage || window.navigator.language).toLowerCase()
+  : 'en';
+
+import(`moment/locale/${locale}`).then(
+  () => moment.locale(locale)
+)
 
 injectGlobal`
   html, body {
