@@ -26,7 +26,7 @@ const fetchGroup = (groupUrl) => {
 }
 
 const fetchEvents = (retry = 3) =>
-  fetch('https://api.github.com/repos/TGmeetup/TGmeetup.github.io/issues?labels=Event&state=open')
+  fetch('https://api.github.com/repos/TGmeetup/TGmeetup/issues?labels=Event&state=open')
     .then(res => res.json())
     .then(issues => issues.map(issue => {
       const reDetailText = /<details>((?:.|[\r\n])*?)<\/detail>/gm;
