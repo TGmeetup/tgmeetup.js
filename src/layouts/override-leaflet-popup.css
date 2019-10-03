@@ -1,0 +1,20 @@
+.leaflet-popup-content-wrapper {
+  background: initial;
+  color: initial;
+  box-shadow: initial;
+
+  padding: initial;
+  border-radius: initial;
+}
+
+.leaflet-popup-content p {
+  margin: initial;
+}
+
+.leaflet-popup-content a {
+  color: initial;
+}
+
+.leaflet-popup-tip-container {
+  display: none;
+}

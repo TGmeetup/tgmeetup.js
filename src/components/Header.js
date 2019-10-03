@@ -12,7 +12,7 @@ export const headerHeight = '8vh';
 const Wrapper = styled.header`
   position: relative;
   height: ${headerHeight};
-  z-index: 1;
+  z-index: 500;
   text-align: center;
   box-shadow: 0 0 9px #888888;
   img {

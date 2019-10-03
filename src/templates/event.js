@@ -9,8 +9,8 @@ import { TiLocation, TiCalendar } from 'react-icons/ti';
 import SEO, { eventToSEO } from '../components/SEO';
 import Card from '../blocks/Card';
 import Button from '../blocks/Button';
+import Map from '../components/Map';
 import { withLayout } from '../layouts';
-import { PlainMap as Map } from '../components/Map';
 import { withFadeIn } from '../components/FadeIn';
 import { Information as GroupInfo } from './group';
 
@@ -47,7 +47,7 @@ const Event = ({ data: { event } }) => (
           </Card.Block>
         }
         <Card.Block __fluid __size_fixed_md>
-          <Map zoomToStreet
+          <Map isStreetLevel
             markers={[ event.marker ]}
             center={ event.geocode }
           />
