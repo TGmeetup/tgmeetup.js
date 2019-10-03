@@ -2,7 +2,7 @@ import React from 'react';
 import Helmet from 'react-helmet';
 import * as moment from 'moment';
 import { withPrefix } from 'gatsby';
-import { injectGlobal } from 'styled-components';
+import { createGlobalStyle } from 'styled-components';
 import hoistNonReactStatic from 'hoist-non-react-statics';
 import Header from '../components/Header';
 
@@ -28,12 +28,12 @@ import(`moment/locale/${locale}`).then(
   () => moment.locale(locale)
 )
 
-injectGlobal`
+const GlobalStyle = createGlobalStyle`
   html, body {
     margin: 0;
     padding: 0;
   }
-`
+`;
 
 const Layout =  ({ children }) => (
   <div>
@@ -44,6 +44,7 @@ const Layout =  ({ children }) => (
       type="image/png"
     />
     </Helmet>
+    <GlobalStyle />
     <Header />
     { children }
   </div>

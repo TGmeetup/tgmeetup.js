@@ -59,3 +59,15 @@ exports.createPages = async ({ actions, graphql }) => {
   const groupPages = createGroups({ actions, graphql });
   return Promise.all([ eventPages , groupPages ]);
 }
+
+// https://github.com/gatsbyjs/gatsby/issues/11934
+// Should be removed when the issue be resolved.
+exports.onCreateWebpackConfig = ({ getConfig, stage }) => {
+  const config = getConfig()
+  if (stage.startsWith('develop') && config.resolve) {
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      'react-dom': '@hot-loader/react-dom'
+    }
+  }
+}
