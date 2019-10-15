@@ -13,7 +13,7 @@ before_install:
   - chmod 600 tgmeetup_github_io_deploy_key
   - eval $(ssh-agent -s)
   - ssh-add tgmeetup_github_io_deploy_key
-  - git remote add ssh-origin git@github.com:TGmeetup/TGmeetup.github.io.git
+  - git remote add github.io git@github.com:TGmeetup/TGmeetup.github.io.git
 
 install:
   - yarn install

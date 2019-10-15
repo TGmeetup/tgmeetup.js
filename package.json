@@ -7,8 +7,8 @@
     "build": "gatsby build",
     "serve": "gatsby serve",
     "test": "echo 0",
-    "deploy": "npm run build && gh-pages -d public -b master",
-    "deploy:travis": "DEBUG=tgmeetup:* npm run build && gh-pages -d public/ -b master -o ssh-origin"
+    "deploy": "npm run build && gh-pages -d public -b master -o github.io",
+    "deploy:travis": "DEBUG=tgmeetup:* npm run build && gh-pages -d public/ -b master -o github.io"
   },
   "dependencies": {
     "babel-plugin-styled-components": "^1.7.1",
