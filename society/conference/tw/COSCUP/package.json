@@ -1,0 +1,45 @@
+{
+  "name": "COSCUP",
+  "title": "COSCUP",
+  "description": "COSCUP是由台灣開放原始碼社群聯合推動的年度研討會，是台灣自由軟體運動(FOSSM)重要的推動者之一。",
+  "category": "conference",
+  "countrycode": "tw",
+  "city": "Taipei",
+  "homepage": "https://coscup.org",
+  "keywords": [
+    "open-source",
+    "coder"
+  ],
+  "registration": {
+    "type": "kktix",
+    "url": "https://coscup2018.kktix.cc/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/COSCUP"
+  },
+  "chat": [
+    {
+      "type": "telegram",
+      "urls": [
+        "https://t.me/coscupchat"
+      ]
+    }
+  ],
+  "social_media": [
+    {
+      "type": "facebook",
+      "urls": [
+        "https://www.facebook.com/coscup/"
+      ]
+    },
+    {
+      "type": "twitter",
+      "urls": [
+        "https://twitter.com/coscup"
+      ]
+    }
+  ],
+  "color": "#438034",
+  "logo_url": "https://t.kfs.io/upload_images/75646/150329150418_coscup-logo-512_promote_promote_promote.png"
+}

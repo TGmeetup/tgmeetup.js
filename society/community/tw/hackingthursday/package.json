@@ -1,0 +1,46 @@
+{
+  "name": "hackingthursday",
+  "title": "Hacking Thursday Taiwan",
+  "description": "Found for peer learning in engineering and business for hackers, Hacking Thursday, abbreviated H4, is a non-profit organization that hosts on every Thursday, and that only raise fund from co-organizers and attendees.",
+  "category": "community",
+  "countrycode": "tw",
+  "city": "Taipei",
+  "homepage": "http://www.hackingthursday.org/",
+  "keywords": [
+    "engineering",
+    "hackers"
+  ],
+  "registration": {
+    "type": "meetup",
+    "url": "https://www.meetup.com/hackingthursday"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hacking-thursday"
+  },
+  "chat": [
+    {
+      "type": "telegram",
+      "urls": [
+        "https://t.me/hackingday",
+        "https://t.me/HackingThursday"
+      ]
+    },
+    {
+      "type": "google",
+      "urls": [
+        "http://groups.google.com/group/hackingthursday"
+      ]
+    }
+  ],
+  "social_media": [
+    {
+      "type": "facebook",
+      "urls": [
+        "https://www.facebook.com/groups/hackingday/"
+      ]
+    }
+  ],
+  "color": "#ff6303",
+  "logo_url": "https://avatars0.githubusercontent.com/u/516188?s=200&v=4"
+}

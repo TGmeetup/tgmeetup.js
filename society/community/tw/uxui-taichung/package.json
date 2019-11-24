@@ -1,0 +1,19 @@
+{
+  "name": "uxui-taichung",
+  "title": "UX/UI 台中聚",
+  "description": "",
+  "category": "community",
+  "countrycode": "tw",
+  "city": "Taichung",
+  "keywords": [
+    "UI",
+    "UX",
+    "Web"
+  ],
+  "registration": {
+    "type": "kktix",
+    "url": "https://uxui-taichung.kktix.cc/"
+  },
+  "color": "#cf114a",
+  "logo_url": "https://t.kfs.io/upload_images/71300/UXUI____LOGO_promote.png"
+}
