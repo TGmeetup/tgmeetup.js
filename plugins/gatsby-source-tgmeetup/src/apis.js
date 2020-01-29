@@ -1,25 +1,36 @@
+const fs = require('fs');
+const path = require('path');
 const escapeRegexp = require('escape-string-regexp');
 const fetch = require('./fetch');
 
+const repoRootDir = path.resolve(__dirname, '../../../');
+const societyDir = path.resolve(repoRootDir, 'society');
+
 const fetchGroupUrls = () => Promise.resolve([]);
 
-const fetchGroup = (groupUrl) => {
+const fetchGroup = async (groupUrl) => {
   const reGroupRef = new RegExp(
     escapeRegexp('https://raw.githubusercontent.com/TGmeetup/TGmeetup/master/') +
     '(.+)' +
     escapeRegexp('/package.json')
   );
   const result = reGroupRef.exec(groupUrl);
-
   const ref = result && result[1];
-  return fetch(groupUrl)
-    .then(res => res.json())
-    .then(group => ({
-      ...group,
-      ref,
-      color: group.color || 'gray',
-    }))
-    .catch(err => console.error(err));
+
+  const groupPkgJsonPath = path.resolve(societyDir, ref, 'package.json');
+
+  if (!fs.existsSync(groupPkgJsonPath)) {
+    console.warn(`${groupPkgJsonPath} does not exist!`);
+    return {};
+  };
+
+  const groupPkgJson = require(groupPkgJsonPath);
+
+  return {
+    ref,
+    color: 'gray',
+    ...groupPkgJson,
+  };
 }
 
 const fetchEvents = (retry = 3) =>
