@@ -1,10 +1,7 @@
 const escapeRegexp = require('escape-string-regexp');
 const fetch = require('./fetch');
 
-const fetchGroupUrls = () =>
-  fetch('https://raw.githubusercontent.com/TGmeetup/TGmeetup/master/all-groups')
-  .then(res => res.json())
-  .catch(err => console.error(err));
+const fetchGroupUrls = () => Promise.resolve([]);
 
 const fetchGroup = (groupUrl) => {
   const reGroupRef = new RegExp(

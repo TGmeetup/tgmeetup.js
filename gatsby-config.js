@@ -15,7 +15,7 @@ module.exports = {
   },
   plugins: [
     `gatsby-source-tgmeetup`,
-    `gatsby-plugin-tgmeetup-google-calendar`,
+    // `gatsby-plugin-tgmeetup-google-calendar`,
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-styled-components`,
     {
