@@ -3,7 +3,7 @@ const path = require('path');
 const escapeRegexp = require('escape-string-regexp');
 const fetch = require('./fetch');
 
-const repoRootDir = path.resolve(__dirname, '../../../');
+const repoRootDir = path.resolve(__dirname, '../../../../');
 const societyDir = path.resolve(repoRootDir, 'society');
 
 const fetchGroupUrls = () => Promise.resolve([]);
