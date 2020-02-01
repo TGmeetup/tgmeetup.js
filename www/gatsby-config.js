@@ -1,3 +1,5 @@
+const path = require('path');
+
 module.exports = {
   pathPrefix: '/',
   siteMetadata: {
@@ -14,7 +16,12 @@ module.exports = {
     ttl: '60',
   },
   plugins: [
-    `gatsby-source-tgmeetup`,
+    {
+      resolve: `@tgmeetup/gatsby-source-tgmeetup`,
+      options: {
+        societyPath: path.resolve(__dirname, '../society'),
+      },
+    },
     // `gatsby-plugin-tgmeetup-google-calendar`,
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-styled-components`,

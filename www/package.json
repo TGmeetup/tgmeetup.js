@@ -1,5 +1,5 @@
 {
-  "name": "www",
+  "name": "@tgmeetup/www",
   "description": "Gatsby hello world starter",
   "version": "1.1.0",
   "license": "MIT",
@@ -12,6 +12,7 @@
     "deploy:travis": "DEBUG=tgmeetup:* npm run build && gh-pages -d public/ -b master -o github.io"
   },
   "dependencies": {
+    "@tgmeetup/gatsby-source-tgmeetup": "1.1.0",
     "babel-plugin-styled-components": "^1.7.1",
     "base32.js": "^0.1.0",
     "crypto": "^1.0.1",

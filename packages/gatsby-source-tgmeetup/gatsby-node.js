@@ -1,19 +1,17 @@
-require("dotenv").config();
-
 const _ = require('lodash');
 const { normalize } = require('normalizr');
 const { createGroupNodes, createEventNodes, createMissingGroupNodesInEventNodes, linkEventNodesToGroupNodes, coloringEventNodesByGroupNodes } = require('./src/index');
 const schema = require('./src/schema');
 const { groupToNode, eventToNode, markerToNode, gatsbyNode } = require('./src/to-gatsby-node');
 
-exports.sourceNodes = async ({ actions, createNodeId }) => {
+exports.sourceNodes = async ({ actions, createNodeId }, options) => {
   const { createNode } = actions;
 
   const [ eventNodes, groupNodes ] = await Promise.all([
-    createEventNodes(createNodeId), createGroupNodes(createNodeId)
+    createEventNodes(createNodeId), createGroupNodes(createNodeId, options)
   ]);
 
-  const missingGroupNodes = await createMissingGroupNodesInEventNodes(createNodeId, eventNodes, groupNodes);
+  const missingGroupNodes = await createMissingGroupNodesInEventNodes(createNodeId, eventNodes, groupNodes, options);
   if (missingGroupNodes.length === 0) {
     console.log('all groups in all-group list');
   }

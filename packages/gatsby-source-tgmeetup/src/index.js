@@ -1,18 +1,18 @@
 const randomColor = require('randomcolor');
 const apis = require('./apis');
 
-const createGroupNodes = async (createNodeId) => {
+const createGroupNodes = async (createNodeId, options) => {
   const groupUrls = await apis.fetchGroupUrls();
 
   const groupNodePromises = groupUrls.map(
-    url => createGroupNode(createNodeId, url)
+    url => createGroupNode(createNodeId, url, options)
   );
 
   return await Promise.all(groupNodePromises);
 }
 
-const createGroupNode = async (createNodeId, groupUrl) => {
-  const group = await apis.fetchGroup(groupUrl);
+const createGroupNode = async (createNodeId, groupUrl, options) => {
+  const group = await apis.fetchGroup(groupUrl, options);
 
   return {
     ...group,
@@ -72,7 +72,7 @@ const createAndLinkMarkerNodes = (createNodeId, eventNodes) => {
   return markerNodes;
 }
 
-const createMissingGroupNodesInEventNodes = async (createNodeId, eventNodes, groupNodes) => {
+const createMissingGroupNodesInEventNodes = async (createNodeId, eventNodes, groupNodes, options) => {
   const groupIds = new Set(groupNodes.map(g => g.id));
 
   const createMissingGroupNodePromises = [];
@@ -82,7 +82,8 @@ const createMissingGroupNodesInEventNodes = async (createNodeId, eventNodes, gro
 
       const createMissingGroupNodePromise = createGroupNode(
         createNodeId,
-        `https://raw.githubusercontent.com/TGmeetup/TGmeetup/master/${eventNode.group_ref}/package.json`
+        `https://raw.githubusercontent.com/TGmeetup/TGmeetup/master/${eventNode.group_ref}/package.json`,
+        options
       );
       createMissingGroupNodePromises.push(createMissingGroupNodePromise);
 
