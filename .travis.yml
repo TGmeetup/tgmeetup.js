@@ -1,32 +1,28 @@
 language: node_js
 node_js:
-  - "stable"
-
+- stable
 cache:
   yarn: true
   directories:
-    - node_modules
-
+  - node_modules
 before_install:
-  - openssl aes-256-cbc -K $encrypted_76e9bcd3d39a_key -iv $encrypted_76e9bcd3d39a_iv -in secrets.tar.enc -out secrets.tar -d
-  - tar xvf secrets.tar
-  - chmod 600 tgmeetup_github_io_deploy_key
-  - eval $(ssh-agent -s)
-  - ssh-add tgmeetup_github_io_deploy_key
-  - git remote add github.io git@github.com:TGmeetup/TGmeetup.github.io.git
-
+- openssl aes-256-cbc -K $encrypted_a8111a27a8e6_key -iv $encrypted_a8111a27a8e6_iv
+  -in secrets.tgz.enc -out secrets.tgz -d
+- tar xvf secrets.tgz
+- chmod 600 tgmeetup-travis-ci-github-deploy-key
+- eval $(ssh-agent -s)
+- ssh-add tgmeetup-travis-ci-github-deploy-key
+- git remote add github.io git@github.com:TGmeetup/TGmeetup.github.io.git
 install:
-  - yarn install
-
+- yarn install
 jobs:
   include:
-    - stage: test
-      script: yarn test
-
-    - stage: deploy
-      deploy:
-        - provider: script
-          script: yarn deploy:travis
-          skip_cleanup: true
-          on:
-            branch: release
+  - stage: test
+    script: yarn test
+  - stage: deploy
+    deploy:
+    - provider: script
+      script: yarn workspace @tgmeetup/www deploy:travis
+      skip_cleanup: true
+      on:
+        branch: master

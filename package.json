@@ -1,8 +1,15 @@
 {
   "name": "tgmeetup",
+  "npmClient": "yarn",
   "private": true,
   "workspaces": [
     "packages/*",
     "www"
-  ]
+  ],
+  "devDependencies": {
+    "lerna": "^3.20.2"
+  },
+  "scripts": {
+    "test": "lerna run test"
+  }
 }

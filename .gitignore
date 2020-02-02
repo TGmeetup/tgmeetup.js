@@ -57,15 +57,13 @@ typings/
 # dotenv environment variables file
 .env
 
-# google api
-client_secret.json
-credentials.json
-secrets.tar
-
 .cache/
 public
 yarn-error.log
 
-# github deploy key
-tgmeetup_github_io_deploy_key
-tgmeetup_github_io_deploy_key.pub
+# encrypt file github deploy key
+secrets.tgz
+tgmeetup-travis-ci-github-deploy-key
+tgmeetup-travis-ci-github-deploy-key.pub
+client_secret.json
+credentials.json
