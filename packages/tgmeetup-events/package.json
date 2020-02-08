@@ -1,0 +1,10 @@
+{
+  "name": "@tgmeetup/events",
+  "version": "1.1.0",
+  "type": "module",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "node-fetch": "^2.6.0"
+  }
+}
